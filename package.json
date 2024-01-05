@@ -1,0 +1,24 @@
+{
+  "name": "south_sudan",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/jquery": "^3.5.27",
+    "@types/leaflet": "^1.9.8",
+    "d3": "^7.8.5",
+    "jquery": "^3.7.1",
+    "leaflet": "^1.9.4",
+    "turf": "^3.0.14"
+  }
+}

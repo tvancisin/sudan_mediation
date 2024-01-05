@@ -1,0 +1,372 @@
+body {
+    font-family: 'Montserrat';
+    background-color: black;
+    overflow: hidden;
+}
+
+#header {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* background-color: #061731; */
+    height: 45px;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    box-shadow: 0px 0px 2px 0px #000000;
+    z-index: 999;
+}
+
+h2 {
+    color: white;
+    margin: auto;
+}
+
+img {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    height: 43px;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.leaflet-top {
+    top: 45px;
+    z-index: 899;
+}
+
+#sudan_selection {
+    position: absolute;
+    top: 44px;
+    left: 5px;
+    z-index: 998;
+}
+
+#buttons {
+    position: absolute;
+    top: 44px;
+    right: 5px;
+    z-index: 998;
+}
+
+.top_b {
+    font-family: 'Montserrat';
+    color: white;
+    background-color: #0e356f;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    border: none;
+}
+
+#net {
+    background: rgba(0, 0, 0, 0.9);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 900;
+    box-shadow: -1px 0px 2px 1px black;
+}
+
+.link {
+    stroke: gray;
+}
+
+text {
+    fill: white;
+    font-family: "Montserrat";
+    paint-order: stroke;
+    stroke: black;
+    stroke-width: 1px;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+}
+
+text.nodename {
+    fill: black;
+    font-weight: bolder;
+    font-size: 12px;
+    font-family: "Montserrat";
+    paint-order: stroke;
+    stroke: white;
+    stroke-width: 3px;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+
+}
+
+.year_text {
+    fill: #080808;
+    font-family: "Montserrat";
+    paint-order: stroke;
+    font-weight: bolder;
+    stroke: white;
+    stroke-width: 2px;
+}
+
+.slidecontainer {
+    padding: 10px;
+    position: absolute;
+    right: 10px;
+    z-index: 900;
+}
+
+#timeline,
+#bar {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    z-index: 900;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 2px 0px #000000;
+    border-radius: 3px;
+}
+
+button:hover {
+    background-color: #04AA6D;
+    color: white;
+}
+
+#map_title {
+    position: absolute;
+    top: -4px;
+    color: white;
+    z-index: 800;
+    background-color: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+#net_title {
+    position: absolute;
+    top: -4px;
+    color: white;
+    z-index: 800;
+    background-color: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+#weight {
+    color: white;
+}
+
+
+.tick line {
+    stroke: rgb(255, 255, 255);
+    opacity: 0.1;
+}
+
+.white-axis {
+    fill: white;
+}
+
+.myXaxis path {
+    visibility: hidden;
+}
+
+.slidecontainer {
+    position: absolute;
+    top: 35px;
+    right: 10px
+}
+
+.slider {
+    /* appearance: slider-vertical; */
+    width: 150px;
+}
+
+.leaflet-layer,
+.leaflet-control-attribution {
+    filter: invert(99%) hue-rotate(170deg) brightness(95%) contrast(100%);
+}
+
+#filters {
+    position: absolute;
+    top: 50px;
+    width: 250px;
+    height: 350px;
+    left: -300px;
+    background-color: #051429;
+    z-index: 999;
+    border-radius: 5px;
+}
+
+#filter_button {
+    position: absolute;
+    top: 22px;
+    left: 0px;
+    z-index: 999;
+    border-radius: 5px 5px 0px 0px;
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform-origin: bottom left;
+    background-color: #04AA6D;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    border: none;
+}
+
+#dropdown_lateral {
+    position: relative;
+    padding: 3px;
+    height: 35px;
+    width: 215px;
+    color: white;
+    background: rgb(54, 54, 54);
+    border: none;
+    border-radius: 2px;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    /* font-weight: bold; */
+    z-index: 999;
+}
+
+#dropdown_state {
+    position: relative;
+    padding: 3px;
+    height: 35px;
+    width: 215px;
+    color: white;
+    background: rgb(54, 54, 54);
+    border: none;
+    border-radius: 2px;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    /* font-weight: bold; */
+    z-index: 999;
+}
+
+#dropdown_country {
+    position: relative;
+    padding: 3px;
+    height: 35px;
+    width: 215px;
+    color: white;
+    background: rgb(54, 54, 54);
+    border: none;
+    border-radius: 2px;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    /* font-weight: bold; */
+    z-index: 999;
+}
+
+#dropdown_vis {
+    position: relative;
+    padding: 3px;
+    height: 35px;
+    width: 215px;
+    color: white;
+    background: rgb(54, 54, 54);
+    border: none;
+    border-radius: 2px;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    z-index: 999;
+    /* font-weight: bold; */
+}
+
+#partners {
+    z-index: 900;
+    position: absolute;
+    bottom: 160px;
+}
+
+#title1 {
+    z-index: 900;
+    margin: 0px;
+    color: white;
+    position: absolute;
+    bottom: 125px;
+    left: 40px;
+    font-size: 12px;
+}
+
+#title2 {
+    margin: 2px;
+    z-index: 900;
+    color: white;
+    position: absolute;
+    bottom: 5px;
+    left: 40px;
+    font-size: 12px;
+}
+
+
+#state_drop_div,
+#vis_drop_div,
+#conflict_drop_div,
+#nonstate_drop_div {
+    color: white;
+    padding: 15px;
+}
+
+h4 {
+    margin: 1px
+}
+
+#nonstate {
+    position: absolute;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 899;
+}
+
+.legend {
+    position: relative;
+    border-radius: 5px;
+    background-color: #051429;
+    border-radius: 3px;
+    bottom: 170px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    padding: 10px;
+    position: absolute;
+    right: 10px;
+    z-index: 900;
+    font-family: "Montserrat";
+}
+
+.legend h4 {
+    margin: 0 0 10px;
+}
+
+.legend div span {
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    margin-right: 5px;
+    width: 10px;
+}
+
+#gradient {
+    position: absolute;
+    bottom: 150px;
+    right: 10px;
+    height: 70px;
+    z-index: 850;
+}

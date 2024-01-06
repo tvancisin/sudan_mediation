@@ -73,9 +73,19 @@ const draw_map = function (value, data) {
     //style for the map
     function style(feature) {
         let gradient = find_iso(feature.properties.ADMIN)
+        if (feature.properties.ADMIN == "Sudan" || feature.properties.ADMIN == "South Sudan") {
+            return {
+            fillColor: "#fed800",
+            weight: 1,
+            color: '#fed800',
+            fillOpacity: gradient
+        };
+
+        }
+        
         return {
             fillColor: "white",
-            weight: 0.5,
+            weight: 0,
             color: 'black',
             fillOpacity: gradient
         };

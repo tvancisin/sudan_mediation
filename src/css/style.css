@@ -38,8 +38,8 @@ img {
     left: 0;
 }
 
-.leaflet-top {
-    top: 45px;
+.leaflet-bottom {
+    bottom: 150px;
     z-index: 899;
 }
 
@@ -119,7 +119,7 @@ text.nodename {
 .slidecontainer {
     padding: 10px;
     position: absolute;
-    right: 10px;
+    right: 20px;
     z-index: 900;
 }
 
@@ -184,7 +184,7 @@ button:hover {
 .slidecontainer {
     position: absolute;
     top: 35px;
-    right: 10px
+    right: 40px
 }
 
 .slider {
@@ -201,7 +201,7 @@ button:hover {
     position: absolute;
     top: 50px;
     width: 250px;
-    height: 350px;
+    height: 270px;
     left: -300px;
     background-color: #051429;
     z-index: 999;
@@ -219,7 +219,8 @@ button:hover {
     -o-transform: rotate(90deg);
     -webkit-transform: rotate(90deg);
     transform-origin: bottom left;
-    background-color: #04AA6D;
+    background-color: #006297;
+    color: white;
     padding: 5px 20px;
     text-align: center;
     text-decoration: none;
@@ -228,6 +229,7 @@ button:hover {
     cursor: pointer;
     border: none;
 }
+
 
 #dropdown_lateral {
     position: relative;
@@ -369,4 +371,36 @@ h4 {
     right: 10px;
     height: 70px;
     z-index: 850;
+}
+
+#vis_buttons {
+    position: absolute;
+    z-index: 999;
+    top: 50px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    transform-origin: 100% 0;
+
+}
+
+#map_button,
+#net_button,
+#time_button {
+    margin-right: 5px;
+    border-radius: 5px 5px 0px 0px;
+    background-color: #071832;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    border: none;
 }

@@ -174,7 +174,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .join("circle")
       .style("fill", function (d) {
         if (d.type == "global") {
-          return "#fed800"
+          return "#ffe241"
         }
         else if (d.type == "regional") {
           return "#dd1e37"
@@ -192,8 +192,8 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .attr('cy', function (d) {
         return d.y
       })
-      .style("stroke", "black")
-      .style("stroke-width", 1)
+      // .style("stroke", "black")
+      // .style("stroke-width", 1)
       .call(d3.drag()
         .on("start", dragstarted)
         .on("drag", dragged)
@@ -571,7 +571,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   d3.select('#dropdown_country').on("change", function () {
     let selected = d3.select(this).property('value')
 
-    if (selected == "Both") {
+    if (selected == "All") {
       button_pressed_country = "all"
 
       if (button_pressed_vis == "map") {
@@ -715,124 +715,126 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
 
   ///////////////////////////////VISUALIZATION DROPDOWN////////////////////////////
-  d3.select('#dropdown_vis').on("change", function () {
-    let selected = d3.select(this).property('value')
+  d3.select('#map_button').on("click", function () {
+    d3.select("#map_button").style("background-color", "#006297")
+    d3.selectAll("#net_button, #time_button").style("background-color", "#071832")
 
-    if (selected == "Map") {
-      button_pressed_vis = "map"
-      if (button_pressed_country == "all") {
-        draw_map(yrs, all_just_states)
-        draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states)
-      }
-      else if (button_pressed_country == "sudan") {
-        draw_map(yrs, sud_just_states)
-        draw_bars(sudan_multilateral_indi_state, context_data, "small", sud_just_states)
-      }
-      else if (button_pressed_country == "south_sudan") {
-        draw_map(yrs, sou_sud_just_states)
-        draw_bars(sousudan_multilateral_indi_state, context_data_south, "small", sou_sud_just_states)
-      }
-      d3.select("#bar")
-        .transition().delay(1000)
-        .style("background", "rgba(0, 0, 0, 0.5)")
-      d3.selectAll("#net")
-        .transition().duration(1000)
-        .style("right", - complete_width + "px")
-      d3.select("#title1")
-        .transition().duration(1000)
-        .style("font-size", 12 + "px")
-        .style("bottom", 125 + "px")
-      d3.select("#title2")
-        .transition().duration(1000)
-        .style("font-size", 12 + "px")
-        .style("bottom", 5 + "px")
-      //empty objsect to remove nodes and links
-      let empty = {
-        nodes: [{}],
-        links: [{}]
-      }
-      //wait a second and remove nodes and links
-      setTimeout(() => {
-        update_net(empty, "update")
-        simulation.stop()
-        d3.selectAll(".node, .link, .nodename").remove()
-      }, "1000");
-
+    button_pressed_vis = "map"
+    if (button_pressed_country == "all") {
+      draw_map(yrs, all_just_states)
+      draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states)
     }
-
-    else if (selected == "Network") {
-      button_pressed_vis = "net"
-      if (button_pressed_country == "all") {
-        data_sort(both_multilateral_indi_state, yrs)
-        draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states)
-      }
-      else if (button_pressed_country == "sudan") {
-        data_sort(sudan_multilateral_indi_state, yrs)
-        draw_bars(sudan_multilateral_indi_state, context_data, "small", sud_just_states)
-      }
-      else if (button_pressed_country == "south_sudan") {
-        data_sort(sousudan_multilateral_indi_state, yrs)
-        draw_bars(sousudan_multilateral_indi_state, context_data_south, "small", sou_sud_just_states)
-      }
-      d3.select("#bar")
-        .transition().delay(1000)
-        .style("background", "none")
-      d3.select("#net")
-        .transition().duration(1000)
-        .style("right", - 0 + "px")
-      d3.select("#title1")
-        .transition().duration(1000)
-        .style("font-size", 12 + "px")
-        .style("bottom", 125 + "px")
-      d3.select("#title2")
-        .transition().duration(1000)
-        .style("font-size", 12 + "px")
-        .style("bottom", 5 + "px")
+    else if (button_pressed_country == "sudan") {
+      draw_map(yrs, sud_just_states)
+      draw_bars(sudan_multilateral_indi_state, context_data, "small", sud_just_states)
     }
-
-    else if (selected == "Timeline") {
-      button_pressed_vis = "time"
-      if (button_pressed_country == "all") {
-        draw_bars(both_multilateral, context_data, "big", all_just_states)
-        draw_map(yrs, all_just_states)
-      }
-      else if (button_pressed_country == "sudan") {
-        draw_bars(sudan_multilateral, context_data, "big", sud_just_states)
-        draw_map(yrs, sud_just_states)
-      }
-      else if (button_pressed_country == "south_sudan") {
-        draw_bars(sousudan_multilateral, context_data_south, "big", sou_sud_just_states)
-        draw_map(yrs, sou_sud_just_states)
-      }
-      //black background
-      d3.select("#bar")
-        .style("background", "rgba(0, 0, 0, 0.8)")
-      //move network to the right
-      d3.selectAll("#net")
-        .transition().duration(1000)
-        .style("right", - complete_width + "px")
-      //empty objsect to remove nodes and links
-      let empty = {
-        nodes: [{}],
-        links: [{}]
-      }
-      d3.select("#title1")
-        .transition().duration(1000)
-        .style("font-size", 20 + "px")
-        .style("bottom", net_height - 100 + "px")
-      d3.select("#title2")
-        .transition().duration(1000)
-        .style("font-size", 20 + "px")
-        .style("bottom", 80 + "px")
-      //wait a second and remove nodes and links
-      setTimeout(() => {
-        update_net(empty, "update")
-        simulation.stop()
-        d3.selectAll(".node, .link, .nodename").remove()
-      }, "1000");
+    else if (button_pressed_country == "south_sudan") {
+      draw_map(yrs, sou_sud_just_states)
+      draw_bars(sousudan_multilateral_indi_state, context_data_south, "small", sou_sud_just_states)
     }
+    d3.select("#bar")
+      .transition().delay(1000)
+      .style("background", "rgba(0, 0, 0, 0.5)")
+    d3.selectAll("#net")
+      .transition().duration(1000)
+      .style("right", - complete_width + "px")
+    d3.select("#title1")
+      .transition().duration(1000)
+      .style("font-size", 12 + "px")
+      .style("bottom", 125 + "px")
+    d3.select("#title2")
+      .transition().duration(1000)
+      .style("font-size", 12 + "px")
+      .style("bottom", 5 + "px")
+    //empty objsect to remove nodes and links
+    let empty = {
+      nodes: [{}],
+      links: [{}]
+    }
+    //wait a second and remove nodes and links
+    setTimeout(() => {
+      update_net(empty, "update")
+      simulation.stop()
+      d3.selectAll(".node, .link, .nodename").remove()
+    }, "1000");
+
+  });
+
+  d3.select('#net_button').on("click", function () {
+    d3.select("#net_button").style("background-color", "#006297")
+    d3.selectAll("#map_button, #time_button").style("background-color", "#071832")
+    button_pressed_vis = "net"
+    if (button_pressed_country == "all") {
+      data_sort(both_multilateral_indi_state, yrs)
+      draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states)
+    }
+    else if (button_pressed_country == "sudan") {
+      data_sort(sudan_multilateral_indi_state, yrs)
+      draw_bars(sudan_multilateral_indi_state, context_data, "small", sud_just_states)
+    }
+    else if (button_pressed_country == "south_sudan") {
+      data_sort(sousudan_multilateral_indi_state, yrs)
+      draw_bars(sousudan_multilateral_indi_state, context_data_south, "small", sou_sud_just_states)
+    }
+    d3.select("#bar")
+      .transition().delay(1000)
+      .style("background", "none")
+    d3.select("#net")
+      .transition().duration(1000)
+      .style("right", - 0 + "px")
+    d3.select("#title1")
+      .transition().duration(1000)
+      .style("font-size", 12 + "px")
+      .style("bottom", 125 + "px")
+    d3.select("#title2")
+      .transition().duration(1000)
+      .style("font-size", 12 + "px")
+      .style("bottom", 5 + "px")
   })
 
+  d3.select('#time_button').on("click", function () {
+    d3.select("#time_button").style("background-color", "#006297")
+    d3.selectAll("#map_button, #net_button").style("background-color", "#071832")
+    button_pressed_vis = "time"
+    if (button_pressed_country == "all") {
+      draw_bars(both_multilateral, context_data, "big", all_just_states)
+      draw_map(yrs, all_just_states)
+    }
+    else if (button_pressed_country == "sudan") {
+      draw_bars(sudan_multilateral, context_data, "big", sud_just_states)
+      draw_map(yrs, sud_just_states)
+    }
+    else if (button_pressed_country == "south_sudan") {
+      draw_bars(sousudan_multilateral, context_data_south, "big", sou_sud_just_states)
+      draw_map(yrs, sou_sud_just_states)
+    }
+    //black background
+    d3.select("#bar")
+      .style("background", "rgba(0, 0, 0, 0.8)")
+    //move network to the right
+    d3.selectAll("#net")
+      .transition().duration(1000)
+      .style("right", - complete_width + "px")
+    //empty objsect to remove nodes and links
+    let empty = {
+      nodes: [{}],
+      links: [{}]
+    }
+    d3.select("#title1")
+      .transition().duration(1000)
+      .style("font-size", 20 + "px")
+      .style("bottom", net_height - 100 + "px")
+    d3.select("#title2")
+      .transition().duration(1000)
+      .style("font-size", 20 + "px")
+      .style("bottom", 80 + "px")
+    //wait a second and remove nodes and links
+    setTimeout(() => {
+      update_net(empty, "update")
+      simulation.stop()
+      d3.selectAll(".node, .link, .nodename").remove()
+    }, "1000");
+  })
 
 
   /////////////////////////////INITIAL FUNCTIONS/////////////////////////////
@@ -907,6 +909,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
   }
 
+  d3.select("#map_button").style("background-color", "#006297")
   //draw leaflet map
   draw_map(yrs, all_just_states)
   //draw bar chart

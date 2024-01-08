@@ -38,7 +38,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 //     position: 'bottomright'
 // }).addTo(map);
 
-map.zoomControl.setPosition('topright');
+map.zoomControl.setPosition('bottomleft');
 //empty geoJSON
 let geojson = L.geoJSON(false).addTo(map)
 //draw map function

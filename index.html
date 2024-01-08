@@ -15,6 +15,11 @@
     <img src="logo.png" alt="PeaceRep Logo" />
   </div>
   <button id="filter_button">Filter</button>
+  <div id="vis_buttons">
+    <button id="time_button">Timeline</button>
+    <button id="net_button">Network</button>
+    <button id="map_button">Map</button>
+  </div>
   <div id="filters">
     <div id="nonstate_drop_div">
       <h4>Uni/Multilateral Mediations</h4>
@@ -35,19 +40,19 @@
     <div id="conflict_drop_div">
       <h4>Conflict Locale</h4>
       <select id="dropdown_country">
-        <option selected="selected">Both</option>
+        <option selected="selected">All</option>
         <option>Sudan</option>
         <option>South Sudan</option>
       </select>
     </div>
-    <div id="vis_drop_div">
+    <!-- <div id="vis_drop_div">
       <h4>Visualization Type</h4>
       <select id="dropdown_vis">
         <option selected="selected">Map</option>
         <option>Network</option>
         <option>Timeline</option>
       </select>
-    </div>
+    </div> -->
   </div>
   <!-- <div id="partners"></div> -->
   <div id="map">
@@ -63,7 +68,8 @@
     </div>
     <div class="slidecontainer">
       <input type="range" orient="vertical" min="1" max="29" value="1" class="slider" id="myRange">
-      <p style="color: white; font-size: 12px; padding-left: 10px; margin-top: 2px;">No. of Connections: <span id="demo"></span></p>
+      <p style="color: white; font-size: 12px; padding-left: 10px; margin-top: 2px;">No. of Connections: <span
+          id="demo"></span></p>
     </div>
   </div>
   <div id="bar"></div>
@@ -72,7 +78,7 @@
   <div id="nonstate">
     <div id="state-legend" class="legend">
       <h4>Organization Types</h4>
-      <div id="glob_org"><span style="background-color: #fed800"></span>Global</div>
+      <div id="glob_org"><span style="background-color: #ffe241"></span>Global</div>
       <div id="reg_org"><span style="background-color: #dd1e37"></span>Regional</div>
       <div id="non_gov_org"><span style="background-color: #ab4298"></span>Nongovernmental</div>
     </div>

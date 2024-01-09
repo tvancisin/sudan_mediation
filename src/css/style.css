@@ -39,7 +39,8 @@ img {
 }
 
 .leaflet-bottom {
-    bottom: 150px;
+    bottom: 210px;
+    right: 10px;
     z-index: 899;
 }
 
@@ -94,10 +95,10 @@ text {
     stroke-linejoin: miter;
 }
 
-text.nodename {
+.nodename, .network_nodename {
     fill: black;
     font-weight: bolder;
-    font-size: 12px;
+    font-size: 10px;
     font-family: "Montserrat";
     paint-order: stroke;
     stroke: white;
@@ -340,7 +341,7 @@ h4 {
 .legend {
     position: relative;
     border-radius: 5px;
-    background-color: #051429;
+    background-color: black;
     border-radius: 3px;
     bottom: 170px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -403,4 +404,11 @@ h4 {
     border-radius: 2px;
     cursor: pointer;
     border: none;
+}
+
+#top_five {
+    position: absolute;
+    z-index: 850;
+    bottom: 150px;
+    left: 5px;
 }

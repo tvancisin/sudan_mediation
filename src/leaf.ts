@@ -5,16 +5,17 @@ import 'leaflet/dist/leaflet.css';
 
 //-------------------------leaflet---------------------------------
 //append leaflet map to div
-let map = L.map('map', { 
+let map = L.map('map', {
     maxZoom: 6,
+    minZoom: 2,
     attributionControl: false,
     zoomDelta: 0.5,
     zoomSnap: 0.5
- })
-.setView([25, 5], 2.5);
-map.createPane('labels');
-map.getPane('labels').style.zIndex = 650;
-map.getPane('labels').style.pointerEvents = 'none';
+})
+    .setView([25, 5], 2.5);
+// map.createPane('labels');
+// map.getPane('labels').style.zIndex = 650;
+// map.getPane('labels').style.pointerEvents = 'none';
 //load tiles
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     maxZoom: 6,
@@ -33,31 +34,31 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 // 	maxZoom: 20
 // }).addTo(map)
 
-//attribution top left
-// L.control.attribution({
-//     position: 'bottomright'
-// }).addTo(map);
-
-map.zoomControl.setPosition('bottomleft');
+map.zoomControl.setPosition('bottomright');
 //empty geoJSON
 let geojson = L.geoJSON(false).addTo(map)
+
 //draw map function
-const draw_map = function (value, data) {
-    
+const draw_map = function (years, data) {
+
     //getting names of current states
     let state_array = [];
     data.forEach(function (d) {
         state_array.push(d[0])
     })
+
+    // console.log(state_array);
+
     //clear the previous layer
     geojson.clearLayers()
     //filter geoJSON based on the array above and brushed years
     function geo_year_filter(feature) {
         if ((state_array.includes(feature.properties.ADMIN))
-            && feature.properties.year <= value[1]
-            && feature.properties.year >= value[0]) {
-                // console.log(state_array, feature.properties.ADMIN, feature.properties.year, value );
-                
+            && feature.properties.year <= years[1]
+            // && feature.properties.year >= years[0]
+        ) {
+            // console.log(feature.properties.ADMIN, feature.properties.year, value);
+
             return true
         }
     }
@@ -75,20 +76,21 @@ const draw_map = function (value, data) {
         let gradient = find_iso(feature.properties.ADMIN)
         if (feature.properties.ADMIN == "Sudan" || feature.properties.ADMIN == "South Sudan") {
             return {
-            fillColor: "#fed800",
-            weight: 1,
-            color: '#fed800',
-            fillOpacity: gradient
-        };
+                fillColor: "#fed800",
+                weight: 1,
+                color: '#fed800',
+                fillOpacity: gradient
+            };
+        }
+        else {
+            return {
+                fillColor: "white",
+                weight: 0,
+                // color: 'black',
+                fillOpacity: gradient
+            };
 
         }
-        
-        return {
-            fillColor: "white",
-            weight: 0,
-            color: 'black',
-            fillOpacity: gradient
-        };
     }
     //highlight on hover
     function highlightFeature(e) {
@@ -127,8 +129,6 @@ const draw_map = function (value, data) {
         //     }
         // }
         // center = turf.centerOfMass(max_area_polygon);
-
-
 
         layer.on({
             mouseover: highlightFeature,

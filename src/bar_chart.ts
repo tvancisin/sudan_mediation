@@ -4,13 +4,14 @@ import {
 } from "./variables";
 import * as d3 from "d3";
 import { draw_map } from './leaf';
+import { nonstate_draw } from "./nonstate";
 import { data_sort } from "./sort_data";
 import 'leaflet/dist/leaflet.css';
 
 let current_sudan;
-let current_for_network;
+let current_network;
+let state = "state";
 let brushing = function (event) {
-    // based on: https://bl.ocks.org/mbostock/6232537
     if (!event.selection && !event.sourceEvent) return;
     const s0 = event.selection ? event.selection : [1, 2].fill(event.sourceEvent.offsetX),
         d0 = filteredDomain(bar_x, ...s0);
@@ -18,7 +19,13 @@ let brushing = function (event) {
     //end of selection triggers redrawing of the map for speed
     if (event.sourceEvent && event.type === 'end') {
         let year_range = [d3.min(d0), d3.max(d0)]
-        draw_map(year_range, current_sudan)
+        if (state == "state") {
+            draw_map(year_range, current_sudan)
+        }
+        else if (state == "nonstate"){
+            console.log("here");
+            nonstate_draw(current_network, year_range)
+        }
         // data_sort(current_for_network, year_range)
         s1 = snappedSelection(bar_x, d0);
         d3.select(this).transition().call(event.target.move, s1);
@@ -50,7 +57,7 @@ let brushing = function (event) {
 
 //brushing dimensions
 let brush = d3.brushX()
-    .handleSize(20)
+    .handleSize(10)
     .extent([[0, 0], [width, 150]])
     .on('start brush end', brushing)
 //array of years selected
@@ -64,14 +71,17 @@ let filteredDomain = function (scale, min, max) {
 const gBrush = bar_svg.append('g').attr("class", "brush")
 
 //----------------bar chart----------------
-function draw_bars(data, context_data, size, map_data) {
+function draw_bars(bar_data, context_data, size, map_data, current_state) {
+    console.log(bar_data, context_data, size, map_data, current_state);
+
     current_sudan = map_data;
-    current_for_network = data;
+    state = current_state
+    current_network = bar_data;
 
     //unique actors data
-    let multigroup = d3.groups(data, d => d.year, d => d.third_party)
+    let multigroup = d3.groups(bar_data, d => d.year, d => d.third_party)
     //mediations by year data
-    let year_group = d3.groups(data, d => d.year)
+    let year_group = d3.groups(bar_data, d => d.year)
     //update bar height based on click
     let bar_h, full_bar_h, context_text, context_line;
     if (size == "small") {
@@ -110,7 +120,7 @@ function draw_bars(data, context_data, size, map_data) {
         .attr("transform", "translate(0,-5)")
         .style("fill", "white")
         .style("text-anchor", "middle")
-        .style("font-size", "12px")
+        .style("font-size", "10px")
         .style("font-family", "Montserrat");
 
     bar_svg.selectAll(".myYaxis").transition().duration(1000)
@@ -120,7 +130,7 @@ function draw_bars(data, context_data, size, map_data) {
         .style("text-anchor", "end")
         .attr("x", 3)
         .style("fill", "white")
-        .style("font-size", "10px")
+        .style("font-size", "8px")
         .style("font-family", "Montserrat");
 
     bar_svg.selectAll(".myMaxis").transition().duration(1000)
@@ -130,7 +140,7 @@ function draw_bars(data, context_data, size, map_data) {
         .style("text-anchor", "end")
         .attr("x", 3)
         .style("fill", "white")
-        .style("font-size", "10px")
+        .style("font-size", "8px")
         .style("font-family", "Montserrat");
     //update top bars
     bar_svg.selectAll(".my_top_bar")
@@ -145,7 +155,6 @@ function draw_bars(data, context_data, size, map_data) {
                 .attr("rx", 3)
                 .attr("height", 0)
                 .attr("width", bar_x.bandwidth())
-                // .attr("fill", "#fed800")
                 .attr("fill", "white")
                 .attr("stroke", "black")
                 .attr("stroke-width", 0.5)
@@ -179,7 +188,6 @@ function draw_bars(data, context_data, size, map_data) {
                 .attr("rx", 3)
                 .attr("height", 0)
                 .attr("width", bar_x.bandwidth())
-                // .attr("fill", "#fed800")
                 .attr("fill", "white")
                 .attr("stroke", "black")
                 .attr("stroke-width", 0.5)
@@ -298,7 +306,7 @@ function draw_bars(data, context_data, size, map_data) {
         .attr('class', d => `handles ${d}`)
         .attr('fill', "white")
         .attr('transform', d => {
-            const x = d == 'handle--o' ? 10 : width - 10;
+            const x = d == 'handle--o' ? 0 : width - 0;
             return `translate(${x}, 0)`;
         });
     //Label
@@ -333,14 +341,14 @@ function draw_bars(data, context_data, size, map_data) {
         .join('line')
         .attr('class', d => `line ${d}`)
         .attr('x1', 0)
-        .attr('y1', 3)
+        .attr('y1', 0)
         .attr('x2', 0)
-        .attr('y2', full_bar_h - 2)
+        .attr('y2', full_bar_h + 4)
         .attr('stroke', "red");
     //set brusing rectangle to lower opacity and remove line
     d3.selectAll(".selection")
         .attr("stroke", "none")
-        .attr("fill-opacity", 0)
+        .attr("fill-opacity", 0.2)
     //remove tick lines
     // d3.selectAll(".tick line").style("visibility", "hidden")
 }

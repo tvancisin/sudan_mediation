@@ -57,8 +57,8 @@ function non_ticked() {
         .attr("y", d => d.y);
 }
 
-var nonstate_simulation = d3.forceSimulation()
-    .force('charge', d3.forceManyBody().strength(-5))
+let nonstate_simulation = d3.forceSimulation()
+    .force('charge', d3.forceManyBody().strength(-20))
     .force("forceX", d3.forceX().x(complete_width * .5))
     .force("forceY", d3.forceY().y(complete_height * .5))
     // .force('x', d3.forceX().x(function (d) {
@@ -90,6 +90,12 @@ const nonstate_context = {
     node: nonstate_node,
     text: nonstate_text
 }
+
+const top_five_svg = d3.select("#top_five")
+    .append("svg")
+    .attr("width", 200 + "px")
+    .attr("height", 200 + "px")
+
 
 //---------------------network------------------------------------
 //zooming and panning for the network
@@ -224,7 +230,7 @@ bar_svg.append("g")
 let bar_line = bar_svg.append("g")
 
 
-//gradient legend
+////////////////////gradient legend/////////////////////
 let colorScale = d3.scaleLinear()
     .domain([1, 50])
     .range(['#2F4F4F', 'white']);
@@ -283,13 +289,10 @@ svgLegend
     .style("text-anchor", "end")
     .call(axisLeg);
 
-
-//-----------------nonstate organizations svg---------------------
-
 export {
     margin, complete_width, complete_height, width, net_width, net_height, bar_height,
     context, full_bar_height, height, slide, triangle, snappedSelection, svg, x, x_axis, y, zoom,
     net_svg, ticked, simulation, nonstate_simulation, nonstate_zoom, bar_svg, context_data,
     context_data_south, nonstate_context, bar_x, bar_x_axis, bar_y, bar_y_axis, y_mirror,
-    bar_y_mirror, bar_line, nonstate_svg, non_ticked, circle_scale,
+    bar_y_mirror, bar_line, nonstate_svg, non_ticked, circle_scale, top_five_svg
 }

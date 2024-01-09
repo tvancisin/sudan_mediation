@@ -154,7 +154,7 @@ function update_net(data, update) {
         .data(nodes, d => d.id)
         .join("text")
         .text(d => d.id)
-        .attr("class", "nodename")
+        .attr("class", "network_nodename")
         .style('opacity', labelOpacity)
         .attr("dx", 5)
         // .attr("dy", ".35em")

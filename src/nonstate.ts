@@ -47,16 +47,16 @@ const nonstate_draw = function (data, years) {
         .data(nodes, d => d.id)
         .join("circle")
         .style("fill", function (d) {
-            return "white"
-            // if (d.type == "global") {
-            //     return "#ffe241"
-            // }
-            // else if (d.type == "regional") {
-            //     return "#dd1e37"
-            // }
-            // else if (d.type == "nonstate") {
-            //     return "#ab4298"
-            // }
+            // return "white"
+            if (d.type == "global") {
+                return "#ffe241"
+            }
+            else if (d.type == "regional") {
+                return "#dd1e37"
+            }
+            else if (d.type == "nonstate") {
+                return "#ab4298"
+            }
         })
         .attr('r', function (d) {
             return circle_scale(d.weight);

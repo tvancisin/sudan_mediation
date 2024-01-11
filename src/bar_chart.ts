@@ -1,6 +1,7 @@
 import {
-    net_height, complete_height, margin, bar_svg, bar_x, bar_x_axis, bar_y, bar_y_axis,
-    width, bar_line, y_mirror, bar_y_mirror, triangle, snappedSelection, complete_width
+    net_height, complete_height, margin, bar_svg, bar_x,
+    bar_x_axis, bar_y, bar_y_axis, width, bar_line, y_mirror,
+    bar_y_mirror, triangle, snappedSelection, complete_width
 } from "./variables";
 import * as d3 from "d3";
 import { draw_map } from './leaf';
@@ -8,9 +9,10 @@ import { nonstate_draw } from "./nonstate";
 import { data_sort } from "./sort_data";
 import 'leaflet/dist/leaflet.css';
 
-let current_sudan;
-let current_network;
+let grouped_data;
+let individual_data;
 let state = "state";
+
 let brushing = function (event) {
     if (!event.selection && !event.sourceEvent) return;
     const s0 = event.selection ? event.selection : [1, 2].fill(event.sourceEvent.offsetX),
@@ -18,15 +20,20 @@ let brushing = function (event) {
     let s1 = s0;
     //end of selection triggers redrawing of the map for speed
     if (event.sourceEvent && event.type === 'end') {
+        console.log("here", state);
+        
         let year_range = [d3.min(d0), d3.max(d0)]
         if (state == "state") {
-            draw_map(year_range, current_sudan)
+            draw_map(year_range, grouped_data)
         }
-        else if (state == "nonstate"){
-            console.log("here");
-            nonstate_draw(current_network, year_range)
+        else if (state == "nonstate") {
+            nonstate_draw(individual_data, year_range)
         }
-        // data_sort(current_for_network, year_range)
+        else if (state == "net") {
+            data_sort(individual_data, year_range)
+            console.log("here1");
+            
+        }
         s1 = snappedSelection(bar_x, d0);
         d3.select(this).transition().call(event.target.move, s1);
     }
@@ -68,15 +75,55 @@ let filteredDomain = function (scale, min, max) {
     if (iMax == iMin) --iMin;
     return scale.domain().slice(iMin, iMax)
 }
-const gBrush = bar_svg.append('g').attr("class", "brush")
+const gBrush = bar_svg.append('g').attr("class", "brush");
 
-//----------------bar chart----------------
+//bar chart
 function draw_bars(bar_data, context_data, size, map_data, current_state) {
-    console.log(bar_data, context_data, size, map_data, current_state);
-
-    current_sudan = map_data;
+    // console.log(bar_data, context_data, size, map_data, current_state);
+    // update current datasets
+    grouped_data = map_data;
     state = current_state
-    current_network = bar_data;
+    individual_data = bar_data;
+
+    let g_data = d3.groups(individual_data, d => d.year, d => d.lateral);
+    // console.log(g_data);
+    
+    let formatted_years = []
+
+    g_data.forEach(function (d) {
+        let unilat_number;
+        let multilat_number;
+        if (d[1].length == 1) {
+            // console.log("here", d[1][0][1].length);
+            if (d[1][0][0] == "unilateral") {
+                multilat_number = 0
+                unilat_number = d[1][0][1].length
+            }
+            else {
+                unilat_number = 0
+                multilat_number = d[1][0][1].length
+            }
+        }
+        else {
+            if (d[1][0][0] == "unilateral") {
+                // console.log(d[1][0], "here");
+                unilat_number = d[1][0][1].length
+                multilat_number = d[1][1][1].length
+            }
+            else {
+                multilat_number = d[1][0][1].length
+                unilat_number = d[1][1][1].length
+            }
+        }
+        let indi_year = {
+            group: d[0],
+            unilateral: unilat_number,
+            multilateral: multilat_number
+        }
+        formatted_years.push(indi_year)
+    })
+    // console.log(formatted_years);
+    
 
     //unique actors data
     let multigroup = d3.groups(bar_data, d => d.year, d => d.third_party)

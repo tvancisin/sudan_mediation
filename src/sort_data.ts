@@ -2,21 +2,25 @@ import * as d3 from "d3";
 import 'leaflet/dist/leaflet.css';
 import { update_net } from "./network";
 
-//----creating nodes and links for network----            
+//creating nodes and links for network
 //global dataset changes based on data_sort
-let dataset = {}
+let dataset = {};
+
 const data_sort = function (data, years) {
-    let year_sudan = data.filter(function (d) { return d.year >= years[0] && d.year <= years[1] })
+    // filter by years 
+    let year_sudan = data.filter(function (d) {
+        return d.year >= years[0] && d.year <= years[1]
+    });
     //construct network data
-    let sudan_network = d3.groups(year_sudan, d => d.third_party, d => d.mediation_ID)
+    let sudan_network = d3.groups(year_sudan, d => d.third_party, d => d.mediation_ID);
     // let sudan_network = s_network.slice(0, 50)
     //comapre arrays
     const compare = function (a1, a2) {
         return a1.reduce((a, c) => a + a2.includes(c), 0);
-    }
+    };
     //creating a source-target-value object
-    let actor_connections = []
-    let counter = 0
+    let actor_connections = [];
+    let counter = 0;
     for (let i = 0; i < sudan_network.length; i++) {
         for (let j = i + 1; j < sudan_network.length; j++) {
             let first_array = [],
@@ -43,7 +47,7 @@ const data_sort = function (data, years) {
         }
     }
     //creating object with individual actors
-    let individual_actors = []
+    let individual_actors = [];
     sudan_network.forEach(function (n) {
         // console.log(n[1][0][1][0].third_party_type);
         individual_actors.push({
@@ -56,9 +60,9 @@ const data_sort = function (data, years) {
     dataset = {
         nodes: individual_actors,
         links: actor_connections
-    }
+    };
     //draw network
-    update_net(dataset, "update")
+    update_net(dataset, "update");
 }
 
-export {data_sort}
+export { data_sort }

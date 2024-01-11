@@ -55,7 +55,7 @@ const draw_map = function (years, data) {
     function geo_year_filter(feature) {
         if ((state_array.includes(feature.properties.ADMIN))
             && feature.properties.year <= years[1]
-            // && feature.properties.year >= years[0]
+            // && feature.properties.year >= [0]
         ) {
             // console.log(feature.properties.ADMIN, feature.properties.year, value);
 
@@ -76,8 +76,8 @@ const draw_map = function (years, data) {
         let gradient = find_iso(feature.properties.ADMIN)
         if (feature.properties.ADMIN == "Sudan" || feature.properties.ADMIN == "South Sudan") {
             return {
-                fillColor: "#fed800",
-                weight: 1,
+                fillColor: "white",
+                weight: 2,
                 color: '#fed800',
                 fillOpacity: gradient
             };

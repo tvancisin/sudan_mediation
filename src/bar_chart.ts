@@ -21,7 +21,7 @@ let brushing = function (event) {
     //end of selection triggers redrawing of the map for speed
     if (event.sourceEvent && event.type === 'end') {
         console.log("here", state);
-        
+
         let year_range = [d3.min(d0), d3.max(d0)]
         if (state == "state") {
             draw_map(year_range, grouped_data)
@@ -31,8 +31,9 @@ let brushing = function (event) {
         }
         else if (state == "net") {
             data_sort(individual_data, year_range)
-            console.log("here1");
-            
+        }
+        else if (state == "bar") {
+            console.log("no need to draw");
         }
         s1 = snappedSelection(bar_x, d0);
         d3.select(this).transition().call(event.target.move, s1);
@@ -77,6 +78,9 @@ let filteredDomain = function (scale, min, max) {
 }
 const gBrush = bar_svg.append('g').attr("class", "brush");
 
+var bars = bar_svg.append("g").attr("class", "bars");
+var unq_bars = bar_svg.append("g").attr("class", "unq_bars");
+
 //bar chart
 function draw_bars(bar_data, context_data, size, map_data, current_state) {
     // console.log(bar_data, context_data, size, map_data, current_state);
@@ -85,10 +89,9 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
     state = current_state
     individual_data = bar_data;
 
+    // mediations data formatting
     let g_data = d3.groups(individual_data, d => d.year, d => d.lateral);
-    // console.log(g_data);
-    
-    let formatted_years = []
+    let formatted_years = [];
 
     g_data.forEach(function (d) {
         let unilat_number;
@@ -106,7 +109,6 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         }
         else {
             if (d[1][0][0] == "unilateral") {
-                // console.log(d[1][0], "here");
                 unilat_number = d[1][0][1].length
                 multilat_number = d[1][1][1].length
             }
@@ -122,13 +124,55 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         }
         formatted_years.push(indi_year)
     })
-    // console.log(formatted_years);
-    
 
-    //unique actors data
+    let subgroups = ["unilateral", "multilateral"];
+    const groups = formatted_years.map(d => (d.group))
+    const color = d3.scaleOrdinal()
+        .domain(subgroups)
+        .range(['gray', 'white'])
+
+
+    //unique actors data formatting
     let multigroup = d3.groups(bar_data, d => d.year, d => d.third_party)
+    let unique_years = [];
+
+    multigroup.forEach(function (d) {
+        let state_unq = 0;
+        let nonstate_unq = 0;
+        let global_unq = 0;
+        let regional_unq = 0;
+        d[1].forEach(function (x) {
+            if (x[1][0].third_party_type == "state") {
+                state_unq += 1
+            }
+            else if (x[1][0].third_party_type == "nonstate") {
+                nonstate_unq += 1
+            }
+            else if (x[1][0].third_party_type == "global") {
+                global_unq += 1
+            }
+            else if (x[1][0].third_party_type == "regional") {
+                regional_unq += 1
+            }
+        })
+        let indi_year = {
+            group: d[0],
+            nonstate: nonstate_unq,
+            global: global_unq,
+            regional: regional_unq,
+            state: state_unq,
+        }
+        unique_years.push(indi_year)
+    })
+
+    let unq_subgroups = ["regional", "nonstate", "global", "state"];
+    const unq_groups = unique_years.map(d => (d.group))
+    const unq_color = d3.scaleOrdinal()
+        .domain(unq_subgroups)
+        .range(["#23832e", "#3ad84c", "#0c2e10", "#2fad3d"])
+
     //mediations by year data
-    let year_group = d3.groups(bar_data, d => d.year)
+    // let year_group = d3.groups(bar_data, d => d.year)
     //update bar height based on click
     let bar_h, full_bar_h, context_text, context_line;
     if (size == "small") {
@@ -147,8 +191,8 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
             .style("height", complete_height + "px")
 
         d3.select(".brush").style("display", "none")
-        context_line = 30;
-        context_text = 30;
+        context_line = 20;
+        context_text = 22;
         bar_h = net_height / 1.5 - margin.top - margin.bottom;
         full_bar_h = net_height - margin.top - margin.bottom;
     }
@@ -156,9 +200,19 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
     bar_y.range([bar_h, 0])
     y_mirror.range([bar_h * 2 + 16, bar_h + 16]);
     //update axes
-    bar_x.domain(d3.map(year_group, function (d) {
-        return d[0]
-    }))
+    // bar_x.domain(d3.map(year_group, function (d) {
+    //     return d[0]
+    // }))
+    bar_x.domain(groups)
+    const stackedData = d3.stack()
+        .keys(subgroups)
+        (formatted_years)
+
+    const unq_stackedData = d3.stack()
+        .keys(unq_subgroups)
+        (unique_years)
+
+    console.log(formatted_years, unique_years);
 
     bar_svg.selectAll(".myXaxis").transition().duration(1000)
         .call(bar_x_axis)
@@ -189,71 +243,176 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         .style("fill", "white")
         .style("font-size", "8px")
         .style("font-family", "Montserrat");
+
     //update top bars
-    bar_svg.selectAll(".my_top_bar")
-        .data(year_group, function (d) {
-            return d[0]
-        })
+    // bar_svg.selectAll(".my_top_bar")
+    //     .data(year_group, function (d) {
+    //         return d[0]
+    //     })
+    //     .join(
+    //         enter => enter.append("rect")
+    //             .attr("class", "my_top_bar")
+    //             .attr("x", d => bar_x(d[0]))
+    //             .attr("y", bar_h)
+    //             .attr("rx", 3)
+    //             .attr("height", 0)
+    //             .attr("width", bar_x.bandwidth())
+    //             .attr("fill", "white")
+    //             .attr("stroke", "black")
+    //             .attr("stroke-width", 0.5)
+    //             .transition().duration(1000)
+    //             .attr("y", d => bar_y(d[1].length))
+    //             .attr("height", d => bar_h - bar_y(d[1].length))
+    //             .selection(),
+    //         update => update
+    //             .transition().duration(1000)
+    //             .attr("x", d => bar_x(d[0]))
+    //             .attr("y", d => bar_y(d[1].length))
+    //             .attr("width", bar_x.bandwidth())
+    //             .attr("height", d => bar_h - bar_y(d[1].length))
+    //             .selection(),
+    //         exit => exit
+    //             .transition().duration(500)
+    //             .attr("y", bar_h)
+    //             .attr("height", 0)
+    //             .remove()
+    //     )
+
+    bars
+        .selectAll("g")
+        .data(stackedData)
         .join(
-            enter => enter.append("rect")
-                .attr("class", "my_top_bar")
-                .attr("x", d => bar_x(d[0]))
-                .attr("y", bar_h)
-                .attr("rx", 3)
+            enter => enter
+                .append("g")
+                .attr("fill", function (x) {
+                    return color(x.key)
+                }),
+            null, // no update function
+            exit => {
+                exit
+                    .transition()
+                    .duration(500)
+                    .style("fill-opacity", 0)
+                    .remove();
+            }
+        ).selectAll("rect")
+        .data(d => d, d => d.data.key)
+        .join(
+            enter => enter
+                .append("rect")
+                .attr("class", "bar")
+                .attr("rx", 2)
+                .attr("x", d => bar_x(d.data.group))
+                .attr("y", () => {
+                    return bar_y(0);
+                })
                 .attr("height", 0)
                 .attr("width", bar_x.bandwidth())
-                .attr("fill", "white")
-                .attr("stroke", "black")
-                .attr("stroke-width", 0.5)
-                .transition().duration(1000)
-                .attr("y", d => bar_y(d[1].length))
-                .attr("height", d => bar_h - bar_y(d[1].length))
-                .selection(),
-            update => update
-                .transition().duration(1000)
-                .attr("x", d => bar_x(d[0]))
-                .attr("y", d => bar_y(d[1].length))
-                .attr("width", bar_x.bandwidth())
-                .attr("height", d => bar_h - bar_y(d[1].length))
-                .selection(),
-            exit => exit
-                .transition().duration(500)
-                .attr("y", bar_h)
-                .attr("height", 0)
-                .remove()
+            ,
+            null,
+            exit => {
+                exit
+                    .transition()
+                    .duration(500)
+                    .style("fill-opacity", 0)
+                    .remove();
+            }
         )
+        .transition()
+        .attr("x", d => bar_x(d.data.group))
+        .attr("y", d => bar_y(d[1]))
+        .attr("width", bar_x.bandwidth())
+        .attr("height", d => bar_y(d[0]) - bar_y(d[1]))
+
+
+    unq_bars
+        .selectAll("g")
+        .data(unq_stackedData)
+        .join(
+            enter => enter
+                .append("g")
+                .attr("fill", function (x) {
+                    console.log(x);
+                    return unq_color(x.key)
+                }),
+            null, // no update function
+            exit => {
+                exit
+                    .transition()
+                    .duration(500)
+                    .style("fill-opacity", 0)
+                    .remove();
+            }
+        ).selectAll("rect")
+        .data(d => d, d => d.data.key)
+        .join(
+            enter => enter
+                .append("rect")
+                .attr("class", "bar")
+                .attr("rx", 2)
+                .attr("x", d => bar_x(d.data.group))
+                .attr("y", bar_h + 16)
+                .attr("height", 0)
+                .attr("width", bar_x.bandwidth())
+                .selection(),
+            null,
+            exit => {
+                exit
+                    .transition()
+                    .duration(500)
+                    .style("fill-opacity", 0)
+                    .remove();
+            }
+        )
+        .transition()
+        .attr("x", d => bar_x(d.data.group))
+        .attr("width", bar_x.bandwidth())
+        .attr("y", function (d) {
+            return y_mirror(d[1]) - (bar_y(d[0]) - bar_y(d[1]))
+            // return bar_y(d[1])
+        })
+        .attr("height", 1)
+        .attr("height", d => bar_y(d[0]) - bar_y(d[1]))
+
+
+    // .attr("y", d => y_mirror(d[1]))
+    // .attr("height", function (d) {
+    //     return bar_h - y_mirror(d[1])
+    // })
+
+
     //update bottom bars
-    bar_svg.selectAll(".mirrorbar")
-        .data(multigroup, function (d) {
-            return d[0]
-        })
-        .join(
-            enter => enter.append("rect")
-                .attr("class", "mirrorbar")
-                .attr("x", d => bar_x(d[0]))
-                .attr("y", bar_h + 16)
-                .attr("rx", 3)
-                .attr("height", 0)
-                .attr("width", bar_x.bandwidth())
-                .attr("fill", "white")
-                .attr("stroke", "black")
-                .attr("stroke-width", 0.5)
-                .transition().duration(1000)
-                .attr("height", d => bar_h - bar_y(d[1].length))
-                .selection(),
-            update => update
-                .transition().duration(1000)
-                .attr("x", d => bar_x(d[0]))
-                .attr("y", bar_h + 16)
-                .attr("width", bar_x.bandwidth())
-                .attr("height", d => bar_h - bar_y(d[1].length))
-                .selection(),
-            exit => exit
-                .transition().duration(500)
-                .attr("y", bar_h + 16)
-                .attr("height", 0)
-                .remove()
-        )
+    // bar_svg.selectAll(".mirrorbar")
+    //     .data(multigroup, function (d) {
+    //         return d[0]
+    //     })
+    //     .join(
+    //         enter => enter.append("rect")
+    //             .attr("class", "mirrorbar")
+    //             .attr("x", d => bar_x(d[0]))
+    //             .attr("y", bar_h + 16)
+    //             .attr("rx", 3)
+    //             .attr("height", 0)
+    //             .attr("width", bar_x.bandwidth())
+    //             .attr("fill", "white")
+    //             .attr("stroke", "black")
+    //             .attr("stroke-width", 0.5)
+    //             .transition().duration(1000)
+    //             .attr("height", d => bar_h - bar_y(d[1].length))
+    //             .selection(),
+    //         update => update
+    //             .transition().duration(1000)
+    //             .attr("x", d => bar_x(d[0]))
+    //             .attr("y", bar_h + 16)
+    //             .attr("width", bar_x.bandwidth())
+    //             .attr("height", d => bar_h - bar_y(d[1].length))
+    //             .selection(),
+    //         exit => exit
+    //             .transition().duration(500)
+    //             .attr("y", bar_h + 16)
+    //             .attr("height", 0)
+    //             .remove()
+    //     )
     //update context line
     bar_line.selectAll(".context_line")
         .data(context_data)

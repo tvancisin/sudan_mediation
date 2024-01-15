@@ -25,6 +25,7 @@
     <button id="net_button">Network</button>
     <button id="map_button">Map</button>
   </div>
+
   <div id="filters">
     <div id="nonstate_drop_div">
       <h4>Uni/Multilateral Mediations</h4>
@@ -52,6 +53,9 @@
     </div>
   </div>
 
+  <button id="collab_button">Collaborations</button>
+  <div id="collab"></div>
+
   <div id="map">
     <div id="gradient"></div>
   </div>
@@ -64,8 +68,9 @@
       <div id="african_org"><span style="background-color: #dd1e36"></span>African</div>
       <div id="intern_org"><span style="background-color: white"></span>International</div>
     </div>
+
     <div class="slidecontainer">
-      <input type="range" orient="vertical" min="1" max="29" value="1" class="slider" id="myRange">
+      <input type="range" min="1" max="29" value="1" id="myRange">
       <p style="color: white; font-size: 12px; padding-left: 10px; margin-top: 2px;">No. of Connections: <span
           id="demo"></span></p>
     </div>
@@ -75,8 +80,6 @@
 
   <h3 id="title1">Number of Mediations</h3>
   <h3 id="title2">Number of Unique Actors</h3>
-
-  <div id="top_five"></div>
 
   <div id="nonstate">
     <div id="state-legend" class="legend">

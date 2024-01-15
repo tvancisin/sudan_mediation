@@ -209,11 +209,6 @@ button:hover {
     right: 40px
 }
 
-.slider {
-    /* appearance: slider-vertical; */
-    width: 150px;
-}
-
 .leaflet-layer,
 .leaflet-control-attribution {
     filter: invert(99%) hue-rotate(170deg) brightness(95%) contrast(100%);
@@ -252,6 +247,38 @@ button:hover {
     border: none;
 }
 
+#collab{
+    position: absolute;
+    bottom: 155px;
+    width: 200px;
+    height: 130px;
+    left: -205px;
+    background-color: #051429;
+    z-index: 999;
+    border-radius: 5px;
+}
+
+#collab_button {
+    position: absolute;
+    bottom: 285px;
+    left: 0px;
+    z-index: 999;
+    border-radius: 5px 5px 0px 0px;
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform-origin: bottom left;
+    background-color: #006297;
+    color: white;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    border: none;
+}
 
 #dropdown_lateral {
     position: relative;
@@ -338,7 +365,6 @@ button:hover {
     left: 40px;
     font-size: 12px;
 }
-
 
 #state_drop_div,
 #vis_drop_div,

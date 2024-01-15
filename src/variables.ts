@@ -91,10 +91,11 @@ const nonstate_context = {
     text: nonstate_text
 }
 
-const top_five_svg = d3.select("#top_five")
+const top_five_svg = d3.select("#collab")
     .append("svg")
     .attr("width", 200 + "px")
-    .attr("height", 200 + "px")
+    .attr("height", 130 + "px")
+    .append("g")
 
 
 //---------------------network------------------------------------

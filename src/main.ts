@@ -60,7 +60,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   let south_n_mu_g = d3.groups(south_n_mu_i, d => d.third_party, d => d.mediation_ID)
 
 
-
   // multilateral mediations
   // state + nonstate
   let lateral_group = d3.groups(data, function (d) {
@@ -83,7 +82,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   // let all_multilateral_group = d3.groups(both_multilateral, d => d.third_party, d => d.mediation_ID)
   // let sud_multilateral_group = d3.groups(sudan_multilateral, d => d.third_party, d => d.mediation_ID)
   // let south_multilateral_group = d3.groups(sousudan_multilateral, d => d.third_party, d => d.mediation_ID)
-  // console.log(all_multilateral_group, sud_multilateral_group, south_multilateral_group);
 
   // state
   // individual mediations: [mediationID, locale, etc.]
@@ -96,12 +94,10 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   let sousudan_multilateral_indi_state = both_multilateral.filter(function (d) {
     return d.conflict_locale == "South Sudan" && d.third_party_type == "state"
   })
-  // console.log(sudan_multilateral_indi_state, both_multilateral_indi_state, sousudan_multilateral_indi_state);
   // grouped mediations: [ERITREA (97)]
   let all_just_states = d3.groups(both_multilateral_indi_state, d => d.third_party, d => d.mediation_ID)
   let sud_just_states = d3.groups(sudan_multilateral_indi_state, d => d.third_party, d => d.mediation_ID)
   let sou_sud_just_states = d3.groups(sousudan_multilateral_indi_state, d => d.third_party, d => d.mediation_ID)
-  // console.log(all_just_states, sud_just_states, sou_sud_just_states);
 
   // nonstate 
   // individual mediations: [mediationID, locale, etc.]
@@ -114,17 +110,10 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   let sousudan_non_state = both_multilateral.filter(function (d) {
     return d.conflict_locale == "South Sudan" && d.third_party_type !== "state"
   })
-  // console.log(both_non_state, sudan_non_state, sousudan_non_state);
   // grouped mediations: [UN (128)] 
   let all_non_states = d3.groups(both_non_state, d => d.third_party, d => d.mediation_ID);
   let sudan_non_states = d3.groups(sudan_non_state, d => d.third_party, d => d.mediation_ID);
   let south_non_states = d3.groups(sousudan_non_state, d => d.third_party, d => d.mediation_ID);
-  // console.log(all_non_states, sudan_non_states, south_non_states);
-  // first five nonstate 
-  let all_first_five_nonstate = all_non_states.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
-  let sudan_first_five_nonstate = sudan_non_states.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
-  let south_first_five_nonstate = south_non_states.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
-  //TODO further divide the above to regional,nonstate,global
 
   // unilateral mediations 
   // state + nonstate 
@@ -132,7 +121,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   unilateral.forEach(function (d) {
     d.year = +d.year
   });
-  // console.log(unilateral);
 
   // individual mediations: [mediationID, locale, etc.]
   let both_unilateral = unilateral
@@ -142,12 +130,10 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   let sousudan_unilateral = both_unilateral.filter(function (d) {
     return d.conflict_locale == "South Sudan"
   })
-  // console.log(both_unilateral, sudan_unilateral, sousudan_unilateral);
   // grouped mediations [UN: 128, Kenya: 57]
   let all_med_per_actor_unilateral = d3.groups(both_unilateral, d => d.third_party, d => d.mediation_ID)
   let sud_med_per_actor_unilateral = d3.groups(sudan_unilateral, d => d.third_party, d => d.mediation_ID)
   let sou_sud_med_per_actor_unilateral = d3.groups(sousudan_unilateral, d => d.third_party, d => d.mediation_ID)
-  // console.log(all_med_per_actor_unilateral, sud_med_per_actor_unilateral, sou_sud_med_per_actor_unilateral);
 
   // state
   // individual mediations: [mediationID, locale, etc.]
@@ -164,7 +150,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   let both_unilateral_group = d3.groups(both_unilateral_state, d => d.third_party, d => d.mediation_ID)
   let sudan_unilateral_group = d3.groups(sudan_unilateral_state, d => d.third_party, d => d.mediation_ID)
   let south_unilateral_group = d3.groups(sousudan_unilateral_state, d => d.third_party, d => d.mediation_ID)
-  // console.log(both_unilateral_group, sudan_unilateral_group, south_unilateral_group);
 
   // nonstate
   // individual mediations: [mediationID, locale, etc.]
@@ -181,11 +166,9 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   let both_unilateral_group_nonstate = d3.groups(both_unilateral_nonstate, d => d.third_party, d => d.mediation_ID)
   let sudan_unilateral_group_nonstate = d3.groups(sudan_unilateral_nonstate, d => d.third_party, d => d.mediation_ID)
   let south_unilateral_group_nonstate = d3.groups(south_unilateral_nonstate, d => d.third_party, d => d.mediation_ID)
-  // console.log(both_unilateral_group_nonstate, sudan_unilateral_group_nonstate, south_unilateral_group_nonstate);
 
-
+  // filters
   let counter = 0;
-  ///////////////////////////////// FILTERS /////////////////////////////////
   d3.select("#filter_button").on("click", function () {
     counter += 1;
     if (counter % 2 !== 0) {
@@ -207,8 +190,31 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         .text("Filter")
     }
   })
+  // collaboration filter
+  let counter_collab = 0;
+  d3.select("#collab_button").on("click", function () {
+    counter_collab += 1;
+    if (counter_collab % 2 !== 0) {
+      d3.select("#collab_button")
+        .transition().duration(500)
+        .style("left", 205 + "px")
+        .text("Hide")
+      d3.select("#collab")
+        .transition().duration(500)
+        .style("left", 5 + "px")
+    }
+    else {
+      d3.select("#collab")
+        .transition().duration(500)
+        .style("left", -205 + "px")
+      d3.select("#collab_button")
+        .transition().duration(500)
+        .style("left", 0 + "px")
+        .text("Collaborations")
+    }
+  })
 
-
+  //initial button pressed
   let button_pressed_lateral = "multilateral";
   let button_pressed_state = "state";
   let button_pressed_country = "all";
@@ -449,6 +455,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
     if (selected == "State") {
       button_pressed_state = "state";
+      collaborations(all_non_states)
 
       if (button_pressed_vis == "map") {
         d3.select("#nonstate")
@@ -561,6 +568,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
     else if (selected == "Nonstate") {
       button_pressed_state = "nonstate";
+      collaborations(all_s_mu_g)
 
       if (button_pressed_vis == "map") {
         d3.select("#nonstate")
@@ -1218,35 +1226,31 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     }, "1000");
   })
 
+  // initial functions
+  const collaborations = function (non_state_data) {
+    let five = non_state_data.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
+    let max = five[0][1].length
 
-  /////////////////////////////INITIAL FUNCTIONS/////////////////////////////
-
-  const draw_nonstate = function (non_state_data) {
     let color_scale = d3.scaleLinear()
-      .domain([0, 130])
-      .range(["#2F4F4F", "white"])
+      .domain([0, max])
+      .range([5, 40])
 
-    non_state_data.sort((a, b) => a[1].length - b[1].length)
-    top_five_svg.selectAll("#otherCircles")
-      .data(non_state_data)
+    five.sort((a, b) => a[1].length - b[1].length)
+    top_five_svg.selectAll(".otherCircles")
+      .data(five)
       .join("rect")
       .attr("x", 5)
       .attr("y", function (d, i) {
-        return 200 - (i * 25 + 25)
+        return 130 - (i * 25 + 25)
       })
-      .attr("width", 20)
+      .attr("width", function (d) {
+        return color_scale(d[1].length)
+      })
       .attr("height", 20)
       .attr("rx", 3)
       .style("cursor", "pointer")
-      // .attr("r", function (d) {
-      //   return 10
-      // })
-      // .attr("cy", function (d, i) {
-      //   return 200 - (i * 25 + 15)
-      // })
-      // .attr("cx", 7)
       .style("fill", function (d) {
-        return color_scale(d[1].length)
+        return "white"
       })
       .style("stroke", "black")
       .style("stroke-width", 0.5)
@@ -1273,44 +1277,49 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
 
     top_five_svg.selectAll(".tooltip")
-      .data(non_state_data)
+      .data(five)
       .join("text")
       .attr("text-anchor", "left")
       .attr("dx", function (d) {
-        return "0.7em"
+        return color_scale(d[1].length) - 10;
       })
       .attr("class", "tooltip")
       .attr("x", 23)
       .attr("y", function (d, i) {
-        return 200 - (i * 25 + 10)
+        return 130 - (i * 25 + 10)
       })
       .text(function (d) {
         return d[0] + " (" + d[1].length + ")"
       })
       .style("font-size", 12)
-
   }
+
+  d3.select("#map_button").style("background-color", "#006297")
+  //draw leaflet map
+  draw_map(yrs, all_just_states)
+  //draw bar chart
+  draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state")
+  //draw nonstate 
+  collaborations(all_non_states)
 
   //reset everything
   d3.select(".button1").on("click", function (d) {
-    let LatLngBounds = {
-      "_southWest": {
-        "lat": -54.69852243493596,
-        "lng": -125.06111766484209
-      },
-      "_northEast": {
-        "lat": 75.23980481334586,
-        "lng": 134.9663525730548
-      }
-    }
     counter = 0;
+    counter_collab = 0;
     d3.select("#filters")
       .transition().duration(500)
       .style("left", -250 + "px")
+    d3.select("#collab")
+      .transition().duration(500)
+      .style("left", -200 + "px")
     d3.select("#filter_button")
       .transition().duration(500)
       .style("left", 0 + "px")
       .text("Filter")
+    d3.select("#collab_button")
+      .transition().duration(500)
+      .style("left", 0 + "px")
+      .text("Collaborations")
     button_pressed_lateral = "multilateral";
     button_pressed_state = "state";
     button_pressed_country = "all";
@@ -1327,16 +1336,4 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .transition().duration(1000)
       .style("right", - complete_width + "px")
   })
-
-  d3.select("#map_button").style("background-color", "#006297")
-  //draw leaflet map
-  draw_map(yrs, all_just_states)
-  //draw bar chart
-  draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state")
-  //draw nonstate 
-  draw_nonstate(all_first_five_nonstate)
-
-  console.log(map.getBounds());
-
-
 })

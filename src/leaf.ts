@@ -45,8 +45,6 @@ let geojson = L.geoJSON(false).addTo(map)
 
 //draw map function
 const draw_map = function (years, data) {
-    console.log(data);
-
     // restrict data to passed years
     let year_restriction = [];
     data.forEach(function (d) {

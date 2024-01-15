@@ -2,9 +2,7 @@ import * as d3 from "d3";
 import 'leaflet/dist/leaflet.css';
 import './css/style.css'
 import {
-    complete_width, simulation, nonstate_simulation, nonstate_zoom,
-    nonstate_context, non_ticked, context_data, context_data_south,
-    nonstate_svg, net_height, top_five_svg
+    nonstate_simulation, nonstate_context, non_ticked, 
 } from "./variables"
 
 let circle_scale = d3.scaleLinear()
@@ -12,8 +10,6 @@ let circle_scale = d3.scaleLinear()
     .domain([1, 130])
 
 const nonstate_draw = function (data, years) {
-    console.log(data,years);
-    
     // restrict to the passed years
     let restrict_by_years = data.filter(function (d) {
         if (d.year >= years[0] && d.year <= years[1]) { return d }

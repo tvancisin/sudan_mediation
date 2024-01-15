@@ -7,7 +7,7 @@ import {
 } from "./variables"
 import { draw_bars } from './bar_chart';
 import { nonstate_draw } from "./nonstate";
-import { draw_map } from './leaf';
+import { map, draw_map } from './leaf';
 import { update_net } from './network';
 import { data_sort } from './sort_data';
 // years for brushing
@@ -121,9 +121,9 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   let south_non_states = d3.groups(sousudan_non_state, d => d.third_party, d => d.mediation_ID);
   // console.log(all_non_states, sudan_non_states, south_non_states);
   // first five nonstate 
-  // let all_first_five_nonstate = all_non_states.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
-  // let sudan_first_five_nonstate = sudan_non_states.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
-  // let south_first_five_nonstate = south_non_states.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
+  let all_first_five_nonstate = all_non_states.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
+  let sudan_first_five_nonstate = sudan_non_states.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
+  let south_first_five_nonstate = south_non_states.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
   //TODO further divide the above to regional,nonstate,global
 
   // unilateral mediations 
@@ -1099,9 +1099,9 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       draw_bars(south_n_mu_i, context_data, "small", south_n_mu_g, "net")
     }
 
-    d3.select("#bar")
-      .transition().delay(1000)
-      .style("background", "none")
+    // d3.select("#bar")
+    //   .transition().delay(1000)
+    //   .style("background", "none")
     d3.select("#net")
       .transition().duration(1000)
       .style("right", - 0 + "px")
@@ -1268,7 +1268,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         })
         let the_partners = d3.groups(partners, d => d.third_party, d => d.mediation_ID)
         draw_map(yrs, the_partners)
-        draw_bars(partners, context_data_south, "small", all_just_states)
+        draw_bars(partners, context_data, "small", all_just_states, "state")
       })
 
 
@@ -1291,13 +1291,52 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
   }
 
+  //reset everything
+  d3.select(".button1").on("click", function (d) {
+    let LatLngBounds = {
+      "_southWest": {
+        "lat": -54.69852243493596,
+        "lng": -125.06111766484209
+      },
+      "_northEast": {
+        "lat": 75.23980481334586,
+        "lng": 134.9663525730548
+      }
+    }
+    counter = 0;
+    d3.select("#filters")
+      .transition().duration(500)
+      .style("left", -250 + "px")
+    d3.select("#filter_button")
+      .transition().duration(500)
+      .style("left", 0 + "px")
+      .text("Filter")
+    button_pressed_lateral = "multilateral";
+    button_pressed_state = "state";
+    button_pressed_country = "all";
+    button_pressed_vis = "map";
+    map.flyTo([25, 5], 2.5, { duration: 1 });
+    draw_map(yrs, all_just_states)
+    draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state")
+    d3.selectAll("#net_button, #time_button").style("background-color", "#071832")
+    d3.select("#map_button").style("background-color", "#006297")
+    d3.select("#nonstate")
+      .transition().duration(1000)
+      .style("left", - complete_width + "px")
+    d3.selectAll("#net")
+      .transition().duration(1000)
+      .style("right", - complete_width + "px")
+  })
+
   d3.select("#map_button").style("background-color", "#006297")
   //draw leaflet map
   draw_map(yrs, all_just_states)
   //draw bar chart
   draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state")
   //draw nonstate 
-  // draw_nonstate(all_first_five_nonstate)
+  draw_nonstate(all_first_five_nonstate)
+
+  console.log(map.getBounds());
 
 
 })

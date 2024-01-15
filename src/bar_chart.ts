@@ -20,8 +20,6 @@ let brushing = function (event) {
     let s1 = s0;
     //end of selection triggers redrawing of the map for speed
     if (event.sourceEvent && event.type === 'end') {
-        console.log("here", state);
-
         let year_range = [d3.min(d0), d3.max(d0)]
         if (state == "state") {
             draw_map(year_range, grouped_data)
@@ -65,7 +63,7 @@ let brushing = function (event) {
 
 //brushing dimensions
 let brush = d3.brushX()
-    .handleSize(10)
+    .handleSize(20)
     .extent([[0, 0], [width, 150]])
     .on('start brush end', brushing)
 //array of years selected
@@ -169,7 +167,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
     const unq_groups = unique_years.map(d => (d.group))
     const unq_color = d3.scaleOrdinal()
         .domain(unq_subgroups)
-        .range(["#23832e", "#3ad84c", "#0c2e10", "#2fad3d"])
+        .range(["#331C5C", "#482E74", "#7961A3", "#5F458C"])
 
     //mediations by year data
     // let year_group = d3.groups(bar_data, d => d.year)
@@ -212,7 +210,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         .keys(unq_subgroups)
         (unique_years)
 
-    console.log(formatted_years, unique_years);
+    // console.log(formatted_years, unique_years);
 
     bar_svg.selectAll(".myXaxis").transition().duration(1000)
         .call(bar_x_axis)
@@ -221,7 +219,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         .attr("transform", "translate(0,-5)")
         .style("fill", "white")
         .style("text-anchor", "middle")
-        .style("font-size", "10px")
+        .style("font-size", "13px")
         .style("font-family", "Montserrat");
 
     bar_svg.selectAll(".myYaxis").transition().duration(1000)
@@ -308,21 +306,28 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
                 })
                 .attr("height", 0)
                 .attr("width", bar_x.bandwidth())
+                .transition().duration(500)
+                .attr("y", d => bar_y(d[1]))
+                .attr("height", d => bar_y(d[0]) - bar_y(d[1]))
             ,
             null,
             exit => {
                 exit
                     .transition()
                     .duration(500)
-                    .style("fill-opacity", 0)
+                    .attr("y", () => {
+                        return bar_y(0);
+                    })
+                    .attr("height", 0)
+                    // .style("fill-opacity", 0)
                     .remove();
             }
         )
-        .transition()
-        .attr("x", d => bar_x(d.data.group))
-        .attr("y", d => bar_y(d[1]))
-        .attr("width", bar_x.bandwidth())
-        .attr("height", d => bar_y(d[0]) - bar_y(d[1]))
+    // .transition()
+    // .attr("x", d => bar_x(d.data.group))
+    // .attr("y", d => bar_y(d[1]))
+    // .attr("width", bar_x.bandwidth())
+    // .attr("height", d => bar_y(d[0]) - bar_y(d[1]))
 
 
     unq_bars
@@ -332,7 +337,6 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
             enter => enter
                 .append("g")
                 .attr("fill", function (x) {
-                    console.log(x);
                     return unq_color(x.key)
                 }),
             null, // no update function

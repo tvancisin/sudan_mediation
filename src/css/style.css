@@ -130,13 +130,34 @@ text {
     bottom: 0px;
     left: 0px;
     z-index: 900;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.8);
     box-shadow: 0px 0px 2px 0px #000000;
     border-radius: 3px;
 }
 
 button:hover {
     background-color: #04AA6D;
+    color: white;
+}
+
+.button1 {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #04AA6D ;
+    border: none;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 2px;
+    display: inline-block;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.button1:hover {
+    background-color: red;
     color: white;
 }
 

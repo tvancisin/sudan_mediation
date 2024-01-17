@@ -7,7 +7,6 @@ body {
 #header {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.5);
-    /* background-color: #061731; */
     height: 45px;
     top: 0px;
     left: 0px;
@@ -56,19 +55,6 @@ img {
     top: 44px;
     right: 5px;
     z-index: 998;
-}
-
-.top_b {
-    font-family: 'Montserrat';
-    color: white;
-    background-color: #0e356f;
-    padding: 5px 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 2px;
-    cursor: pointer;
-    border: none;
 }
 
 #net {
@@ -129,7 +115,7 @@ text {
     position: absolute;
     bottom: 0px;
     left: 0px;
-    z-index: 900;
+    z-index: 920;
     background: rgba(0, 0, 0, 0.8);
     box-shadow: 0px 0px 2px 0px #000000;
     border-radius: 3px;
@@ -254,7 +240,7 @@ button:hover {
     height: 130px;
     left: -205px;
     background-color: #051429;
-    z-index: 999;
+    z-index: 910;
     border-radius: 5px;
 }
 
@@ -262,7 +248,7 @@ button:hover {
     position: absolute;
     bottom: 285px;
     left: 0px;
-    z-index: 999;
+    z-index: 910;
     border-radius: 5px 5px 0px 0px;
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
@@ -337,17 +323,10 @@ button:hover {
     font-family: 'Montserrat';
     font-size: 14px;
     z-index: 999;
-    /* font-weight: bold; */
-}
-
-#partners {
-    z-index: 900;
-    position: absolute;
-    bottom: 160px;
 }
 
 #title1 {
-    z-index: 900;
+    z-index: 990;
     margin: 0px;
     color: white;
     position: absolute;
@@ -358,7 +337,7 @@ button:hover {
 
 #title2 {
     margin: 2px;
-    z-index: 900;
+    z-index: 990;
     color: white;
     position: absolute;
     bottom: 5px;

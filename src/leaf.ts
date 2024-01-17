@@ -123,8 +123,7 @@ const draw_map = function (years, data) {
     }
     //zoom to country
     function zoomToFeature(e) {
-
-        map.flyToBounds(e.target.getBounds(), { duration: 0.5 });
+        map.flyToBounds(e.target.getBounds(), { duration: 0.5, padding: [100, 100] });
         // map.fitBounds(e.target.getBounds());
         let country = e.target.feature.properties.ADMIN
         let country_in_array = data.find(function (d) {
@@ -138,9 +137,7 @@ const draw_map = function (years, data) {
                 ungroupped.push(x)
             })
         })
-        console.log(ungroupped);
-        draw_bars(ungroupped, context_data, "small", data, "state")
-
+        draw_bars(ungroupped, context_data, "small", data, "bar")
     }
 
     //set highlight and zoom functions for each polygon 

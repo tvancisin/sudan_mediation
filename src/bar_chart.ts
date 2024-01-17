@@ -1,7 +1,7 @@
 import {
     net_height, complete_height, margin, bar_svg, bar_x,
     bar_x_axis, bar_y, bar_y_axis, width, bar_line, y_mirror,
-    bar_y_mirror, triangle, snappedSelection, complete_width
+    bar_y_mirror, triangle, snappedSelection, 
 } from "./variables";
 import * as d3 from "d3";
 import { draw_map } from './leaf';
@@ -43,21 +43,21 @@ let brushing = function (event) {
             return `translate(${x}, 0)`;
         });
     //update labels
-    d3.selectAll('g.handles').selectAll('text')
-        .attr('dx', d0.length > 1 ? 0 : 6)
-        .text((d, i) => {
-            let year;
-            if (d0.length > 1) {
-                year = d == 'handle--o' ? d3.min(d0) : d3.max(d0);
-            } else {
-                year = d == 'handle--o' ? d3.min(d0) : '';
-            }
-            return year;
-        })
+    // d3.selectAll('g.handles').selectAll('text')
+    //     .attr('dx', d0.length > 1 ? 0 : 6)
+    //     .text((d, i) => {
+    //         let year;
+    //         if (d0.length > 1) {
+    //             year = d == 'handle--o' ? d3.min(d0) : d3.max(d0);
+    //         } else {
+    //             year = d == 'handle--o' ? d3.min(d0) : '';
+    //         }
+    //         return year;
+    //     })
     //update bars
-    d3.selectAll('.my_top_bar, .mirrorbar')
+    d3.selectAll('.top_bar, .bottom_bar')
         .attr('opacity', function (d) {
-            return d0.includes(d[0]) ? 1 : 0.3;
+            return d0.includes(d.data.group) ? 1 : 0.3;
         })
 }
 
@@ -75,9 +75,8 @@ let filteredDomain = function (scale, min, max) {
     return scale.domain().slice(iMin, iMax)
 }
 const gBrush = bar_svg.append('g').attr("class", "brush");
-
-var bars = bar_svg.append("g").attr("class", "bars");
-var unq_bars = bar_svg.append("g").attr("class", "unq_bars");
+let bars = bar_svg.append("g").attr("class", "bars");
+let unq_bars = bar_svg.append("g").attr("class", "unq_bars");
 
 //bar chart
 function draw_bars(bar_data, context_data, size, map_data, current_state) {
@@ -129,7 +128,6 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         .domain(subgroups)
         .range(['gray', 'white'])
 
-
     //unique actors data formatting
     let multigroup = d3.groups(bar_data, d => d.year, d => d.third_party)
     let unique_years = [];
@@ -167,7 +165,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
     const unq_groups = unique_years.map(d => (d.group))
     const unq_color = d3.scaleOrdinal()
         .domain(unq_subgroups)
-        .range(["#331C5C", "#482E74", "#7961A3", "#5F458C"])
+        .range(["#dd1e37", "#ab4298", "#ffe241", "#0091ba"])
 
     //mediations by year data
     // let year_group = d3.groups(bar_data, d => d.year)
@@ -201,7 +199,14 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
     // bar_x.domain(d3.map(year_group, function (d) {
     //     return d[0]
     // }))
-    bar_x.domain(groups)
+    
+    let bla = [1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
+    1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
+    2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
+    2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+
+    bar_x.domain(bla)
+
     const stackedData = d3.stack()
         .keys(subgroups)
         (formatted_years)
@@ -217,9 +222,10 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         .attr("transform", `translate(0, ${bar_h})`)
         .selectAll("text")
         .attr("transform", "translate(0,-5)")
-        .style("fill", "white")
+        .style("fill", "gray")
         .style("text-anchor", "middle")
-        .style("font-size", "13px")
+        .style("font-size", "10px")
+        .style("font-weight", "bold")
         .style("font-family", "Montserrat");
 
     bar_svg.selectAll(".myYaxis").transition().duration(1000)
@@ -288,8 +294,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
             null, // no update function
             exit => {
                 exit
-                    .transition()
-                    .duration(500)
+                    .transition().duration(500)
                     .style("fill-opacity", 0)
                     .remove();
             }
@@ -298,7 +303,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         .join(
             enter => enter
                 .append("rect")
-                .attr("class", "bar")
+                .attr("class", "top_bar")
                 .attr("rx", 2)
                 .attr("x", d => bar_x(d.data.group))
                 .attr("y", () => {
@@ -313,13 +318,8 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
             null,
             exit => {
                 exit
-                    .transition()
-                    .duration(500)
-                    .attr("y", () => {
-                        return bar_y(0);
-                    })
-                    .attr("height", 0)
-                    // .style("fill-opacity", 0)
+                    .transition().duration(500)
+                    .style("fill-opacity", 0)
                     .remove();
             }
         )
@@ -352,13 +352,17 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         .join(
             enter => enter
                 .append("rect")
-                .attr("class", "bar")
+                .attr("class", "bottom_bar")
                 .attr("rx", 2)
                 .attr("x", d => bar_x(d.data.group))
                 .attr("y", bar_h + 16)
                 .attr("height", 0)
                 .attr("width", bar_x.bandwidth())
-                .selection(),
+                .transition().duration(500)
+                .attr("y", function (d) {
+                    return y_mirror(d[1]) - (bar_y(d[0]) - bar_y(d[1]))
+                })
+                .attr("height", d => bar_y(d[0]) - bar_y(d[1])),
             null,
             exit => {
                 exit
@@ -368,22 +372,12 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
                     .remove();
             }
         )
-        .transition()
-        .attr("x", d => bar_x(d.data.group))
-        .attr("width", bar_x.bandwidth())
-        .attr("y", function (d) {
-            return y_mirror(d[1]) - (bar_y(d[0]) - bar_y(d[1]))
-            // return bar_y(d[1])
-        })
-        .attr("height", 1)
-        .attr("height", d => bar_y(d[0]) - bar_y(d[1]))
-
-
-    // .attr("y", d => y_mirror(d[1]))
-    // .attr("height", function (d) {
-    //     return bar_h - y_mirror(d[1])
+    // .transition()
+    // .attr("width", bar_x.bandwidth())
+    // .attr("y", function (d) {
+    //     return y_mirror(d[1]) - (bar_y(d[0]) - bar_y(d[1]))
     // })
-
+    // .attr("height", d => bar_y(d[0]) - bar_y(d[1]))
 
     //update bottom bars
     // bar_svg.selectAll(".mirrorbar")
@@ -536,14 +530,13 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         .data(d => [d])
         .join('path')
         .attr('class', d => `triangle ${d}`)
-        // .attr("fill", "red")
         .attr("fill", "#fed800")
         .attr("stroke", "black")
         .attr('d', triangle)
         .attr('transform', d => {
             const x = d == 'handle--o' ? -6 : 6,
                 rot = d == 'handle--o' ? -90 : 90;
-            return `translate(${x}, ${full_bar_h / 2}) rotate(${rot})`;
+            return `translate(${x}, ${full_bar_h / 1.3}) rotate(${rot})`;
         });
     //Visible Line
     gHandles.selectAll('.line')
@@ -554,7 +547,8 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         .attr('y1', 0)
         .attr('x2', 0)
         .attr('y2', full_bar_h + 4)
-        .attr('stroke', "red");
+        .attr('stroke', "#fed800")
+        .attr('stroke-width', "1.3")
     //set brusing rectangle to lower opacity and remove line
     d3.selectAll(".selection")
         .attr("stroke", "none")

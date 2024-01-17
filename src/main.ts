@@ -5,6 +5,7 @@ import {
   complete_width, simulation, context_data,
   net_height, top_five_svg, context_data_south
 } from "./variables"
+import { collaborations } from "./collaborations";
 import { draw_bars } from './bar_chart';
 import { nonstate_draw } from "./nonstate";
 import { map, draw_map } from './leaf';
@@ -996,9 +997,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(south_n_mu_i, context_data_south, "small", south_n_mu_g, "nonstate")
       }
     }
-    d3.select("#bar")
-      .transition().delay(1000)
-      .style("background", "rgba(0, 0, 0, 0.5)")
     d3.selectAll("#net")
       .transition().duration(1000)
       .style("right", - complete_width + "px")
@@ -1107,9 +1105,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       draw_bars(south_n_mu_i, context_data, "small", south_n_mu_g, "net")
     }
 
-    // d3.select("#bar")
-    //   .transition().delay(1000)
-    //   .style("background", "none")
     d3.select("#net")
       .transition().duration(1000)
       .style("right", - 0 + "px")
@@ -1198,9 +1193,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     //   draw_bars(sousudan_multilateral, context_data_south, "big", sou_sud_just_states)
     //   draw_map(yrs, sou_sud_just_states)
     // }
-    //black background
-    d3.select("#bar")
-      .style("background", "rgba(0, 0, 0, 0.8)")
     //move network to the right
     d3.selectAll("#net")
       .transition().duration(1000)
@@ -1226,7 +1218,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     }, "1000");
   })
 
-  // initial functions
   const collaborations = function (non_state_data) {
     let five = non_state_data.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
     let max = five[0][1].length
@@ -1256,23 +1247,59 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .style("stroke-width", 0.5)
       .attr("class", "otherCircles")
       .on("click", function (d) {
+        console.log(button_pressed_vis, button_pressed_state);
+
         let non_state = d.target.__data__;
         let current_igo = non_state[0];
         let mediation_array = [];
         non_state[1].forEach(function (d) {
           mediation_array.push(d[0])
         })
+
         let partners = []
-        data.forEach(function (d) {
-          if (mediation_array.includes(d.mediation_ID)
-            && d.third_party !== current_igo
-            && d.third_party_type == "state") {
-            partners.push(d)
-          }
-        })
-        let the_partners = d3.groups(partners, d => d.third_party, d => d.mediation_ID)
-        draw_map(yrs, the_partners)
-        draw_bars(partners, context_data, "small", all_just_states, "state")
+        if (button_pressed_vis == "map" && button_pressed_state == "state") {
+          data.forEach(function (d) {
+            if (mediation_array.includes(d.mediation_ID)
+              && d.third_party !== current_igo
+              && d.third_party_type == "state") {
+              partners.push(d)
+            }
+          })
+          let the_partners = d3.groups(partners, d => d.third_party, d => d.mediation_ID)
+          draw_map(yrs, the_partners)
+          draw_bars(partners, context_data, "small", all_just_states, "state")
+        }
+        else if (button_pressed_vis == "map" && button_pressed_state == "nonstate") {
+          data.forEach(function (d) {
+            if (mediation_array.includes(d.mediation_ID)
+              && d.third_party !== current_igo
+              && d.third_party_type != "state") {
+              partners.push(d)
+            }
+          })
+          nonstate_draw(partners, yrs)
+          draw_bars(partners, context_data, "small", all_just_states, "nonstate")
+        }
+
+        else if (button_pressed_vis == "net" && button_pressed_state == "state") {
+          data.forEach(function (d) {
+            if ((mediation_array.includes(d.mediation_ID)) && (d.third_party == current_igo || d.third_party_type == "state")) {
+              partners.push(d)
+            }
+          })
+          data_sort(partners, yrs)
+          draw_bars(partners, context_data, "small", all_just_states, "net")
+        }
+
+        else if (button_pressed_vis == "net" && button_pressed_state == "nonstate") {
+          data.forEach(function (d) {
+            if ((mediation_array.includes(d.mediation_ID)) && (d.third_party == current_igo || d.third_party_type !== "state")) {
+              partners.push(d)
+            }
+          })
+          data_sort(partners, yrs)
+          draw_bars(partners, context_data, "small", all_just_states, "net")
+        }
       })
 
 

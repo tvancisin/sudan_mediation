@@ -269,6 +269,7 @@ svgLegend.append("text")
     .attr("x", 0)
     .attr("y", 20)
     .style("text-anchor", "left")
+    .style("font-size", "10px")
     .text("Mediation Involvement");
 // draw the rectangle and fill with gradient
 svgLegend.append("rect")
@@ -286,7 +287,7 @@ let axisLeg = d3.axisBottom(xLeg)
 svgLegend
     .attr("class", "axis")
     .append("g")
-    .attr("transform", "translate(0, 40)")
+    .attr("transform", "translate(-1, 40)")
     .style("text-anchor", "end")
     .call(axisLeg);
 

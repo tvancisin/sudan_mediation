@@ -5,10 +5,9 @@ import {
   complete_width, simulation, context_data,
   net_height, top_five_svg, context_data_south
 } from "./variables"
-import { collaborations } from "./collaborations";
 import { draw_bars } from './bar_chart';
 import { nonstate_draw } from "./nonstate";
-import { map, draw_map } from './leaf';
+import { map, draw_map, init_map } from './leaf';
 import { update_net } from './network';
 import { data_sort } from './sort_data';
 // years for brushing
@@ -211,7 +210,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       d3.select("#collab_button")
         .transition().duration(500)
         .style("left", 0 + "px")
-        .text("Collaborations")
+        .text("Mediating with")
     }
   })
 
@@ -567,7 +566,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
     }
 
-    else if (selected == "Nonstate") {
+    else if (selected == "Organizations") {
       button_pressed_state = "nonstate";
       collaborations(all_s_mu_g)
 
@@ -1322,8 +1321,12 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   }
 
   d3.select("#map_button").style("background-color", "#006297")
+
   //draw leaflet map
-  draw_map(yrs, all_just_states)
+  init_map(function () {
+    draw_map(yrs, all_just_states)
+  })
+
   //draw bar chart
   draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state")
   //draw nonstate 

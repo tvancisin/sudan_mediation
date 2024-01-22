@@ -1,6 +1,7 @@
 body {
     font-family: 'Montserrat';
-    background-color: black;
+    /* background-color: black; */
+    background-color: #1f1f1f;
     overflow: hidden;
 }
 
@@ -81,7 +82,8 @@ text {
     stroke-linejoin: miter;
 }
 
-.nodename, .network_nodename {
+.nodename,
+.network_nodename {
     fill: black;
     font-weight: bolder;
     font-size: 10px;
@@ -130,7 +132,7 @@ button:hover {
     position: absolute;
     top: 5px;
     right: 5px;
-    background-color: #04AA6D ;
+    background-color: #04AA6D;
     border: none;
     color: white;
     padding: 5px 20px;
@@ -233,7 +235,7 @@ button:hover {
     border: none;
 }
 
-#collab{
+#collab {
     position: absolute;
     bottom: 155px;
     width: 200px;
@@ -437,4 +439,20 @@ h4 {
     z-index: 850;
     bottom: 150px;
     left: 5px;
+}
+
+#popup {
+    position: absolute;
+    font-size: 14px;
+    z-index: 999;
+    background-color: rgb(0, 98, 151);
+    width: 120px;
+    height: 50px;
+    color: white;
+    border-radius: 3px;
+    padding: 0.8em;
+    border: 1px solid white;
+    margin: auto;
+    display: none;
+
 }

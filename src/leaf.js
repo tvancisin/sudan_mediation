@@ -56,9 +56,21 @@ const map = new mapboxgl.Map({
     projection: 'naturalEarth'
 });
 
+const load_geo_data = async () => {
+    return new Promise((resolve) => {
+        setInterval(()=> {
+            if (geo_data != null) {
+                resolve();
+            }
+        }, 500)
+    })
+}
+
 function init_map(callback) {
 
-    map.on('load', () => {
+    map.on('load', async () => {
+
+        load_geo_data().then(() => {
         // const layers = map.getStyle().layers;
         // // Find the index of the first symbol layer in the map style.
         // let firstSymbolId;
@@ -108,6 +120,8 @@ function init_map(callback) {
             }
         });
         callback()
+
+        });
     });
 }
 

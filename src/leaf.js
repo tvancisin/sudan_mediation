@@ -74,9 +74,19 @@ const load_geo_data = async () => {
     })
 }
 
+const on_map_load = (the_map, callback) => {
+    if (the_map.loaded()) {
+        callback()
+    } else {
+        the_map.on('load', callback);
+    }
+}
+
+
 function init_map(callback) {
 
-    map.on('load', async () => {
+    on_map_load(map, () => {
+        console.log('..')
 
         load_geo_data().then(() => {
         // const layers = map.getStyle().layers;

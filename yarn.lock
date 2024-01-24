@@ -1404,7 +1404,7 @@
     "@turf/meta" "^7.0.0-alpha.111+08576cb50"
     tslib "^2.6.2"
 
-"@turf/turf@^7.0.0":
+"@turf/turf@^7.0.0-alpha.111":
   version "7.0.0-alpha.111"
   resolved "https://registry.yarnpkg.com/@turf/turf/-/turf-7.0.0-alpha.111.tgz#80976e97a3b61d95d49c6d367335a039a195daa7"
   integrity sha512-ZiL8UTa1/LdxSYqjvYhROQbJBdTDxOe1lIEHiUnJ42h0keGcm6l35BVJPjv7MXkbJxV4DhlqgVfEG7yNgVw8sw==
@@ -3125,7 +3125,7 @@ turf-jsts@^1.2.3:
   resolved "https://registry.yarnpkg.com/turf-jsts/-/turf-jsts-1.2.3.tgz#59757f542afbff9a577bbf411f183b8f48d38aa4"
   integrity sha512-Ja03QIJlPuHt4IQ2FfGex4F4JAr8m3jpaHbFbQrgwr7s7L6U8ocrHiF3J1+wf9jzhGKxvDeaCAnGDot8OjGFyA==
 
-turf@^7.0.0:
+turf@^7.0.0-alpha.1:
   version "7.0.0-alpha.1"
   resolved "https://registry.yarnpkg.com/turf/-/turf-7.0.0-alpha.1.tgz#4f4948b96a4e7e25454c195df221b719c1595f77"
   integrity sha512-qK/btD7Q9E7Ia913idActYmMM7W5ahFIGRyE/HSco68dMMIjmrw3dHlMydOESdUIXyYjgUHlgeYC2YMY7YumSQ==

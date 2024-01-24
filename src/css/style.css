@@ -202,15 +202,30 @@ button:hover {
     filter: invert(99%) hue-rotate(170deg) brightness(95%) contrast(100%);
 }
 
+#collab {
+    position: absolute;
+    color: white;
+    bottom: 160px;
+    width: 200px;
+    height: 170px;
+    left: 5px;
+    background-color: black;
+    opacity: 0.7;
+    z-index: 910;
+    border-radius: 5px;
+    box-shadow: 0 0px 0px 0 rgb(255 255 255 / 10%), 0 0px 5px 0 rgba(255, 255, 255, 0.2);
+}
+
 #filters {
     position: absolute;
     top: 50px;
-    width: 250px;
+    width: 200px;
     height: 270px;
     left: -300px;
-    background-color: #051429;
+    background-color: black;
     z-index: 999;
     border-radius: 5px;
+    box-shadow: 0 0px 0px 0 rgb(255 255 255 / 10%), 0 0px 5px 0 rgba(255, 255, 255, 0.2);
 }
 
 #filter_button {
@@ -235,44 +250,11 @@ button:hover {
     border: none;
 }
 
-#collab {
-    position: absolute;
-    bottom: 155px;
-    width: 200px;
-    height: 130px;
-    left: -205px;
-    background-color: #051429;
-    z-index: 910;
-    border-radius: 5px;
-}
-
-#collab_button {
-    position: absolute;
-    bottom: 285px;
-    left: 0px;
-    z-index: 910;
-    border-radius: 5px 5px 0px 0px;
-    -moz-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    transform-origin: bottom left;
-    background-color: #006297;
-    color: white;
-    padding: 5px 15px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 2px;
-    cursor: pointer;
-    border: none;
-}
-
 #dropdown_lateral {
     position: relative;
     padding: 3px;
     height: 35px;
-    width: 215px;
+    width: 170px;
     color: white;
     background: rgb(54, 54, 54);
     border: none;
@@ -287,7 +269,7 @@ button:hover {
     position: relative;
     padding: 3px;
     height: 35px;
-    width: 215px;
+    width: 170px;
     color: white;
     background: rgb(54, 54, 54);
     border: none;
@@ -302,7 +284,7 @@ button:hover {
     position: relative;
     padding: 3px;
     height: 35px;
-    width: 215px;
+    width: 170px;
     color: white;
     background: rgb(54, 54, 54);
     border: none;
@@ -434,25 +416,84 @@ h4 {
     border: none;
 }
 
-#top_five {
-    position: absolute;
-    z-index: 850;
-    bottom: 150px;
-    left: 5px;
-}
-
 #popup {
     position: absolute;
     font-size: 14px;
     z-index: 999;
-    background-color: rgb(0, 98, 151);
+    background-color: black;
     width: 120px;
     height: 50px;
     color: white;
     border-radius: 3px;
     padding: 0.8em;
-    border: 1px solid white;
+    border: none;
+    box-shadow: 0 0px 0px 0 rgb(255 255 255 / 10%), 0 0px 5px 0 rgba(255, 255, 255, 0.2);
     margin: auto;
     display: none;
+    opacity: 0.8;
+}
 
+#country {
+    color: white;
+    background-color: #000000;
+    opacity: 0.9;
+    border-radius: 3px;
+    position: absolute;
+    right: -355px;
+    width: 350px;
+    top: 50px;
+    z-index: 999;
+}
+
+#country_title {
+    text-align: center;
+}
+
+#country_content {
+    position: relative;
+    padding: 0.5em;
+}
+
+#the_content {
+    overflow-y: scroll;
+    padding: 0.5em;
+    background-color: rgb(34, 34, 34);
+}
+
+#the_content::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+#the_content::-webkit-scrollbar-track {
+    background: #515151;
+}
+
+/* Handle */
+#the_content::-webkit-scrollbar-thumb {
+    background: white;
+}
+
+/* Handle on hover */
+#the_content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+pre {
+    padding: 2px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    font-family: "Montserrat";
+    font-size: 12px;
+}
+
+pre:not(:first-child) {
+    padding-top: 0.5em;
+    border-top: 1px solid rgb(255, 255, 255);
 }

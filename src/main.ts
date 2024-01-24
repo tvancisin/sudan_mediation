@@ -174,7 +174,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     if (counter % 2 !== 0) {
       d3.select("#filter_button")
         .transition().duration(500)
-        .style("left", 255 + "px")
+        .style("left", 205 + "px")
         .text("Hide")
       d3.select("#filters")
         .transition().duration(500)
@@ -183,7 +183,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     else {
       d3.select("#filters")
         .transition().duration(500)
-        .style("left", -250 + "px")
+        .style("left", -205 + "px")
       d3.select("#filter_button")
         .transition().duration(500)
         .style("left", 0 + "px")
@@ -1229,7 +1229,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     top_five_svg.selectAll(".otherCircles")
       .data(five)
       .join("rect")
-      .attr("x", 5)
+      .attr("x", 15)
       .attr("y", function (d, i) {
         return 130 - (i * 25 + 25)
       })
@@ -1246,8 +1246,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .style("stroke-width", 0.5)
       .attr("class", "otherCircles")
       .on("click", function (d) {
-        console.log(button_pressed_vis, button_pressed_state);
-
         let non_state = d.target.__data__;
         let current_igo = non_state[0];
         let mediation_array = [];
@@ -1255,6 +1253,8 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
           mediation_array.push(d[0])
         })
 
+        console.log(non_state, current_igo, mediation_array);
+        
         let partners = []
         if (button_pressed_vis == "map" && button_pressed_state == "state") {
           data.forEach(function (d) {
@@ -1301,7 +1301,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         }
       })
 
-
     top_five_svg.selectAll(".tooltip")
       .data(five)
       .join("text")
@@ -1310,12 +1309,19 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         return color_scale(d[1].length) - 10;
       })
       .attr("class", "tooltip")
-      .attr("x", 23)
+      .attr("x", 30)
       .attr("y", function (d, i) {
         return 130 - (i * 25 + 10)
       })
       .text(function (d) {
-        return d[0] + " (" + d[1].length + ")"
+        let country;
+        if (d[0] == "United States of America") {
+          country = "USA"
+        }
+        else {
+          country = d[0]
+        }
+        return country + " (" + d[1].length + ")"
       })
       .style("font-size", 12)
   }
@@ -1339,23 +1345,31 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     d3.select("#filters")
       .transition().duration(500)
       .style("left", -250 + "px")
-    d3.select("#collab")
-      .transition().duration(500)
-      .style("left", -200 + "px")
     d3.select("#filter_button")
       .transition().duration(500)
       .style("left", 0 + "px")
       .text("Filter")
-    d3.select("#collab_button")
-      .transition().duration(500)
-      .style("left", 0 + "px")
-      .text("Collaborations")
+    d3.select("#country").transition().duration(500)
+      .style("right", -355 + "px")
+    d3.select("#title1")
+      .transition().duration(1000)
+      .style("font-size", 12 + "px")
+      .style("bottom", 125 + "px")
+    d3.select("#title2")
+      .transition().duration(1000)
+      .style("font-size", 12 + "px")
+      .style("bottom", 5 + "px")
     button_pressed_lateral = "multilateral";
     button_pressed_state = "state";
     button_pressed_country = "all";
     button_pressed_vis = "map";
-    map.flyTo([25, 5], 2.5, { duration: 1 });
-    draw_map(yrs, all_just_states)
+    // map.flyTo([25, 5], 2.5, { duration: 1 });
+    map.flyTo({
+      center: [10, 9],
+      zoom: 1.6,
+      essential: true // this animation is considered essential with respect to prefers-reduced-motion
+    });
+    draw_map(yrs, all_just_states, data)
     draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state")
     d3.selectAll("#net_button, #time_button").style("background-color", "#071832")
     d3.select("#map_button").style("background-color", "#006297")

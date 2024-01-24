@@ -222,9 +222,9 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         .attr("transform", `translate(0, ${bar_h})`)
         .selectAll("text")
         .attr("transform", "translate(0,-5)")
-        .style("fill", "gray")
+        .style("fill", "white")
         .style("text-anchor", "middle")
-        .style("font-size", "10px")
+        .style("font-size", "12px")
         .style("font-weight", "bold")
         .style("font-family", "Montserrat");
 

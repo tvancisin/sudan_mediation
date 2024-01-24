@@ -29,7 +29,7 @@
 
   <div id="filters">
     <div id="nonstate_drop_div">
-      <h4>Uni/Multilateral Mediations</h4>
+      <h4>Mediations</h4>
       <select id="dropdown_lateral">
         <option>All</option>
         <option>Unilateral</option>
@@ -37,7 +37,7 @@
       </select>
     </div>
     <div id="state_drop_div">
-      <h4>State/Nonstate Actors</h4>
+      <h4>Actors</h4>
       <select id="dropdown_state">
         <!-- <option>Both</option> -->
         <option selected="selected">State</option>
@@ -45,7 +45,7 @@
       </select>
     </div>
     <div id="conflict_drop_div">
-      <h4>Conflict Locale</h4>
+      <h4>Locale</h4>
       <select id="dropdown_country">
         <option selected="selected">All</option>
         <option>Sudan</option>
@@ -54,12 +54,13 @@
     </div>
   </div>
 
-  <button id="collab_button">Mediating with</button>
-  <div id="collab"></div>
-
-  <div id="map">
-    <div id="gradient"></div>
+  <div id="collab">
+    <p style="margin-top: 10px; margin-bottom: 5px; margin-left: 15px; font-weight: bold; font-size: 14px;">Click to see
+      partners of:</p>
   </div>
+
+  <div id="gradient"></div>
+  <div id="map"></div>
 
   <div id="net">
     <div id="net-legend" class="legend">
@@ -90,7 +91,17 @@
       <div id="non_gov_org"><span style="background-color: #ab4298"></span>Nongovernmental</div>
     </div>
   </div>
+
   <div id="popup"></div>
+
+  <div id="country">
+    <h3 id="country_title" style="margin-top: 10px; margin-bottom: 10px;"></h3>
+    <div id="country_content">
+      <h5 id="med_num" style="margin: 5px;"></h5>
+      <h5 id="med_title" style="margin: 5px;">Mediation Events:</h5>
+      <div id="the_content"></div>
+    </div>
+  </div>
 </body>
 
 </html>

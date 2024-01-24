@@ -4,9 +4,9 @@ import 'leaflet/dist/leaflet.css';
 import { draw_bars } from "./bar_chart";
 import { context_data } from "./variables";
 import mapboxgl from 'mapbox-gl';
-// import * as turf from '@turf/turf';
+import * as turf from '@turf/turf'
 
-// //-------------------------leaflet---------------------------------
+// //-------------------------leaflet
 // //append leaflet map to div
 // let map = L.map('map', {
 //     maxZoom: 6,
@@ -43,17 +43,21 @@ import mapboxgl from 'mapbox-gl';
 // //empty geoJSON
 // let geojson = L.geoJSON(false).addTo(map)
 
+// --------------- mapbox
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2FzaGFnYXJpYmFsZHkiLCJhIjoiY2xyajRlczBlMDhqMTJpcXF3dHJhdTVsNyJ9.P_6mX_qbcbxLDS1o_SxpFg';
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v11',
-    center: [10, 10],
-    zoom: 1.5,
+    center: [10, 9],
+    zoom: 1.6,
+    maxZoom: 5,
     attributionControl: false,
     projection: 'naturalEarth'
 });
 
 function init_map(callback) {
+
     map.on('load', () => {
         // const layers = map.getStyle().layers;
         // // Find the index of the first symbol layer in the map style.
@@ -64,13 +68,11 @@ function init_map(callback) {
         //         break;
         //     }
         // }
-
         map.addSource('states', {
             'type': 'geojson',
             'data': geo_data,
             'generateId': true //This ensures that all features have unique IDs
         });
-
         map.addLayer({
             'id': 'state-fills',
             'type': 'fill',
@@ -88,43 +90,46 @@ function init_map(callback) {
                     ],
             }
         },
-        // firstSymbolId
-
-        )
+            // firstSymbolId
+        );
+        map.addLayer({
+            'id': 'outline',
+            'type': 'line',
+            'source': 'states',
+            'layout': {},
+            'paint': {
+                'line-color': 'black',
+                'line-width': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    2,
+                    0
+                ],
+            }
+        });
         callback()
     });
 }
 
 let hoveredPolygonId = null;
-const updateLayerFilter = (new_array, rest) => {
-    let color_scale = d3.scaleLinear().domain([0, 50]).range([0.2, 1])
+let color_scale = d3.scaleLinear().domain([1, 30]).range([0.2, 1]);
+let click_function, mousemove_function, mouseleave_function = null;
+const updateLayerFilter = (new_array, rest, data, year) => {
+    // set opacity for polygons
     let opacity_match = [];
     rest.forEach(function (d) {
         opacity_match.push(d.country)
         opacity_match.push(color_scale(d.number))
     })
-
-    map.setPaintProperty('state-fills', 'fill-opacity', ['match', ['string', ['get', 'ADMIN']], ...opacity_match, 0])
+    //filter countries 
     map.setFilter('state-fills', ['in', 'ADMIN', ...new_array]);
+    map.setPaintProperty('state-fills', 'fill-opacity', ['match', ['string', ['get', 'ADMIN']], ...opacity_match, 0])
 
-    map.addLayer({
-        'id': 'outline',
-        'type': 'line',
-        'source': 'states',
-        'layout': {},
-        'paint': {
-            'line-color': 'black',
-            'line-width': [
-                'case',
-                ['boolean', ['feature-state', 'hover'], false],
-                2,
-                0
-            ],
+    if (mousemove_function != null) {
+        map.off('mousemove', 'state-fills', mousemove_function)
+    }
 
-        }
-    });
-
-    map.on('mousemove', 'state-fills', (e) => {
+    mousemove_function = (e) => {
         map.getCanvas().style.cursor = 'pointer'
         if (e.features.length > 0) {
             if (hoveredPolygonId !== null) {
@@ -143,9 +148,25 @@ const updateLayerFilter = (new_array, rest) => {
                 { hover: true }
             );
         }
-    });
 
-    map.on('mouseleave', 'state-fills', () => {
+        let blong = rest.filter(obj => {
+            return obj.country == e.features[0].properties.ADMIN
+        })
+
+        d3.select("#popup")
+            .style("display", "block")
+            .style("left", e.point.x + 30 + "px")
+            .style("top", e.point.y - 25 + "px")
+            .html(`<b>` + e.features[0].properties.ADMIN + `</b>` + `<br>` + "Mediations: " + blong[0].number)
+    }
+
+    if (mouseleave_function != null) {
+        map.off('mouseleave', 'state-fills', mouseleave_function)
+    }
+
+    mouseleave_function = (e) => {
+        d3.select("#popup")
+            .style("display", "none")
         map.getCanvas().style.cursor = ''
         if (hoveredPolygonId !== null) {
             map.setFeatureState(
@@ -154,11 +175,115 @@ const updateLayerFilter = (new_array, rest) => {
             );
         }
         hoveredPolygonId = null;
-    });
+    }
+
+    if (click_function != null) {
+        map.off('click', 'state-fills', click_function)
+    }
+
+    click_function = (e) => {
+        d3.selectAll("pre").remove()
+        let clicked_country = e.features[0].properties.ADMIN;
+        let bound_box
+        if (clicked_country == "Russia") {
+            bound_box = [68.1434025400001, 86.74555084800015,
+                97.36225305200006, 35.49540557900009]
+        }
+        else if (clicked_country == "United States of America") {
+            bound_box = [-160.3688042289999, 34.546282924364334,
+            -36.7005916009999, 32.71283640500015]
+        }
+        else if (clicked_country == "France") {
+            bound_box = [-8.691314256999902, 40.909613348000065,
+                12.771169467000021, 50.84788646]
+        }
+        else if (clicked_country == "Norway") {
+            bound_box = [5.691314256999902, 60.909613348000065,
+                20.771169467000021, 60.84788646]
+        }
+        else {
+            let countries = geo_data.features;
+            let the_country = countries.find(function (d) {
+                return d.properties.ADMIN == clicked_country
+            })
+            bound_box = turf.bbox(the_country);
+        }
+
+        map.fitBounds(bound_box, {
+            padding: 50,
+            center: turf.center(
+                turf.points([
+                    [bound_box[0], bound_box[1]],
+                    [bound_box[2], bound_box[3]]
+                ])
+            ).geometry.coordinates
+        });
+
+        let country_in_array = data.find(function (d) {
+            if (d[0] == clicked_country) {
+                return true
+            }
+        });
+        let ungroupped = [];
+        country_in_array[1].forEach(function (m) {
+            m[1].forEach(function (x) {
+                ungroupped.push(x)
+            })
+        })
+        draw_bars(ungroupped, context_data, "small", data, "bar")
+
+
+        // populating country details
+        let just_med_numbers = []
+        country_in_array[1].forEach(function (d) {
+            just_med_numbers.push(d[0])
+        })
+
+        // let partners = []
+        // all_data.forEach(function (d) {
+        //     if (just_med_numbers.includes(d.mediation_ID)
+        //         && d.third_party !== e.features[0].properties.ADMIN
+        //         && d.third_party_type != "state") {
+        //         partners.push(d)
+        //     }
+        // })
+        // console.log(partners);
+        // let the_partners = d3.groups(partners, d => d.third_party, d => d.mediation_ID)
+
+        // let five = partners.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
+        // console.log(the_partners);
+
+
+        let num_of_med = rest.filter(obj => {
+            return obj.country == e.features[0].properties.ADMIN
+        })
+
+        d3.select("#country")
+            .transition().duration(500)
+            .style("right", 5 + "px")
+
+        d3.select("#country_title")
+            .html(clicked_country + `</br>` + year[0] + ` - ` + year[1])
+
+        d3.select("#the_content")
+            .selectAll(".pre")
+            .data(country_in_array[1])
+            .join("pre")
+            .html(function (d) {
+                return d[1][0].notes_1 + `</br>`
+            })
+
+        d3.select("#med_num").text("Number of Mediations: " + num_of_med[0].number)
+    }
+
+    map.on('click', 'state-fills', click_function)
+    map.on('mousemove', 'state-fills', mousemove_function)
+    map.on('mouseleave', 'state-fills', mouseleave_function)
 };
 
 //draw map function
 const draw_map = function (years, data) {
+
     // restrict data to passed years
     let year_restriction = [];
     data.forEach(function (d) {
@@ -182,7 +307,9 @@ const draw_map = function (years, data) {
         state_array.push(d.country)
     })
 
-    updateLayerFilter(state_array, year_restriction)
+    updateLayerFilter(state_array, year_restriction, data, years)
+
+
 
     // Leaflet Map
     // //clear the previous layer
@@ -328,7 +455,6 @@ const draw_map = function (years, data) {
     //     onEachFeature,
     // });
     // geojson.addTo(map);
-
 }
 
 export { map, draw_map, init_map }

@@ -13,6 +13,7 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
+    "@turf/turf": "^6.5.0",
     "@types/d3": "^7.4.3",
     "@types/jquery": "^3.5.27",
     "@types/leaflet": "^1.9.8",

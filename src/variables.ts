@@ -13,11 +13,9 @@ const margin = { top: 10, right: 20, bottom: 5, left: 20 },
     full_bar_height = 140 - margin.top - margin.bottom,
     height = 130 - margin.top - margin.bottom;
 
-//set sizes for map and network
-// d3.selectAll("#map_title, #net_title").style("width", net_width + "px")
-
 d3.select("#net").style("right", - complete_width + "px")
-// d3.select(".slider").style("height", net_height * 0.3 + "px")
+d3.select("#country").style("height", net_height -180 + "px")
+d3.select("#the_content").style("height", net_height - 350 + "px")
 
 d3.select("#nonstate")
     .style("left", - complete_width + "px")
@@ -27,7 +25,6 @@ d3.select("#nonstate")
 //set map width
 $("#map").width(complete_width)
 let slide = document.getElementById('myRange');
-
 
 //------------------ NONSTATE-----------------------
 
@@ -293,8 +290,8 @@ svgLegend
 
 export {
     margin, complete_width, complete_height, width, net_width, net_height, bar_height,
-    context, full_bar_height, height, slide, triangle, snappedSelection, svg, x, x_axis, y, zoom,
+    context, full_bar_height, height, slide, triangle, snappedSelection, zoom,
     net_svg, ticked, simulation, nonstate_simulation, nonstate_zoom, bar_svg, context_data,
     context_data_south, nonstate_context, bar_x, bar_x_axis, bar_y, bar_y_axis, y_mirror,
-    bar_y_mirror, bar_line, nonstate_svg, non_ticked, circle_scale, top_five_svg
+    bar_y_mirror, bar_line, nonstate_svg, non_ticked, top_five_svg
 }

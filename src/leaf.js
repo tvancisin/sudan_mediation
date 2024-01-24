@@ -58,8 +58,11 @@ const map = new mapboxgl.Map({
 
 const load_geo_data = async () => {
     return new Promise((resolve) => {
+        let resolved = false;
         setInterval(()=> {
-            if (geo_data != null) {
+            if (window.geo_data != null && !resolved) {
+                console.log(window.geo_data)
+                resolved = true;
                 resolve();
             }
         }, 500)

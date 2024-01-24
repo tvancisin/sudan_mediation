@@ -64,9 +64,9 @@ const load_geo_data = async () => {
     return new Promise((resolve) => {
         let resolved = false;
         setInterval(()=> {
-            console.log('.')
+            // console.log('.')
             if (get_geo_data() != null && !resolved) {
-                console.log(window.geo_data)
+                // console.log(window.geo_data)
                 resolved = true;
                 resolve();
             }
@@ -82,11 +82,10 @@ const on_map_load = (the_map, callback) => {
     }
 }
 
-
 function init_map(callback) {
 
     on_map_load(map, () => {
-        console.log('..')
+        // console.log('..')
 
         load_geo_data().then(() => {
         // const layers = map.getStyle().layers;

@@ -56,11 +56,16 @@ const map = new mapboxgl.Map({
     projection: 'naturalEarth'
 });
 
+const get_geo_data = () => {
+    return window.geo_data
+}
+
 const load_geo_data = async () => {
     return new Promise((resolve) => {
         let resolved = false;
         setInterval(()=> {
-            if (window.geo_data != null && !resolved) {
+            console.log('.')
+            if (get_geo_data() != null && !resolved) {
                 console.log(window.geo_data)
                 resolved = true;
                 resolve();

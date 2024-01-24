@@ -457,7 +457,7 @@ h4 {
 #the_content {
     overflow-y: scroll;
     padding: 0.5em;
-    background-color: rgb(34, 34, 34);
+    background-color: rgb(31, 31, 31);
 }
 
 #the_content::-webkit-scrollbar {
@@ -496,4 +496,12 @@ pre {
 pre:not(:first-child) {
     padding-top: 0.5em;
     border-top: 1px solid rgb(255, 255, 255);
+}
+
+.p {
+    font-size: 10px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 5px;
+    margin-right: 5px;
 }

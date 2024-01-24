@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { draw_bars } from "./bar_chart";
 import { context_data } from "./variables";
 import mapboxgl from 'mapbox-gl';
-import * as turf from '@turf/turf'
+import * as turf from '@turf/turf';
 
 // //-------------------------leaflet
 // //append leaflet map to div
@@ -114,7 +114,8 @@ function init_map(callback) {
 let hoveredPolygonId = null;
 let color_scale = d3.scaleLinear().domain([1, 30]).range([0.2, 1]);
 let click_function, mousemove_function, mouseleave_function = null;
-const updateLayerFilter = (new_array, rest, data, year) => {
+
+const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
     // set opacity for polygons
     let opacity_match = [];
     rest.forEach(function (d) {
@@ -182,7 +183,7 @@ const updateLayerFilter = (new_array, rest, data, year) => {
     }
 
     click_function = (e) => {
-        d3.selectAll("pre").remove()
+        d3.selectAll(".pre, .p").remove()
         let clicked_country = e.features[0].properties.ADMIN;
         let bound_box
         if (clicked_country == "Russia") {
@@ -230,32 +231,32 @@ const updateLayerFilter = (new_array, rest, data, year) => {
                 ungroupped.push(x)
             })
         })
-        draw_bars(ungroupped, context_data, "small", data, "bar")
-
+        draw_bars(ungroupped, context_data, "small", data, "bar", complete_data)
 
         // populating country details
-        let just_med_numbers = []
+        let just_mediation_numbers = []
         country_in_array[1].forEach(function (d) {
-            just_med_numbers.push(d[0])
+            just_mediation_numbers.push(d[0])
         })
 
-        // let partners = []
-        // all_data.forEach(function (d) {
-        //     if (just_med_numbers.includes(d.mediation_ID)
-        //         && d.third_party !== e.features[0].properties.ADMIN
-        //         && d.third_party_type != "state") {
-        //         partners.push(d)
-        //     }
-        // })
-        // console.log(partners);
-        // let the_partners = d3.groups(partners, d => d.third_party, d => d.mediation_ID)
+        let partners = []
+        complete_data.forEach(function (d) {
+            if (just_mediation_numbers.includes(d.mediation_ID)
+                && d.third_party !== e.features[0].properties.ADMIN
+                && d.third_party_type != "state") {
+                partners.push(d)
+            }
+        })
+        let the_partners = d3.groups(partners, d => d.third_party, d => d.mediation_ID)
+        let five = the_partners.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
+        console.log(five);
 
-        // let five = partners.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
-        // console.log(the_partners);
-
-
-        let num_of_med = rest.filter(obj => {
-            return obj.country == e.features[0].properties.ADMIN
+        d3.select("#med_top_cont").selectAll(".p")
+        .data(five)
+        .join("p")
+        .attr("class", "p")
+        .html(function(d){
+            return d[0] + ` (` + d[1].length + `)` + '</br>'
         })
 
         d3.select("#country")
@@ -268,11 +269,15 @@ const updateLayerFilter = (new_array, rest, data, year) => {
         d3.select("#the_content")
             .selectAll(".pre")
             .data(country_in_array[1])
+            .attr("class", "pre")
             .join("pre")
             .html(function (d) {
                 return d[1][0].notes_1 + `</br>`
             })
 
+        let num_of_med = rest.filter(obj => {
+            return obj.country == e.features[0].properties.ADMIN
+        })
         d3.select("#med_num").text("Number of Mediations: " + num_of_med[0].number)
     }
 
@@ -281,8 +286,9 @@ const updateLayerFilter = (new_array, rest, data, year) => {
     map.on('mouseleave', 'state-fills', mouseleave_function)
 };
 
+
 //draw map function
-const draw_map = function (years, data) {
+const draw_map = function (years, data, complete_data) {
 
     // restrict data to passed years
     let year_restriction = [];
@@ -307,7 +313,7 @@ const draw_map = function (years, data) {
         state_array.push(d.country)
     })
 
-    updateLayerFilter(state_array, year_restriction, data, years)
+    updateLayerFilter(state_array, year_restriction, data, years, complete_data)
 
 
 

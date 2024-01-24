@@ -12,6 +12,7 @@ import 'leaflet/dist/leaflet.css';
 let grouped_data;
 let individual_data;
 let state = "state";
+let complete_data;
 
 let brushing = function (event) {
     if (!event.selection && !event.sourceEvent) return;
@@ -22,7 +23,7 @@ let brushing = function (event) {
     if (event.sourceEvent && event.type === 'end') {
         let year_range = [d3.min(d0), d3.max(d0)]
         if (state == "state") {
-            draw_map(year_range, grouped_data)
+            draw_map(year_range, grouped_data, complete_data)
         }
         else if (state == "nonstate") {
             nonstate_draw(individual_data, year_range)
@@ -79,9 +80,10 @@ let bars = bar_svg.append("g").attr("class", "bars");
 let unq_bars = bar_svg.append("g").attr("class", "unq_bars");
 
 //bar chart
-function draw_bars(bar_data, context_data, size, map_data, current_state) {
+function draw_bars(bar_data, context_data, size, map_data, current_state, comp_data) {
     // console.log(bar_data, context_data, size, map_data, current_state);
     // update current datasets
+    complete_data = comp_data;
     grouped_data = map_data;
     state = current_state
     individual_data = bar_data;
@@ -224,7 +226,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state) {
         .attr("transform", "translate(0,-5)")
         .style("fill", "white")
         .style("text-anchor", "middle")
-        .style("font-size", "12px")
+        .style("font-size", "10px")
         .style("font-weight", "bold")
         .style("font-family", "Montserrat");
 

@@ -2,7 +2,7 @@ import * as d3 from "d3";
 // import L from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import { draw_bars } from "./bar_chart";
-import { context_data } from "./variables";
+import { context_data, zoom_level } from "./variables";
 import mapboxgl from 'mapbox-gl';
 import * as turf from '@turf/turf';
 
@@ -50,8 +50,8 @@ const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v11',
     center: [10, 9],
-    zoom: 1.6,
-    maxZoom: 5,
+    zoom: zoom_level,
+    maxZoom: 5.5,
     attributionControl: false,
     projection: 'naturalEarth'
 });
@@ -231,6 +231,22 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
             bound_box = [5.691314256999902, 60.909613348000065,
                 20.771169467000021, 60.84788646]
         }
+        else if (clicked_country == "United Kingdom") {
+            bound_box = [-5.691314256999902, 45.909613348000065,
+                 1.771169467000021, 60.84788646]
+        }
+        else if (clicked_country == "Spain") {
+            bound_box = [-15.16722571499986, 35.64223867400007,
+                 4.337087436000104, 43.79344310099999]
+        }
+        else if (clicked_country == "Portugal") {
+            bound_box = [-25.16722571499986, 35.64223867400007,
+                 4.337087436000104, 43.79344310099999]
+        }
+        else if (clicked_country == "Netherlands") {
+            bound_box = [5.521799927690466, 51.49522288100003,
+                 6.374525187000074, 51.49623769100013]
+        }
         else {
             let countries = geo_data.features;
             let the_country = countries.find(function (d) {
@@ -240,10 +256,10 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         }
 
         map.fitBounds(bound_box, {
-            padding: 50,
+            padding: 100,
             center: turf.center(
                 turf.points([
-                    [bound_box[0], bound_box[1]],
+                    [bound_box[0]+5, bound_box[1]],
                     [bound_box[2], bound_box[3]]
                 ])
             ).geometry.coordinates

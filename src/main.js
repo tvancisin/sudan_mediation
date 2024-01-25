@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import 'leaflet/dist/leaflet.css';
 import './css/style.css'
 import {
-  complete_width, simulation, context_data,
+  complete_width, simulation, context_data, zoom_level,
   net_height, top_five_svg, context_data_south
 } from "./variables"
 import { draw_bars } from './bar_chart';
@@ -1365,7 +1365,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     // map.flyTo([25, 5], 2.5, { duration: 1 });
     map.flyTo({
       center: [10, 9],
-      zoom: 1.6,
+      zoom: zoom_level,
       essential: true // this animation is considered essential with respect to prefers-reduced-motion
     });
     draw_map(yrs, all_just_states, data)

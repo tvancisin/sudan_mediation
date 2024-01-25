@@ -13,6 +13,15 @@ const margin = { top: 10, right: 20, bottom: 5, left: 20 },
     full_bar_height = 140 - margin.top - margin.bottom,
     height = 130 - margin.top - margin.bottom;
 
+let zoom_level;
+console.log(complete_width);
+if (complete_width >= 1800) {
+    zoom_level = 1.8;
+}
+else {
+    zoom_level = 1.5;
+}
+
 d3.select("#net").style("right", - complete_width + "px")
 d3.select("#country").style("height", net_height - 180 + "px")
 d3.select("#the_content").style("height", net_height - 430  + "px")
@@ -272,6 +281,7 @@ svgLegend.append("text")
 svgLegend.append("rect")
     .attr("x", 0)
     .attr("y", 30)
+    .attr("rx", 3)
     .attr("width", 150 - 10)
     .attr("height", 15)
     .style("fill", "url(#linear-gradient)");
@@ -293,5 +303,5 @@ export {
     context, full_bar_height, height, slide, triangle, snappedSelection, zoom,
     net_svg, ticked, simulation, nonstate_simulation, nonstate_zoom, bar_svg, context_data,
     context_data_south, nonstate_context, bar_x, bar_x_axis, bar_y, bar_y_axis, y_mirror,
-    bar_y_mirror, bar_line, nonstate_svg, non_ticked, top_five_svg
+    bar_y_mirror, bar_line, nonstate_svg, non_ticked, top_five_svg, zoom_level
 }

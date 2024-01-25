@@ -63,7 +63,7 @@ const get_geo_data = () => {
 const load_geo_data = async () => {
     return new Promise((resolve) => {
         let resolved = false;
-        setInterval(()=> {
+        setInterval(() => {
             // console.log('.')
             if (get_geo_data() != null && !resolved) {
                 // console.log(window.geo_data)
@@ -88,55 +88,55 @@ function init_map(callback) {
         // console.log('..')
 
         load_geo_data().then(() => {
-        // const layers = map.getStyle().layers;
-        // // Find the index of the first symbol layer in the map style.
-        // let firstSymbolId;
-        // for (const layer of layers) {
-        //     if (layer.type === 'symbol') {
-        //         firstSymbolId = layer.id;
-        //         break;
-        //     }
-        // }
-        map.addSource('states', {
-            'type': 'geojson',
-            'data': geo_data,
-            'generateId': true //This ensures that all features have unique IDs
-        });
-        map.addLayer({
-            'id': 'state-fills',
-            'type': 'fill',
-            'source': 'states',
-            'layout': {},
-            'paint': {
-                'fill-color':
-                    [
+            // const layers = map.getStyle().layers;
+            // // Find the index of the first symbol layer in the map style.
+            // let firstSymbolId;
+            // for (const layer of layers) {
+            //     if (layer.type === 'symbol') {
+            //         firstSymbolId = layer.id;
+            //         break;
+            //     }
+            // }
+            map.addSource('states', {
+                'type': 'geojson',
+                'data': geo_data,
+                'generateId': true //This ensures that all features have unique IDs
+            });
+            map.addLayer({
+                'id': 'state-fills',
+                'type': 'fill',
+                'source': 'states',
+                'layout': {},
+                'paint': {
+                    'fill-color':
+                        [
+                            'case',
+                            ['==', ["get", "ADMIN"], "Sudan"],
+                            "#fed800",
+                            ['==', ["get", "ADMIN"], "South Sudan"],
+                            "#fed800",
+                            "white"
+                        ],
+                }
+            },
+                // firstSymbolId
+            );
+            map.addLayer({
+                'id': 'outline',
+                'type': 'line',
+                'source': 'states',
+                'layout': {},
+                'paint': {
+                    'line-color': 'black',
+                    'line-width': [
                         'case',
-                        ['==', ["get", "ADMIN"], "Sudan"],
-                        "#fed800",
-                        ['==', ["get", "ADMIN"], "South Sudan"],
-                        "#fed800",
-                        "white"
+                        ['boolean', ['feature-state', 'hover'], false],
+                        2,
+                        0
                     ],
-            }
-        },
-            // firstSymbolId
-        );
-        map.addLayer({
-            'id': 'outline',
-            'type': 'line',
-            'source': 'states',
-            'layout': {},
-            'paint': {
-                'line-color': 'black',
-                'line-width': [
-                    'case',
-                    ['boolean', ['feature-state', 'hover'], false],
-                    2,
-                    0
-                ],
-            }
-        });
-        callback()
+                }
+            });
+            callback()
 
         });
     });
@@ -264,6 +264,10 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         })
         draw_bars(ungroupped, context_data, "small", data, "bar", complete_data)
 
+        d3.select("#country")
+            .transition().duration(500)
+            .style("right", 5 + "px")
+
         // populating country details
         let just_mediation_numbers = []
         country_in_array[1].forEach(function (d) {
@@ -280,19 +284,14 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         })
         let the_partners = d3.groups(partners, d => d.third_party, d => d.mediation_ID)
         let five = the_partners.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
-        console.log(five);
 
         d3.select("#med_top_cont").selectAll(".p")
-        .data(five)
-        .join("p")
-        .attr("class", "p")
-        .html(function(d){
-            return d[0] + ` (` + d[1].length + `)` + '</br>'
-        })
-
-        d3.select("#country")
-            .transition().duration(500)
-            .style("right", 5 + "px")
+            .data(five)
+            .join("p")
+            .attr("class", "p")
+            .html(function (d) {
+                return d[0] + ` (` + d[1].length + `)` + '</br>'
+            })
 
         d3.select("#country_title")
             .html(clicked_country + `</br>` + year[0] + ` - ` + year[1])
@@ -300,10 +299,10 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         d3.select("#the_content")
             .selectAll(".pre")
             .data(country_in_array[1])
-            .attr("class", "pre")
             .join("pre")
+            .attr("class", "pre")
             .html(function (d) {
-                return d[1][0].notes_1 + `</br>`
+                return d[1][0].notes_1 + `<i> Source: (` + d[1][0].source_1 + `)</i>` +  `</br>`
             })
 
         let num_of_med = rest.filter(obj => {

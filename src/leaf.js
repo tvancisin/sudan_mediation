@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import L from "leaflet";
+// import L from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import { draw_bars } from "./bar_chart";
 import { context_data } from "./variables";
@@ -284,7 +284,10 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         })
         let the_partners = d3.groups(partners, d => d.third_party, d => d.mediation_ID)
         let five = the_partners.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
-
+        // title and years
+        d3.select("#country_title")
+            .html(clicked_country + `</br>` + year[0] + ` - ` + year[1])
+        //top 5 
         d3.select("#med_top_cont").selectAll(".p")
             .data(five)
             .join("p")
@@ -292,17 +295,22 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
             .html(function (d) {
                 return d[0] + ` (` + d[1].length + `)` + '</br>'
             })
-
-        d3.select("#country_title")
-            .html(clicked_country + `</br>` + year[0] + ` - ` + year[1])
-
+        // list of mediations
         d3.select("#the_content")
             .selectAll(".pre")
             .data(country_in_array[1])
             .join("pre")
             .attr("class", "pre")
             .html(function (d) {
-                return d[1][0].notes_1 + `<i> Source: (` + d[1][0].source_1 + `)</i>` +  `</br>`
+                return d[1][0].notes_1 + `<i> Source: (` + d[1][0].source_1 + `)</i>` + `</br>`
+            })
+            .style("color", function (d) {
+                if (d[1][0].peace_agreement == "0") {
+                    return "white"
+                }
+                else {
+                    return "green"
+                }
             })
 
         let num_of_med = rest.filter(obj => {

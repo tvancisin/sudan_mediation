@@ -1,6 +1,5 @@
 body {
     font-family: 'Montserrat';
-    /* background-color: black; */
     background-color: #1f1f1f;
     overflow: hidden;
 }
@@ -457,7 +456,13 @@ h4 {
 #the_content {
     overflow-y: scroll;
     padding: 0.5em;
-    background-color: rgb(31, 31, 31);
+    background-color: rgb(46, 46, 46);
+}
+
+#med_top_cont{
+    padding: 0.4em;
+    background-color: rgb(46, 46, 46);
+    height: 75px;
 }
 
 #the_content::-webkit-scrollbar {

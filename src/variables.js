@@ -15,7 +15,7 @@ const margin = { top: 10, right: 20, bottom: 5, left: 20 },
 
 d3.select("#net").style("right", - complete_width + "px")
 d3.select("#country").style("height", net_height - 180 + "px")
-d3.select("#the_content").style("height", net_height - 410  + "px")
+d3.select("#the_content").style("height", net_height - 430  + "px")
 
 d3.select("#nonstate")
     .style("left", - complete_width + "px")

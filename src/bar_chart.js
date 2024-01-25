@@ -1,7 +1,7 @@
 import {
     net_height, complete_height, margin, bar_svg, bar_x,
     bar_x_axis, bar_y, bar_y_axis, width, bar_line, y_mirror,
-    bar_y_mirror, triangle, snappedSelection, 
+    bar_y_mirror, triangle, snappedSelection,
 } from "./variables";
 import * as d3 from "d3";
 import { draw_map } from './leaf';
@@ -124,6 +124,8 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
         formatted_years.push(indi_year)
     })
 
+    // console.log(formatted_years);
+
     let subgroups = ["unilateral", "multilateral"];
     const groups = formatted_years.map(d => (d.group))
     const color = d3.scaleOrdinal()
@@ -182,8 +184,20 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
         context_line = 8;
         context_text = 9;
         d3.select(".brush").style("display", "block")
+        bar_y.domain([0, 280])
     }
-    else {
+    else if (size == "country") {
+        d3.selectAll("#bar, .bar_svg")
+            .transition().duration(1000)
+            .style("height", 150 + "px")
+        bar_h = 150 / 1.35 - margin.top - margin.bottom;
+        full_bar_h = 150 - margin.top - margin.bottom;
+        context_line = 9;
+        context_text = 10;
+        d3.select(".brush").style("display", "block")
+        bar_y.domain([0, 50])
+    }
+    else if (size == "big") {
         d3.selectAll("#bar, .bar_svg")
             .transition().duration(1000)
             .style("height", complete_height + "px")
@@ -193,6 +207,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
         context_text = 22;
         bar_h = net_height / 1.5 - margin.top - margin.bottom;
         full_bar_h = net_height - margin.top - margin.bottom;
+        bar_y.domain([0, 280])
     }
     //update ranges
     bar_y.range([bar_h, 0])
@@ -201,11 +216,11 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
     // bar_x.domain(d3.map(year_group, function (d) {
     //     return d[0]
     // }))
-    
+
     let bla = [1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995,
-    1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
-    2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
-    2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
+        1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
+        2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
+        2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
 
     bar_x.domain(bla)
 
@@ -284,9 +299,10 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
     //             .remove()
     //     )
 
+
     bars
         .selectAll("g")
-        .data(stackedData)
+        .data(stackedData, d => d)
         .join(
             enter => enter
                 .append("g")
@@ -308,7 +324,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
                 .attr("class", "top_bar")
                 .attr("rx", 2)
                 .attr("x", d => bar_x(d.data.group))
-                .attr("y", () => {
+                .attr("y", (d) => {
                     return bar_y(0);
                 })
                 .attr("height", 0)
@@ -334,7 +350,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
 
     unq_bars
         .selectAll("g")
-        .data(unq_stackedData)
+        .data(unq_stackedData, d => d)
         .join(
             enter => enter
                 .append("g")
@@ -425,7 +441,10 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
                     if (size == "small") {
                         return bar_h / 2 - i * context_line
                     }
-                    else {
+                    else if (size == "country") {
+                        return bar_h / 1.5 - i * context_line
+                    }
+                    else if (size == "big") {
                         return bar_h / 3 - i * context_line
                     }
                 })
@@ -445,7 +464,10 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
                     if (size == "small") {
                         return bar_h / 2 - i * context_line
                     }
-                    else {
+                    else if (size == "country") {
+                        return bar_h / 1.5 - i * context_line
+                    }
+                    else if (size == "big") {
                         return bar_h / 3 - i * context_line
                     }
                 })
@@ -470,7 +492,10 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
                     if (size == "small") {
                         return bar_h / 2 - i * context_text
                     }
-                    else {
+                    else if (size == "country") {
+                        return bar_h / 1.5 - i * context_text
+                    }
+                    else if (size == "big") {
                         return bar_h / 3 - i * context_text
                     }
                 })
@@ -486,7 +511,10 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
                     if (size == "small") {
                         return bar_h / 2 - i * context_text
                     }
-                    else {
+                    else if (size == "country") {
+                        return bar_h / 1.5 - i * context_text
+                    }
+                    else if (size == "big") {
                         return bar_h / 3 - i * context_text
                     }
                 })

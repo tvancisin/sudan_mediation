@@ -276,7 +276,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
                 ungroupped.push(x)
             })
         })
-        draw_bars(ungroupped, context_data, "small", data, "bar", complete_data)
+        draw_bars(ungroupped, context_data, "country", data, "bar", complete_data)
 
         d3.select("#country")
             .transition().duration(500)
@@ -285,7 +285,6 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
 
         // populating country details
         let peace_agreements = 0;
-        console.log(country_in_array);
         country_in_array[1].forEach(function(d){
             if (d[1][0].peace_agreement !== "0"){
                 peace_agreements += 1

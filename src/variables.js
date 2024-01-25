@@ -14,7 +14,6 @@ const margin = { top: 10, right: 20, bottom: 5, left: 20 },
     height = 130 - margin.top - margin.bottom;
 
 let zoom_level;
-console.log(complete_width);
 if (complete_width >= 1800) {
     zoom_level = 1.8;
 }

@@ -479,7 +479,7 @@ h4 {
 
 /* Handle on hover */
 #the_content::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: rgb(230, 103, 103);
 }
 
 pre {

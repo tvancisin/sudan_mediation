@@ -56,23 +56,23 @@ const map = new mapboxgl.Map({
     projection: 'naturalEarth'
 });
 
-const get_geo_data = () => {
-    return window.geo_data
-}
+// const get_geo_data = () => {
+//     return window.geo_data
+// }
 
-const load_geo_data = async () => {
-    return new Promise((resolve) => {
-        let resolved = false;
-        setInterval(() => {
-            // console.log('.')
-            if (get_geo_data() != null && !resolved) {
-                // console.log(window.geo_data)
-                resolved = true;
-                resolve();
-            }
-        }, 500)
-    })
-}
+// const load_geo_data = async () => {
+//     return new Promise((resolve) => {
+//         let resolved = false;
+//         setInterval(() => {
+//             // console.log('.')
+//             if (get_geo_data() != null && !resolved) {
+//                 // console.log(window.geo_data)
+//                 resolved = true;
+//                 resolve();
+//             }
+//         }, 500)
+//     })
+// }
 
 const on_map_load = (the_map, callback) => {
     if (the_map.loaded()) {
@@ -87,7 +87,7 @@ function init_map(callback) {
     on_map_load(map, () => {
         // console.log('..')
 
-        load_geo_data().then(() => {
+        // load_geo_data().then(() => {
             // const layers = map.getStyle().layers;
             // // Find the index of the first symbol layer in the map style.
             // let firstSymbolId;
@@ -138,7 +138,7 @@ function init_map(callback) {
             });
             callback()
 
-        });
+        // });
     });
 }
 
@@ -157,10 +157,10 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
     map.setFilter('state-fills', ['in', 'ADMIN', ...new_array]);
     map.setPaintProperty('state-fills', 'fill-opacity', ['match', ['string', ['get', 'ADMIN']], ...opacity_match, 0])
 
+    // mousemove
     if (mousemove_function != null) {
         map.off('mousemove', 'state-fills', mousemove_function)
     }
-
     mousemove_function = (e) => {
         map.getCanvas().style.cursor = 'pointer'
         if (e.features.length > 0) {
@@ -191,11 +191,10 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
             .style("top", e.point.y - 25 + "px")
             .html(`<b>` + e.features[0].properties.ADMIN + `</b>` + `<br>` + "Mediations: " + blong[0].number)
     }
-
+    //mouseleave
     if (mouseleave_function != null) {
         map.off('mouseleave', 'state-fills', mouseleave_function)
     }
-
     mouseleave_function = (e) => {
         d3.select("#popup")
             .style("display", "none")
@@ -208,11 +207,10 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         }
         hoveredPolygonId = null;
     }
-
+    // click
     if (click_function != null) {
         map.off('click', 'state-fills', click_function)
     }
-
     click_function = (e) => {
         d3.selectAll(".pre, .p").remove()
         let clicked_country = e.features[0].properties.ADMIN;
@@ -268,7 +266,16 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
             .transition().duration(500)
             .style("right", 5 + "px")
 
+
         // populating country details
+        let peace_agreements = 0;
+        console.log(country_in_array);
+        country_in_array[1].forEach(function(d){
+            if (d[1][0].peace_agreement !== "0"){
+                peace_agreements += 1
+            }
+        })
+
         let just_mediation_numbers = []
         country_in_array[1].forEach(function (d) {
             just_mediation_numbers.push(d[0])
@@ -302,21 +309,21 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
             .join("pre")
             .attr("class", "pre")
             .html(function (d) {
-                return d[1][0].notes_1 + `<i> Source: (` + d[1][0].source_1 + `)</i>` + `</br>`
+                return d[1][0].notes_1 + `<b style="color: steelblue;"> Source: (` + d[1][0].source_1 + `)</b>` + `</br>`
             })
             .style("color", function (d) {
                 if (d[1][0].peace_agreement == "0") {
                     return "white"
                 }
                 else {
-                    return "green"
+                    return "#fed800"
                 }
             })
 
         let num_of_med = rest.filter(obj => {
             return obj.country == e.features[0].properties.ADMIN
         })
-        d3.select("#med_num").text("Number of Mediations: " + num_of_med[0].number)
+    d3.select("#med_title").html(`Mediation Events ` + num_of_med[0].number + ` <b style="color:#fed800;">(` + peace_agreements + ` Peace Agreements)</b>: `)
     }
 
     map.on('click', 'state-fills', click_function)

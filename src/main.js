@@ -214,6 +214,11 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     }
   })
 
+  // //draw leaflet map
+  init_map(function () {
+    draw_map(yrs, all_just_states, data)
+  })
+
   //initial button pressed
   let button_pressed_lateral = "multilateral";
   let button_pressed_state = "state";
@@ -1186,14 +1191,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       draw_bars(south_n_mu_i, context_data, "big", south_n_mu_g, "bar", data)
     }
 
-    // else if (button_pressed_country == "sudan") {
-    //   draw_bars(sudan_multilateral, context_data, "big", sud_just_states)
-    //   draw_map(yrs, sud_just_states)
-    // }
-    // else if (button_pressed_country == "south_sudan") {
-    //   draw_bars(sousudan_multilateral, context_data_south, "big", sou_sud_just_states)
-    //   draw_map(yrs, sou_sud_just_states)
-    // }
     //move network to the right
     d3.selectAll("#net")
       .transition().duration(1000)
@@ -1330,10 +1327,10 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
   d3.select("#map_button").style("background-color", "#006297")
 
-  //draw leaflet map
-  init_map(function () {
-    draw_map(yrs, all_just_states, data)
-  })
+  // //draw leaflet map
+  // init_map(function () {
+  //   draw_map(yrs, all_just_states, data)
+  // })
 
   //draw bar chart
   draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state", data)

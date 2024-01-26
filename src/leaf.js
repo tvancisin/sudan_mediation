@@ -88,55 +88,55 @@ function init_map(callback) {
         // console.log('..')
 
         // load_geo_data().then(() => {
-            // const layers = map.getStyle().layers;
-            // // Find the index of the first symbol layer in the map style.
-            // let firstSymbolId;
-            // for (const layer of layers) {
-            //     if (layer.type === 'symbol') {
-            //         firstSymbolId = layer.id;
-            //         break;
-            //     }
-            // }
-            map.addSource('states', {
-                'type': 'geojson',
-                'data': geo_data,
-                'generateId': true //This ensures that all features have unique IDs
-            });
-            map.addLayer({
-                'id': 'state-fills',
-                'type': 'fill',
-                'source': 'states',
-                'layout': {},
-                'paint': {
-                    'fill-color':
-                        [
-                            'case',
-                            ['==', ["get", "ADMIN"], "Sudan"],
-                            "#fed800",
-                            ['==', ["get", "ADMIN"], "South Sudan"],
-                            "#fed800",
-                            "white"
-                        ],
-                }
-            },
-                // firstSymbolId
-            );
-            map.addLayer({
-                'id': 'outline',
-                'type': 'line',
-                'source': 'states',
-                'layout': {},
-                'paint': {
-                    'line-color': 'black',
-                    'line-width': [
+        // const layers = map.getStyle().layers;
+        // // Find the index of the first symbol layer in the map style.
+        // let firstSymbolId;
+        // for (const layer of layers) {
+        //     if (layer.type === 'symbol') {
+        //         firstSymbolId = layer.id;
+        //         break;
+        //     }
+        // }
+        map.addSource('states', {
+            'type': 'geojson',
+            'data': geo_data,
+            'generateId': true //This ensures that all features have unique IDs
+        });
+        map.addLayer({
+            'id': 'state-fills',
+            'type': 'fill',
+            'source': 'states',
+            'layout': {},
+            'paint': {
+                'fill-color':
+                    [
                         'case',
-                        ['boolean', ['feature-state', 'hover'], false],
-                        2,
-                        0
+                        ['==', ["get", "ADMIN"], "Sudan"],
+                        "#fed800",
+                        ['==', ["get", "ADMIN"], "South Sudan"],
+                        "#fed800",
+                        "white"
                     ],
-                }
-            });
-            callback()
+            }
+        },
+            // firstSymbolId
+        );
+        map.addLayer({
+            'id': 'outline',
+            'type': 'line',
+            'source': 'states',
+            'layout': {},
+            'paint': {
+                'line-color': 'black',
+                'line-width': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    2,
+                    0
+                ],
+            }
+        });
+        callback()
 
         // });
     });
@@ -233,19 +233,19 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         }
         else if (clicked_country == "United Kingdom") {
             bound_box = [-5.691314256999902, 45.909613348000065,
-                 1.771169467000021, 60.84788646]
+                1.771169467000021, 60.84788646]
         }
         else if (clicked_country == "Spain") {
             bound_box = [-15.16722571499986, 35.64223867400007,
-                 4.337087436000104, 43.79344310099999]
+                4.337087436000104, 43.79344310099999]
         }
         else if (clicked_country == "Portugal") {
             bound_box = [-25.16722571499986, 35.64223867400007,
-                 4.337087436000104, 43.79344310099999]
+                4.337087436000104, 43.79344310099999]
         }
         else if (clicked_country == "Netherlands") {
             bound_box = [5.521799927690466, 51.49522288100003,
-                 6.374525187000074, 51.49623769100013]
+                6.374525187000074, 51.49623769100013]
         }
         else {
             let countries = geo_data.features;
@@ -259,7 +259,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
             padding: 100,
             center: turf.center(
                 turf.points([
-                    [bound_box[0]+5, bound_box[1]],
+                    [bound_box[0] + 5, bound_box[1]],
                     [bound_box[2], bound_box[3]]
                 ])
             ).geometry.coordinates
@@ -285,8 +285,8 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
 
         // populating country details
         let peace_agreements = 0;
-        country_in_array[1].forEach(function(d){
-            if (d[1][0].peace_agreement !== "0"){
+        country_in_array[1].forEach(function (d) {
+            if (d[1][0].peace_agreement !== "0") {
                 peace_agreements += 1
             }
         })
@@ -338,7 +338,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         let num_of_med = rest.filter(obj => {
             return obj.country == e.features[0].properties.ADMIN
         })
-    d3.select("#med_title").html(`Mediation Events ` + num_of_med[0].number + ` <b style="color:#fed800;">(` + peace_agreements + ` Peace Agreements)</b>: `)
+        d3.select("#med_title").html(`Mediation Events ` + num_of_med[0].number + ` <b style="color:#fed800;">(` + peace_agreements + ` Peace Agreements)</b>: `)
     }
 
     map.on('click', 'state-fills', click_function)
@@ -349,7 +349,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
 
 //draw map function
 const draw_map = function (years, data, complete_data) {
-
+    console.log(data);
     // restrict data to passed years
     let year_restriction = [];
     data.forEach(function (d) {

@@ -1,15 +1,17 @@
 import * as d3 from "d3";
 import 'leaflet/dist/leaflet.css';
-import './css/style.css'
+import './css/style.css';
+import { draw_bars } from "./bar_chart";
 import {
-    nonstate_simulation, nonstate_context, non_ticked, 
+    nonstate_simulation, nonstate_context, non_ticked,
 } from "./variables"
 
 let circle_scale = d3.scaleLinear()
     .range([5, 130])
     .domain([1, 130])
 
-const nonstate_draw = function (data, years) {
+const nonstate_draw = function (data, years, complete_data) {
+    console.log(data, complete_data);
     // restrict to the passed years
     let restrict_by_years = data.filter(function (d) {
         if (d.year >= years[0] && d.year <= years[1]) { return d }
@@ -43,6 +45,7 @@ const nonstate_draw = function (data, years) {
         .data(nodes, d => d.id)
         .join("circle")
         .style("fill", function (d) {
+            console.log(d);
             // return "white"
             if (d.type == "global") {
                 return "#ffe241"
@@ -62,6 +65,93 @@ const nonstate_draw = function (data, years) {
         })
         .attr('cy', function (d) {
             return d.y
+        })
+        .on("click", function (i, d) {
+            console.log(d, group_data);
+            let clicked_country = d.id;
+
+            d3.select("#country")
+                .transition().duration(500)
+                .style("right", 5 + "px")
+
+            // title and years
+            d3.select("#country_title")
+                .html(clicked_country + `</br>` + years[0] + ` - ` + years[1])
+
+            let country_in_array = group_data.find(function (d) {
+                if (d[0] == clicked_country) {
+                    return true
+                }
+            });
+
+            let ungroupped = [];
+            country_in_array[1].forEach(function (m) {
+                m[1].forEach(function (x) {
+                    ungroupped.push(x)
+                })
+            })
+            
+            draw_bars(ungroupped, [1988,2023], "country", data, "bar", complete_data)
+
+            // populating country details
+            let peace_agreements = 0;
+            country_in_array[1].forEach(function (d) {
+                if (d[1][0].peace_agreement !== "0") {
+                    peace_agreements += 1
+                }
+            })
+
+            let just_mediation_numbers = []
+            country_in_array[1].forEach(function (d) {
+                just_mediation_numbers.push(d[0])
+            })
+
+            let partners = []
+            complete_data.forEach(function (d) {
+                if (just_mediation_numbers.includes(d.mediation_ID)
+                    && d.third_party !== clicked_country
+                    && d.third_party_type == "state") {
+                    partners.push(d)
+                }
+            })
+            let the_partners = d3.groups(partners, d => d.third_party, d => d.mediation_ID)
+            let five = the_partners.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
+
+            //top 5 
+            d3.select("#med_top_cont").selectAll(".p")
+                .data(five)
+                .join("p")
+                .attr("class", "p")
+                .html(function (d) {
+                    return d[0] + ` (` + d[1].length + `)` + '</br>'
+                })
+            // list of mediations
+            d3.select("#the_content")
+                .selectAll(".pre")
+                .data(country_in_array[1])
+                .join("pre")
+                .attr("class", "pre")
+                .html(function (d) {
+                    return d[1][0].notes_1 + `<b style="color: steelblue;"> Source: (` + d[1][0].source_1 + `)</b>` + `</br>`
+                })
+                .style("color", function (d) {
+                    if (d[1][0].peace_agreement == "0") {
+                        return "white"
+                    }
+                    else {
+                        return "#fed800"
+                    }
+                })
+
+            let num_of_med = group_data.filter(obj => {
+                return obj[0] == clicked_country
+            })
+            console.log(num_of_med);
+            d3.select("#med_title").html(`Mediation Events ` + num_of_med[0][1].length + ` <b style="color:#fed800;">(` + peace_agreements + ` Peace Agreements)</b>: `)
+
+
+
+
         })
         .call(d3.drag()
             .on("start", dragstarted)

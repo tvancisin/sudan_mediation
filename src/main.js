@@ -237,7 +237,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(both_unilateral_state, context_data, "small", both_unilateral_group, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "all" && button_pressed_state == "nonstate") {
-        nonstate_draw(both_unilateral_nonstate, yrs)
+        nonstate_draw(both_unilateral_nonstate, yrs, data)
         draw_bars(both_unilateral_nonstate, context_data, "small", both_unilateral_group, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "sudan" && button_pressed_state == "state") {
@@ -245,7 +245,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(sudan_unilateral_state, context_data, "small", sudan_unilateral_group, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "sudan" && button_pressed_state == "nonstate") {
-        nonstate_draw(sudan_unilateral_nonstate, yrs)
+        nonstate_draw(sudan_unilateral_nonstate, yrs, data)
         draw_bars(sudan_unilateral_nonstate, context_data, "small", sudan_unilateral_group, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "south_sudan" && button_pressed_state == "state") {
@@ -253,7 +253,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(sousudan_unilateral_state, context_data_south, "small", south_unilateral_group, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "south_sudan" && button_pressed_state == "nonstate") {
-        nonstate_draw(south_unilateral_nonstate, yrs)
+        nonstate_draw(south_unilateral_nonstate, yrs, data)
         draw_bars(south_unilateral_nonstate, context_data_south, "small", south_unilateral_group, "nonstate", data)
       }
 
@@ -311,7 +311,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "all" && button_pressed_state == "nonstate") {
-        nonstate_draw(both_non_state, yrs)
+        nonstate_draw(both_non_state, yrs, data)
         draw_bars(both_non_state, context_data, "small", both_unilateral_group, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "sudan" && button_pressed_state == "state") {
@@ -319,7 +319,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(sudan_multilateral_indi_state, context_data, "small", sud_just_states, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "sudan" && button_pressed_state == "nonstate") {
-        nonstate_draw(sudan_non_state, yrs)
+        nonstate_draw(sudan_non_state, yrs, data)
         draw_bars(sudan_non_state, context_data, "small", sudan_unilateral_group, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "south_sudan" && button_pressed_state == "state") {
@@ -327,7 +327,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(sousudan_multilateral_indi_state, context_data_south, "small", sou_sud_just_states, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "south_sudan" && button_pressed_state == "nonstate") {
-        nonstate_draw(sousudan_non_state, yrs)
+        nonstate_draw(sousudan_non_state, yrs, data)
         draw_bars(sousudan_non_state, context_data_south, "small", south_unilateral_group, "nonstate", data)
       }
 
@@ -385,7 +385,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(all_s_mu_i, context_data, "small", all_s_mu_g, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "all" && button_pressed_state == "nonstate") {
-        nonstate_draw(all_n_mu_i, yrs)
+        nonstate_draw(all_n_mu_i, yrs, data)
         draw_bars(all_n_mu_i, context_data, "small", all_n_mu_g, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "sudan" && button_pressed_state == "state") {
@@ -393,7 +393,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(sudan_s_mu_i, context_data, "small", sudan_s_mu_g, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "sudan" && button_pressed_state == "nonstate") {
-        nonstate_draw(sudan_n_mu_i, yrs)
+        nonstate_draw(sudan_n_mu_i, yrs, data)
         draw_bars(sudan_n_mu_i, context_data, "small", sudan_n_mu_g, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "south_sudan" && button_pressed_state == "state") {
@@ -401,7 +401,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(south_s_mu_i, context_data_south, "small", south_s_mu_g, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_country == "south_sudan" && button_pressed_state == "nonstate") {
-        nonstate_draw(south_n_mu_i, yrs)
+        nonstate_draw(south_n_mu_i, yrs, data)
         draw_bars(south_n_mu_i, context_data_south, "small", south_n_mu_g, "nonstate", data)
       }
 
@@ -580,39 +580,39 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
           .transition().duration(1000)
           .style("left", 0 + "px")
         if (button_pressed_country == "all" && button_pressed_lateral == "multilateral") {
-          nonstate_draw(both_non_state, yrs)
+          nonstate_draw(both_non_state, yrs, data)
           draw_bars(both_non_state, context_data, "small", both_unilateral_group, "nonstate", data)
         }
         else if (button_pressed_country == "all" && button_pressed_lateral == "unilateral") {
-          nonstate_draw(both_unilateral_nonstate, yrs)
+          nonstate_draw(both_unilateral_nonstate, yrs, data)
           draw_bars(both_unilateral_nonstate, context_data, "small", both_unilateral_group, "nonstate", data)
         }
         else if (button_pressed_country == "all" && button_pressed_lateral == "all") {
-          nonstate_draw(all_n_mu_i, yrs)
+          nonstate_draw(all_n_mu_i, yrs, data)
           draw_bars(all_n_mu_i, context_data, "small", all_n_mu_g, "nonstate", data)
         }
         else if (button_pressed_country == "sudan" && button_pressed_lateral == "multilateral") {
-          nonstate_draw(sudan_non_state, yrs)
+          nonstate_draw(sudan_non_state, yrs, data)
           draw_bars(sudan_non_state, context_data, "small", sudan_unilateral_group, "nonstate", data)
         }
         else if (button_pressed_country == "sudan" && button_pressed_lateral == "unilateral") {
-          nonstate_draw(sudan_unilateral_nonstate, yrs)
+          nonstate_draw(sudan_unilateral_nonstate, yrs, data)
           draw_bars(sudan_unilateral_nonstate, context_data, "small", sudan_unilateral_group, "nonstate", data)
         }
         else if (button_pressed_country == "sudan" && button_pressed_lateral == "all") {
-          nonstate_draw(sudan_n_mu_i, yrs)
+          nonstate_draw(sudan_n_mu_i, yrs, data)
           draw_bars(sudan_n_mu_i, context_data, "small", sudan_n_mu_g, "nonstate", data)
         }
         else if (button_pressed_country == "south_sudan" && button_pressed_lateral == "multilateral") {
-          nonstate_draw(sousudan_non_state, yrs)
+          nonstate_draw(sousudan_non_state, yrs, data)
           draw_bars(sousudan_non_state, context_data_south, "small", south_unilateral_group, "nonstate", data)
         }
         else if (button_pressed_country == "south_sudan" && button_pressed_lateral == "unilateral") {
-          nonstate_draw(south_unilateral_nonstate, yrs)
+          nonstate_draw(south_unilateral_nonstate, yrs, data)
           draw_bars(south_unilateral_nonstate, context_data_south, "small", south_unilateral_group, "nonstate", data)
         }
         else if (button_pressed_country == "south_sudan" && button_pressed_lateral == "all") {
-          nonstate_draw(south_n_mu_i, yrs)
+          nonstate_draw(south_n_mu_i, yrs, data)
           draw_bars(south_n_mu_i, context_data_south, "small", south_n_mu_g, "nonstate", data)
         }
       }
@@ -706,15 +706,15 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(all_s_mu_i, context_data, "small", all_s_mu_g, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_state == "nonstate" && button_pressed_lateral == "multilateral") {
-        nonstate_draw(both_non_state, yrs)
+        nonstate_draw(both_non_state, yrs, data)
         draw_bars(both_non_state, context_data, "small", both_unilateral_group, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_state == "nonstate" && button_pressed_lateral == "unilateral") {
-        nonstate_draw(both_unilateral_nonstate, yrs)
+        nonstate_draw(both_unilateral_nonstate, yrs, data)
         draw_bars(both_unilateral_nonstate, context_data, "small", both_unilateral_group, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_state == "nonstate" && button_pressed_lateral == "all") {
-        nonstate_draw(all_n_mu_i, yrs)
+        nonstate_draw(all_n_mu_i, yrs, data)
         draw_bars(all_n_mu_i, context_data, "small", all_n_mu_g, "nonstate", data)
       }
 
@@ -767,7 +767,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
       if (button_pressed_vis == "map" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
         console.log("here");
-        
+
         draw_map(yrs, sud_just_states, data)
         draw_bars(sudan_multilateral_indi_state, context_data, "small", sud_just_states, "bar", data)
       }
@@ -780,15 +780,15 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(sudan_s_mu_i, context_data, "small", sudan_s_mu_g, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_state == "nonstate" && button_pressed_lateral == "multilateral") {
-        nonstate_draw(sudan_non_state, yrs)
+        nonstate_draw(sudan_non_state, yrs, data)
         draw_bars(sudan_non_state, context_data, "small", sud_just_states, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_state == "nonstate" && button_pressed_lateral == "unilateral") {
-        nonstate_draw(sudan_unilateral_nonstate, yrs)
+        nonstate_draw(sudan_unilateral_nonstate, yrs, data)
         draw_bars(sudan_unilateral_nonstate, context_data, "small", sudan_unilateral_group, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_state == "nonstate" && button_pressed_lateral == "all") {
-        nonstate_draw(sudan_n_mu_i, yrs)
+        nonstate_draw(sudan_n_mu_i, yrs, data)
         draw_bars(sudan_n_mu_i, context_data, "small", sudan_n_mu_g, "nonstate", data)
       }
 
@@ -852,15 +852,15 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         draw_bars(south_s_mu_i, context_data_south, "small", south_s_mu_g, "state", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_state == "nonstate" && button_pressed_lateral == "multilateral") {
-        nonstate_draw(sousudan_non_state, yrs)
+        nonstate_draw(sousudan_non_state, yrs, data)
         draw_bars(sousudan_non_state, context_data_south, "small", sou_sud_just_states, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_state == "nonstate" && button_pressed_lateral == "unilateral") {
-        nonstate_draw(south_unilateral_nonstate, yrs)
+        nonstate_draw(south_unilateral_nonstate, yrs, data)
         draw_bars(south_unilateral_nonstate, context_data_south, "small", south_unilateral_group, "nonstate", data)
       }
       else if (button_pressed_vis == "map" && button_pressed_state == "nonstate" && button_pressed_lateral == "all") {
-        nonstate_draw(south_n_mu_i, yrs)
+        nonstate_draw(south_n_mu_i, yrs, data)
         draw_bars(south_n_mu_i, context_data_south, "small", south_n_mu_g, "nonstate", data)
       }
 
@@ -933,15 +933,15 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         .transition().duration(1000)
         .style("left", 0 + "px")
       if (button_pressed_lateral == "multilateral") {
-        nonstate_draw(both_non_state, yrs)
+        nonstate_draw(both_non_state, yrs, data)
         draw_bars(both_non_state, context_data, "small", all_non_states, "nonstate", data)
       }
       else if (button_pressed_lateral == "unilateral") {
-        nonstate_draw(both_unilateral_nonstate, yrs)
+        nonstate_draw(both_unilateral_nonstate, yrs, data)
         draw_bars(both_unilateral_nonstate, context_data, "small", both_unilateral_group_nonstate, "nonstate", data)
       }
       else if (button_pressed_lateral == "all") {
-        nonstate_draw(all_n_mu_i, yrs)
+        nonstate_draw(all_n_mu_i, yrs, data)
         draw_bars(all_n_mu_i, context_data, "small", all_n_mu_g, "nonstate", data)
       }
     }
@@ -962,15 +962,15 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         .transition().duration(1000)
         .style("left", 0 + "px")
       if (button_pressed_lateral == "multilateral") {
-        nonstate_draw(sudan_non_state, yrs)
+        nonstate_draw(sudan_non_state, yrs, data)
         draw_bars(sudan_non_state, context_data, "small", sudan_non_states, "nonstate", data)
       }
       else if (button_pressed_lateral == "unilateral") {
-        nonstate_draw(sudan_unilateral_nonstate, yrs)
+        nonstate_draw(sudan_unilateral_nonstate, yrs, data)
         draw_bars(sudan_unilateral_nonstate, context_data, "small", sudan_unilateral_group_nonstate, "nonstate", data)
       }
       else if (button_pressed_lateral == "all") {
-        nonstate_draw(sudan_n_mu_i, yrs)
+        nonstate_draw(sudan_n_mu_i, yrs, data)
         draw_bars(sudan_n_mu_i, context_data, "small", sudan_n_mu_g, "nonstate", data)
       }
     }
@@ -991,15 +991,15 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         .transition().duration(1000)
         .style("left", 0 + "px")
       if (button_pressed_lateral == "multilateral") {
-        nonstate_draw(sousudan_non_state, yrs)
+        nonstate_draw(sousudan_non_state, yrs, data)
         draw_bars(sousudan_non_state, context_data_south, "small", sou_sud_just_states, "nonstate", data)
       }
       else if (button_pressed_lateral == "unilateral") {
-        nonstate_draw(south_unilateral_nonstate, yrs)
+        nonstate_draw(south_unilateral_nonstate, yrs, data)
         draw_bars(south_unilateral_nonstate, context_data_south, "small", south_unilateral_group_nonstate, "nonstate", data)
       }
       else if (button_pressed_lateral == "all") {
-        nonstate_draw(south_n_mu_i, yrs)
+        nonstate_draw(south_n_mu_i, yrs, data)
         draw_bars(south_n_mu_i, context_data_south, "small", south_n_mu_g, "nonstate", data)
       }
     }
@@ -1253,7 +1253,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         })
 
         console.log(non_state, current_igo, mediation_array);
-        
+
         let partners = []
         if (button_pressed_vis == "map" && button_pressed_state == "state") {
           data.forEach(function (d) {
@@ -1275,7 +1275,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
               partners.push(d)
             }
           })
-          nonstate_draw(partners, yrs)
+          nonstate_draw(partners, yrs, data)
           draw_bars(partners, context_data, "small", all_just_states, "nonstate", data)
         }
 

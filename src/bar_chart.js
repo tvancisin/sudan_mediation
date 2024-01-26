@@ -543,7 +543,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
         .attr('class', d => `handles ${d}`)
         .attr('fill', "white")
         .attr('transform', d => {
-            const x = d == 'handle--o' ? 18 : width - 18;
+            const x = d == 'handle--o' ? 15 : width - 15;
             return `translate(${x}, 0)`;
         });
     //Label

@@ -311,8 +311,8 @@ button:hover {
     margin: 0px;
     color: white;
     position: absolute;
-    bottom: 125px;
-    left: 40px;
+    bottom: 120px;
+    left: 50px;
     font-size: 12px;
 }
 
@@ -322,7 +322,7 @@ button:hover {
     color: white;
     position: absolute;
     bottom: 5px;
-    left: 40px;
+    left: 50px;
     font-size: 12px;
 }
 

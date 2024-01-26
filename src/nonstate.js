@@ -3,7 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import './css/style.css';
 import { draw_bars } from "./bar_chart";
 import {
-    nonstate_simulation, nonstate_context, non_ticked,
+    nonstate_simulation, nonstate_context, non_ticked, context_data
 } from "./variables"
 
 let circle_scale = d3.scaleLinear()
@@ -91,7 +91,7 @@ const nonstate_draw = function (data, years, complete_data) {
                 })
             })
             
-            draw_bars(ungroupped, [1988,2023], "country", data, "bar", complete_data)
+            draw_bars(ungroupped, context_data, "country", data, "bar", complete_data)
 
             // populating country details
             let peace_agreements = 0;

@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 // import L from "leaflet";
+import $ from "jquery";
 import 'leaflet/dist/leaflet.css';
 import { draw_bars } from "./bar_chart";
 import { context_data, zoom_level } from "./variables";
@@ -212,7 +213,8 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         map.off('click', 'state-fills', click_function)
     }
     click_function = (e) => {
-        d3.selectAll(".pre, .p").remove()
+        d3.selectAll(".pre, .p, .linkie").remove()
+        d3.select(".brush").style("display", "none")
         let clicked_country = e.features[0].properties.ADMIN;
         let bound_box
         if (clicked_country == "Russia") {
@@ -339,6 +341,30 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
             return obj.country == e.features[0].properties.ADMIN
         })
         d3.select("#med_title").html(`Mediation Events ` + num_of_med[0].number + ` <b style="color:#fed800;">(` + peace_agreements + ` Peace Agreements)</b>: `)
+
+        const titleKeys = Object.keys(ungroupped[0])
+        const refinedData = []
+        refinedData.push(titleKeys)
+
+        ungroupped.forEach(item => {
+            refinedData.push(Object.values(item))
+        })
+
+        let csvContent = ''
+        refinedData.forEach(row => {
+            csvContent += row.join(',') + '\n'
+        })
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' })
+        const objUrl = URL.createObjectURL(blob)
+
+        const link = document.createElement('a')
+        link.setAttribute('href', objUrl)
+        link.setAttribute('class', "linkie")
+        link.setAttribute('download', 'mediation.csv')
+        link.textContent = 'Download CSV'
+
+        document.querySelector('#link').append(link)
     }
 
     map.on('click', 'state-fills', click_function)
@@ -349,7 +375,6 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
 
 //draw map function
 const draw_map = function (years, data, complete_data) {
-    console.log(data);
     // restrict data to passed years
     let year_restriction = [];
     data.forEach(function (d) {

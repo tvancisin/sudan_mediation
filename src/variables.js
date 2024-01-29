@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import html2canvas from "html2canvas";
 import 'leaflet/dist/leaflet.css';
 import $ from "jquery";
 
@@ -21,9 +22,18 @@ else {
     zoom_level = 1.5;
 }
 
+d3.select('#screenshot').on('click', function() {
+    const screenshotTarget = document.body;
+
+    html2canvas(screenshotTarget).then((canvas) => {
+        const base64image = canvas.toDataURL("image/png");
+        window.location.href = base64image;
+    });
+});
+
 d3.select("#net").style("right", - complete_width + "px")
 d3.select("#country").style("height", net_height - 180 + "px")
-d3.select("#the_content").style("height", net_height - 410  + "px")
+d3.select("#the_content").style("height", net_height - 430  + "px")
 
 d3.select("#nonstate")
     .style("left", - complete_width + "px")

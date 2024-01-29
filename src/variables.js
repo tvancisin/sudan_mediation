@@ -22,7 +22,7 @@ else {
     zoom_level = 1.5;
 }
 
-d3.select('#screenshot').on('click', function() {
+d3.select('#screenshot').on('click', function () {
     const screenshotTarget = document.body;
 
     html2canvas(screenshotTarget).then((canvas) => {
@@ -33,7 +33,7 @@ d3.select('#screenshot').on('click', function() {
 
 d3.select("#net").style("right", - complete_width + "px")
 d3.select("#country").style("height", net_height - 180 + "px")
-d3.select("#the_content").style("height", net_height - 430  + "px")
+d3.select("#the_content").style("height", net_height - 430 + "px")
 
 d3.select("#nonstate")
     .style("left", - complete_width + "px")
@@ -306,6 +306,7 @@ svgLegend
     .attr("transform", "translate(-1, 40)")
     .style("text-anchor", "end")
     .call(axisLeg);
+
 
 export {
     margin, complete_width, complete_height, width, net_width, net_height, bar_height,

@@ -167,53 +167,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   let sudan_unilateral_group_nonstate = d3.groups(sudan_unilateral_nonstate, d => d.third_party, d => d.mediation_ID)
   let south_unilateral_group_nonstate = d3.groups(south_unilateral_nonstate, d => d.third_party, d => d.mediation_ID)
 
-  // filters
-  let counter = 0;
-  d3.select("#filter_button").on("click", function () {
-    counter += 1;
-    if (counter % 2 !== 0) {
-      d3.select("#filter_button")
-        .transition().duration(500)
-        .style("left", 205 + "px")
-        .text("Hide")
-      d3.select("#filters")
-        .transition().duration(500)
-        .style("left", 5 + "px")
-    }
-    else {
-      d3.select("#filters")
-        .transition().duration(500)
-        .style("left", -205 + "px")
-      d3.select("#filter_button")
-        .transition().duration(500)
-        .style("left", 0 + "px")
-        .text("Filter")
-    }
-  })
-  // collaboration filter
-  let counter_collab = 0;
-  d3.select("#collab_button").on("click", function () {
-    counter_collab += 1;
-    if (counter_collab % 2 !== 0) {
-      d3.select("#collab_button")
-        .transition().duration(500)
-        .style("left", 205 + "px")
-        .text("Hide")
-      d3.select("#collab")
-        .transition().duration(500)
-        .style("left", 5 + "px")
-    }
-    else {
-      d3.select("#collab")
-        .transition().duration(500)
-        .style("left", -205 + "px")
-      d3.select("#collab_button")
-        .transition().duration(500)
-        .style("left", 0 + "px")
-        .text("Mediating with")
-    }
-  })
-
   // //draw leaflet map
   init_map(function () {
     draw_map(yrs, all_just_states, data)
@@ -1332,6 +1285,61 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   //   draw_map(yrs, all_just_states, data)
   // })
 
+  // filters
+  let counter = 0;
+  d3.select("#filter_button").on("click", function () {
+    counter += 1;
+    if (counter % 2 !== 0) {
+      d3.select("#filter_button")
+        .transition().duration(500)
+        .style("left", 200 + "px")
+        .text("Hide")
+      d3.select("#filters")
+        .transition().duration(500)
+        .style("left", 0 + "px")
+    }
+    else {
+      d3.select("#filters")
+        .transition().duration(500)
+        .style("left", -200 + "px")
+      d3.select("#filter_button")
+        .transition().duration(500)
+        .style("left", 0 + "px")
+        .text("Filter")
+    }
+  })
+  // info
+  let counter_collab = 0;
+  d3.select("#info_button").on("click", function () {
+    counter_collab += 1;
+    if (counter_collab % 2 !== 0) {
+      d3.select("#info_button")
+        .transition().duration(500)
+        .style("left", 200 + "px")
+        .text("Hide")
+      d3.select("#info")
+        .transition().duration(500)
+        .style("left", 0 + "px")
+      d3.select("#filters")
+        .transition().duration(500)
+        .style("left", -200 + "px")
+      d3.select("#filter_button")
+        .transition().duration(500)
+        .style("left", 0 + "px")
+        .text("Filter")
+      counter = 0;
+    }
+    else {
+      d3.select("#info")
+        .transition().duration(500)
+        .style("left", -205 + "px")
+      d3.select("#info_button")
+        .transition().duration(500)
+        .style("left", 0 + "px")
+        .text("Info")
+    }
+  })
+
   //draw bar chart
   draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state", data)
   //draw nonstate 
@@ -1343,11 +1351,18 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     counter_collab = 0;
     d3.select("#filters")
       .transition().duration(500)
-      .style("left", -250 + "px")
+      .style("left", -200 + "px")
     d3.select("#filter_button")
       .transition().duration(500)
       .style("left", 0 + "px")
       .text("Filter")
+    d3.select("#info")
+      .transition().duration(500)
+      .style("left", -200 + "px")
+    d3.select("#info_button")
+      .transition().duration(500)
+      .style("left", 0 + "px")
+      .text("Info")
     d3.select("#country").transition().duration(500)
       .style("right", -355 + "px")
     d3.select("#title1")

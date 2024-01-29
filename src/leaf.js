@@ -214,7 +214,6 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
     }
     click_function = (e) => {
         d3.selectAll(".pre, .p, .linkie").remove()
-        d3.select(".brush").style("display", "none")
         let clicked_country = e.features[0].properties.ADMIN;
         let bound_box
         if (clicked_country == "Russia") {
@@ -283,7 +282,6 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         d3.select("#country")
             .transition().duration(500)
             .style("right", 5 + "px")
-
 
         // populating country details
         let peace_agreements = 0;
@@ -362,7 +360,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         link.setAttribute('href', objUrl)
         link.setAttribute('class', "linkie")
         link.setAttribute('download', 'mediation.csv')
-        link.textContent = 'Download CSV'
+        link.textContent = 'Download Data'
 
         document.querySelector('#link').append(link)
     }

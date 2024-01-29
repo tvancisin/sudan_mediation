@@ -215,7 +215,19 @@ button:hover {
 
 #filters {
     position: absolute;
-    top: 50px;
+    top: 125px;
+    width: 200px;
+    height: 270px;
+    left: -300px;
+    background-color: black;
+    z-index: 999;
+    border-radius: 5px;
+    /* box-shadow: 0 0px 0px 0 rgb(255 255 255 / 10%), 0 0px 5px 0 rgba(255, 255, 255, 0.2); */
+}
+
+#info{
+    position: absolute;
+    top: 53px;
     width: 200px;
     height: 270px;
     left: -300px;
@@ -227,7 +239,7 @@ button:hover {
 
 #filter_button {
     position: absolute;
-    top: 22px;
+    top: 97px;
     left: 0px;
     z-index: 999;
     border-radius: 5px 5px 0px 0px;
@@ -246,6 +258,29 @@ button:hover {
     cursor: pointer;
     border: none;
 }
+
+#info_button {
+    position: absolute;
+    top: 25px;
+    left: 0px;
+    z-index: 999;
+    border-radius: 5px 5px 0px 0px;
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform-origin: bottom left;
+    background-color: #006297;
+    color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    border: none;
+}
+
 
 #dropdown_lateral {
     position: relative;
@@ -457,7 +492,7 @@ h4 {
     background-color: rgb(46, 46, 46);
 }
 
-#med_top_cont{
+#med_top_cont {
     padding: 0.4em;
     background-color: rgb(46, 46, 46);
     height: 75px;
@@ -516,7 +551,7 @@ pre:not(:first-child) {
     padding-left: 5px;
 }
 
-.linkie:link{
+.linkie:link {
     color: #fed800;
     font-size: 14px;
     font-weight: bold;

@@ -276,7 +276,7 @@ svgLegend.append("text")
     .attr("y", 20)
     .style("text-anchor", "left")
     .style("font-size", "10px")
-    .text("Mediation Involvement");
+    .text("Number of Mediations");
 // draw the rectangle and fill with gradient
 svgLegend.append("rect")
     .attr("x", 0)

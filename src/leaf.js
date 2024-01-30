@@ -6,6 +6,8 @@ import { draw_bars } from "./bar_chart";
 import { context_data, zoom_level } from "./variables";
 import mapboxgl from 'mapbox-gl';
 import * as turf from '@turf/turf';
+import { data_sort } from "./sort_data";
+import { unescapeLeadingUnderscores } from "typescript";
 
 // //-------------------------leaflet
 // //append leaflet map to div
@@ -271,6 +273,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
                 return true
             }
         });
+        console.log(country_in_array);
         let ungroupped = [];
         country_in_array[1].forEach(function (m) {
             m[1].forEach(function (x) {
@@ -282,6 +285,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         d3.select("#country")
             .transition().duration(500)
             .style("right", 0 + "px")
+
 
         // populating country details
         let peace_agreements = 0;
@@ -306,6 +310,22 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         })
         let the_partners = d3.groups(partners, d => d.third_party, d => d.mediation_ID)
         let five = the_partners.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
+
+        // let all = [];
+        // complete_data.forEach(function (d) {
+        //     if (just_mediation_numbers.includes(d.mediation_ID)) {
+        //         all.push(d)
+        //     }
+        // })
+        // console.log(all);
+
+        // d3.select("#country_net").on("click", function () {
+        //     d3.selectAll("#net")
+        //         .transition().duration(1000)
+        //         .style("right", 0 + "px")
+        //     data_sort(all, year)
+        // })
+
         // title and years
         d3.select("#country_title")
             .html(clicked_country + `</br>` + year[0] + ` - ` + year[1])

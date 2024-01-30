@@ -1379,6 +1379,16 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     d3.selectAll("#net")
       .transition().duration(1000)
       .style("right", - complete_width + "px")
+    let empty = {
+      nodes: [{}],
+      links: [{}]
+    }
+    //wait a second and remove nodes and links
+    setTimeout(() => {
+      update_net(empty, "update")
+      simulation.stop()
+      d3.selectAll(".node, .link, .network_nodename").remove()
+    }, "1000");
   })
 })
 

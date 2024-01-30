@@ -45,7 +45,6 @@ const nonstate_draw = function (data, years, complete_data) {
         .data(nodes, d => d.id)
         .join("circle")
         .style("fill", function (d) {
-            console.log(d);
             // return "white"
             if (d.type == "global") {
                 return "#ffe241"

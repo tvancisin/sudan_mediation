@@ -1310,33 +1310,21 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   })
   // info
   let counter_collab = 0;
-  d3.select("#info_button").on("click", function () {
+  d3.select(".info_button").on("click", function () {
     counter_collab += 1;
     if (counter_collab % 2 !== 0) {
-      d3.select("#info_button")
-        .transition().duration(500)
-        .style("left", 200 + "px")
-        .text("Hide")
       d3.select("#info")
         .transition().duration(500)
-        .style("left", 0 + "px")
-      d3.select("#filters")
-        .transition().duration(500)
-        .style("left", -200 + "px")
-      d3.select("#filter_button")
-        .transition().duration(500)
-        .style("left", 0 + "px")
-        .text("Filter")
-      counter = 0;
+        .style("right", 0 + "px")
+      d3.select(".info_button")
+        .style("background-color", "#fed800")
     }
     else {
       d3.select("#info")
         .transition().duration(500)
-        .style("left", -205 + "px")
-      d3.select("#info_button")
-        .transition().duration(500)
-        .style("left", 0 + "px")
-        .text("Info")
+        .style("right", -405 + "px")
+      d3.select(".info_button")
+        .style("background-color", "#04AA6D")
     }
   })
 
@@ -1349,6 +1337,8 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   d3.select(".button1").on("click", function (d) {
     counter = 0;
     counter_collab = 0;
+    d3.select(".info_button")
+      .style("background-color", "#04AA6D")
     d3.select("#filters")
       .transition().duration(500)
       .style("left", -200 + "px")
@@ -1358,11 +1348,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .text("Filter")
     d3.select("#info")
       .transition().duration(500)
-      .style("left", -200 + "px")
-    d3.select("#info_button")
-      .transition().duration(500)
-      .style("left", 0 + "px")
-      .text("Info")
+      .style("right", -405 + "px")
     d3.select("#country").transition().duration(500)
       .style("right", -355 + "px")
     d3.select("#title1")

@@ -281,7 +281,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
 
         d3.select("#country")
             .transition().duration(500)
-            .style("right", 5 + "px")
+            .style("right", 0 + "px")
 
         // populating country details
         let peace_agreements = 0;

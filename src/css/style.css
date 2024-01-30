@@ -144,8 +144,57 @@ button:hover {
 }
 
 .button1:hover {
-    background-color: red;
+    border: 1px solid white;
+ }
+
+.info_button {
+    position: absolute;
+    top: 5px;
+    right: 70px;
+    background-color: #04AA6D;
+    border: none;
     color: white;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 2px;
+    display: inline-block;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.info_button:hover {
+    border: 1px solid white;
+ }
+
+#info{
+    position: absolute;
+    top: 50px;
+    width: 400px;
+    right: -405px;
+    background-color: black;
+    z-index: 1000;
+    border-radius: 5px;
+    overflow-y: scroll;
+}
+
+#info::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+#info::-webkit-scrollbar-track {
+    background: #515151;
+}
+
+/* Handle */
+#info::-webkit-scrollbar-thumb {
+    background: white;
+}
+
+/* Handle on hover */
+#info::-webkit-scrollbar-thumb:hover {
+    background: rgb(230, 103, 103);
 }
 
 #map_title {
@@ -175,7 +224,6 @@ button:hover {
 #weight {
     color: white;
 }
-
 
 .tick line {
     stroke: rgb(255, 255, 255);
@@ -215,19 +263,7 @@ button:hover {
 
 #filters {
     position: absolute;
-    top: 125px;
-    width: 200px;
-    height: 270px;
-    left: -202px;
-    background-color: black;
-    z-index: 999;
-    border-radius: 5px;
-    /* box-shadow: 0 0px 0px 0 rgb(255 255 255 / 10%), 0 0px 5px 0 rgba(255, 255, 255, 0.2); */
-}
-
-#info{
-    position: absolute;
-    top: 53px;
+    top: 50px;
     width: 200px;
     height: 270px;
     left: -202px;
@@ -239,7 +275,7 @@ button:hover {
 
 #filter_button {
     position: absolute;
-    top: 97px;
+    top: 22px;
     left: 0px;
     z-index: 999;
     border-radius: 5px 5px 0px 0px;
@@ -259,27 +295,6 @@ button:hover {
     border: none;
 }
 
-#info_button {
-    position: absolute;
-    top: 25px;
-    left: 0px;
-    z-index: 999;
-    border-radius: 5px 5px 0px 0px;
-    -moz-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    transform-origin: bottom left;
-    background-color: #006297;
-    color: white;
-    padding: 5px 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    border-radius: 2px;
-    cursor: pointer;
-    border: none;
-}
 
 
 #dropdown_lateral {
@@ -468,7 +483,6 @@ h4 {
 #country {
     color: white;
     background-color: #000000;
-    opacity: 0.9;
     border-radius: 3px;
     position: absolute;
     right: -355px;

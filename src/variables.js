@@ -22,17 +22,8 @@ else {
     zoom_level = 1.5;
 }
 
-d3.select('#screenshot').on('click', function () {
-    const screenshotTarget = document.body;
-
-    html2canvas(screenshotTarget).then((canvas) => {
-        const base64image = canvas.toDataURL("image/png");
-        window.location.href = base64image;
-    });
-});
-
 d3.select("#net").style("right", - complete_width + "px")
-d3.select("#country").style("height", net_height - 180 + "px")
+d3.selectAll("#country, #info").style("height", net_height - 180 + "px")
 d3.select("#the_content").style("height", net_height - 430 + "px")
 
 d3.select("#nonstate")

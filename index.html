@@ -13,22 +13,55 @@
 
 <body>
   <div id="header">
-    <button class="button button1"><i class="fa fa-refresh" style="color:black"></i></button>
+    <button title="Refresh Page" class="button button1"><i class="fa fa-refresh" style="color:black"></i></button>
+    <button title="Information" class="button info_button"><i class="fa fa-info" aria-hidden="true"
+        style="color:black"></i></button>
     <h2>Sudan & South Sudan: Global Fragmentation-Mediation Dataset</h2>
     <img src="logo.png" alt="PeaceRep Logo" />
   </div>
 
-  <button id="filter_button">Filter</button>
-  <button id="info_button">Info</button>
+  <div id="info">
+    <p style="color:white; padding:0.5em; font-size: 12px;"><b>Definitions of Mediation Activities:</b>
+      </br>
+      </br>
+      <b>Good offices</b> refer to the facilitation of mainly consultative talks,
+      usually without face-to-face interaction between belligerents, this
+      includes shuttle diplomacy, convening consultative meetings, fora,
+      workshops and summits between combatants or stakeholders, pre-negotiation
+      talks, and informal talks.
+      </br>
+      </br>
 
-  <div id="vis_buttons">
-    <button id="time_button">Timeline</button>
-    <button id="net_button">Network</button>
-    <button id="map_button">Map</button>
+      <b>Mediation</b> refers to the holding and chairing of talks between
+      combatants and political stakeholders. This may include offering solutions
+      
+      </br>
+      </br>
+
+      <b>Hosting</b> refers to when an entity, namely a state, is said to host if
+      talks are held within its territory. States, NGOs, IGOs, or individuals are
+      coded as hosts if they have convened and chaired the talks.
+      </br>
+      </br>
+
+      <b>Negotiating</b> refers to when third parties negotiate ways forward or draft
+      agreements without the presence or direct input of the conflict parties.
+      Activities are also coded as 'negotiation' if previous talks and consultations
+      took place, but when the main conflict parties are not physically present or
+      directly involved in the mediation incident. 'Negotiation' also refers to when
+      third parties do not chair, host, or mediate, but participate as a party in
+      negotiations that are led by the conflict parties.
+      </br>
+      </br>
+
+      <b>Manipulating</b> refers to third party pressure on conflict actors to
+      conclude an agreement, implement it, or re-enter negotiations. This primarily
+      includes threatening sanctions and other punishments, but also offering
+      conditional incentives to the conflict parties.
+    </p>
   </div>
 
-  <div id="info"></div>
-
+  <button id="filter_button">Filter</button>
   <div id="filters">
     <div id="nonstate_drop_div">
       <h4>Mediations</h4>
@@ -54,6 +87,12 @@
         <option>South Sudan</option>
       </select>
     </div>
+  </div>
+
+  <div id="vis_buttons">
+    <button id="time_button">Timeline</button>
+    <button id="net_button">Network</button>
+    <button id="map_button">Map</button>
   </div>
 
   <div id="collab">

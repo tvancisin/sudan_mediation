@@ -184,8 +184,8 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
         context_line = 8;
         context_text = 9;
         d3.select(".brush").style("display", "block")
-        bar_y.domain([0, 280])
-        y_mirror.domain([280, 0])
+        bar_y.domain([0, 250])
+        y_mirror.domain([250, 0])
     }
     else if (size == "country") {
         d3.selectAll("#bar, .bar_svg")
@@ -195,7 +195,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
         full_bar_h = 150 - margin.top - margin.bottom;
         context_line = 9;
         context_text = 10;
-        d3.select(".brush").style("display", "block")
+        d3.select(".brush").style("display", "none")
         bar_y.domain([0, 50])
         y_mirror.domain([50, 0])
     }
@@ -209,8 +209,8 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
         context_text = 22;
         bar_h = net_height / 1.5 - margin.top - margin.bottom;
         full_bar_h = net_height - margin.top - margin.bottom;
-        bar_y.domain([0, 280])
-        y_mirror.domain([280, 0])
+        bar_y.domain([0, 200])
+        y_mirror.domain([200, 0])
     }
     //update ranges
     bar_y.range([bar_h, 0])
@@ -535,7 +535,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
     //appending brusing g element
     gBrush
         .call(brush)
-        .call(brush.move, [20, width - 20])
+        .call(brush.move, [12, width - 12])
     //Handle group
     const gHandles = gBrush.selectAll('g.handles')
         .data(['handle--o', 'handle--e'])
@@ -543,7 +543,7 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
         .attr('class', d => `handles ${d}`)
         .attr('fill', "white")
         .attr('transform', d => {
-            const x = d == 'handle--o' ? 18 : width - 18;
+            const x = d == 'handle--o' ? 15 : width - 15;
             return `translate(${x}, 0)`;
         });
     //Label

@@ -111,15 +111,15 @@ function init_map(callback) {
             'source': 'states',
             'layout': {},
             'paint': {
-                'fill-color':
-                    [
-                        'case',
-                        ['==', ["get", "ADMIN"], "Sudan"],
-                        "#fed800",
-                        ['==', ["get", "ADMIN"], "South Sudan"],
-                        "#fed800",
-                        "white"
-                    ],
+                'fill-color': "white"
+                // [
+                //     'case',
+                //     ['==', ["get", "ADMIN"], "Sudan"],
+                //     "#fed800",
+                //     ['==', ["get", "ADMIN"], "South Sudan"],
+                //     "#fed800",
+                //     "white"
+                // ],
             }
         },
             // firstSymbolId
@@ -135,7 +135,7 @@ function init_map(callback) {
                     'case',
                     ['boolean', ['feature-state', 'hover'], false],
                     2,
-                    0
+                    0.5
                 ],
             }
         });
@@ -148,8 +148,43 @@ function init_map(callback) {
 let hoveredPolygonId = null;
 let color_scale = d3.scaleLinear().domain([1, 30]).range([0.2, 1]);
 let click_function, mousemove_function, mouseleave_function = null;
-
+let sudans = [{
+    'type': 'Sudan',
+    'coordinates': [30.00919, 16.05325]
+}, {
+    'type': 'South Sudan',
+    'coordinates': [30.34377, 7.263461]
+}]
+let dt;
 const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
+    console.log(rest, data);
+    d3.selectAll(".marker").remove()
+    if (data.length == 36){
+        dt = [sudans[1]]
+    }
+    else if (data.length == 66){
+        dt = sudans
+    }
+    else {
+        dt = [sudans[0]]
+    }
+
+    for (const marker of dt) {
+        const el = document.createElement('div');
+        const width = 25;
+        const height = 25;
+        el.className = 'marker';
+        el.style.backgroundImage = `url(public/location-pin-2.png)`;
+        el.style.width = `${width}px`;
+        el.style.height = `${height}px`;
+        el.style.backgroundSize = '100%';
+        el.style.cursor = "pointer"
+
+        new mapboxgl.Marker(el)
+            .setLngLat(marker.coordinates)
+            .addTo(map);
+    }
+
     // set opacity for polygons
     let opacity_match = [];
     rest.forEach(function (d) {
@@ -273,7 +308,8 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
                 return true
             }
         });
-        console.log(country_in_array);
+        let first_involvement = country_in_array[1][0][1][0].year
+
         let ungroupped = [];
         country_in_array[1].forEach(function (m) {
             m[1].forEach(function (x) {
@@ -285,7 +321,6 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         d3.select("#country")
             .transition().duration(500)
             .style("right", 0 + "px")
-
 
         // populating country details
         let peace_agreements = 0;
@@ -328,7 +363,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
 
         // title and years
         d3.select("#country_title")
-            .html(clicked_country + `</br>` + year[0] + ` - ` + year[1])
+            .html(clicked_country + `</br>` + `Active Between:  ` + first_involvement)
         //top 5 
         d3.select("#med_top_cont").selectAll(".p")
             .data(five)

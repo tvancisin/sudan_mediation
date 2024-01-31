@@ -22,11 +22,18 @@ h2 {
     margin: auto;
 }
 
-img {
+#peace_logo {
     position: absolute;
     top: 1px;
     left: 1px;
     height: 43px;
+}
+
+#conflict_logo {
+    position: absolute;
+    top: 9px;
+    right: 40px;
+    height: 25px;
 }
 
 #map {

@@ -16,7 +16,7 @@
     <button title="Refresh Page" id="refresh_button"><i class="fa fa-refresh"></i></button>
     <button title="Information" id="info_button"><i class="fa fa-info"></i></button>
     <h2>Sudan & South Sudan: Global Fragmentation-Mediation Dataset</h2>
-    <img src="logo.png" alt="PeaceRep Logo" />
+    <img id="peace_logo" src="logo.png" alt="PeaceRep Logo" />
   </div>
 
   <div id="info">
@@ -62,6 +62,15 @@
 
   <button id="filter_button">Filter</button>
   <div id="filters">
+    <div id="conflict_drop_div">
+      <h4>Conflict Locale</h4>
+        <img id="conflict_logo" src="location-pin-2.png" alt="conflict logo" />
+      <select id="dropdown_country">
+        <option selected="selected">All</option>
+        <option>Sudan</option>
+        <option>South Sudan</option>
+      </select>
+    </div>
     <div id="nonstate_drop_div">
       <h4>Mediations</h4>
       <select id="dropdown_lateral">
@@ -76,14 +85,6 @@
         <!-- <option>Both</option> -->
         <option selected="selected">State</option>
         <option>Organizations</option>
-      </select>
-    </div>
-    <div id="conflict_drop_div">
-      <h4>Locale</h4>
-      <select id="dropdown_country">
-        <option selected="selected">All</option>
-        <option>Sudan</option>
-        <option>South Sudan</option>
       </select>
     </div>
   </div>

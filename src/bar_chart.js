@@ -331,6 +331,9 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
                     return bar_y(0);
                 })
                 .attr("height", 0)
+                .on("mouseover", function(i,d){
+                    console.log(i,d);
+                })
                 .attr("width", bar_x.bandwidth())
                 .transition().duration(500)
                 .attr("y", d => bar_y(d[1]))

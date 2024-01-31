@@ -11,7 +11,6 @@ let circle_scale = d3.scaleLinear()
     .domain([1, 130])
 
 const nonstate_draw = function (data, years, complete_data) {
-    console.log(data, complete_data);
     // restrict to the passed years
     let restrict_by_years = data.filter(function (d) {
         if (d.year >= years[0] && d.year <= years[1]) { return d }
@@ -65,13 +64,25 @@ const nonstate_draw = function (data, years, complete_data) {
         .attr('cy', function (d) {
             return d.y
         })
+        .style("cursor", "pointer")
+        .on("mouseover", function (i, d) {
+            d3.select(this)
+                .transition()
+                .attr('stroke', 'white')
+                .attr('stroke-width', 2);
+        })
+        .on("mouseleave", function (i, d) {
+            d3.select(this)
+                .transition()
+                .attr('stroke', "none")
+        })
         .on("click", function (i, d) {
-            console.log(d, group_data);
+            d3.selectAll(".pre, .p, .linkie").remove()
             let clicked_country = d.id;
 
             d3.select("#country")
                 .transition().duration(500)
-                .style("right", 5 + "px")
+                .style("right", 0 + "px")
 
             // title and years
             d3.select("#country_title")
@@ -89,7 +100,7 @@ const nonstate_draw = function (data, years, complete_data) {
                     ungroupped.push(x)
                 })
             })
-            
+
             draw_bars(ungroupped, context_data, "country", data, "bar", complete_data)
 
             // populating country details
@@ -145,12 +156,31 @@ const nonstate_draw = function (data, years, complete_data) {
             let num_of_med = group_data.filter(obj => {
                 return obj[0] == clicked_country
             })
-            console.log(num_of_med);
             d3.select("#med_title").html(`Mediation Events ` + num_of_med[0][1].length + ` <b style="color:#fed800;">(` + peace_agreements + ` Peace Agreements)</b>: `)
 
+            const titleKeys = Object.keys(ungroupped[0])
+            const refinedData = []
+            refinedData.push(titleKeys)
 
+            ungroupped.forEach(item => {
+                refinedData.push(Object.values(item))
+            })
 
+            let csvContent = ''
+            refinedData.forEach(row => {
+                csvContent += row.join(',') + '\n'
+            })
 
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8,' })
+            const objUrl = URL.createObjectURL(blob)
+
+            const link = document.createElement('a')
+            link.setAttribute('href', objUrl)
+            link.setAttribute('class', "linkie")
+            link.setAttribute('download', 'mediation.csv')
+            link.textContent = 'Download Data'
+
+            document.querySelector('#link').append(link)
         })
         .call(d3.drag()
             .on("start", dragstarted)

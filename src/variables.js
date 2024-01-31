@@ -22,6 +22,8 @@ else {
     zoom_level = 1.5;
 }
 
+d3.select("#org-legend-lateral").style("top", net_height / 1.5 - 100 + "px")
+d3.select("#org-legend").style("top", net_height / 1.5 + 20 + "px")
 d3.select("#net").style("right", - complete_width + "px")
 d3.selectAll("#country, #info").style("height", net_height - 180 + "px")
 d3.select("#the_content").style("height", net_height - 430 + "px")

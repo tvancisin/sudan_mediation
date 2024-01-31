@@ -862,11 +862,13 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     }
   })
 
-
   //Visualization Buttons
   d3.select('#map_button').on("click", function () {
     d3.select("#map_button").style("background-color", "#006297")
-    d3.selectAll("#net_button, #time_button").style("background-color", "#071832")
+    d3.selectAll("#net_button, #time_button").style("background-color", "#04AA6D")
+    d3.selectAll("#org-legend, #org-legend-lateral").transition().duration(800)
+      .style("opacity", 0)
+      .style("visibility", "hidden")
 
     button_pressed_vis = "map"
     if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
@@ -986,7 +988,10 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .transition().duration(1000)
       .style("left", - complete_width + "px")
     d3.select("#net_button").style("background-color", "#006297")
-    d3.selectAll("#map_button, #time_button").style("background-color", "#071832")
+    d3.selectAll("#map_button, #time_button").style("background-color", "#04AA6D")
+    d3.selectAll("#org-legend, #org-legend-lateral").transition().duration(800)
+      .style("opacity", 0)
+      .style("visibility", "hidden")
     button_pressed_vis = "net"
 
     if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
@@ -1081,8 +1086,10 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     d3.select("#nonstate")
       .transition().duration(1000)
       .style("left", - complete_width + "px")
+    d3.selectAll("#org-legend, #org-legend-lateral").transition().delay(500).duration(1000)
+      .style("opacity", 1).style("visibility", "visible")
     d3.select("#time_button").style("background-color", "#006297")
-    d3.selectAll("#map_button, #net_button").style("background-color", "#071832")
+    d3.selectAll("#map_button, #net_button").style("background-color", "#04AA6D")
     button_pressed_vis = "time"
     console.log(button_pressed_country, button_pressed_state, button_pressed_lateral);
 
@@ -1156,11 +1163,11 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     d3.select("#title1")
       .transition().duration(1000)
       .style("font-size", 20 + "px")
-      .style("bottom", net_height - 100 + "px")
+      .style("bottom", net_height - 50 + "px")
     d3.select("#title2")
       .transition().duration(1000)
       .style("font-size", 20 + "px")
-      .style("bottom", 80 + "px")
+      .style("bottom", 20 + "px")
     //wait a second and remove nodes and links
     setTimeout(() => {
       update_net(empty, "update")
@@ -1301,7 +1308,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     else {
       d3.select("#filters")
         .transition().duration(500)
-        .style("left", -200 + "px")
+        .style("left", -205 + "px")
       d3.select("#filter_button")
         .transition().duration(500)
         .style("left", 0 + "px")
@@ -1310,21 +1317,17 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   })
   // info
   let counter_collab = 0;
-  d3.select(".info_button").on("click", function () {
+  d3.select("#info_button").on("click", function () {
     counter_collab += 1;
     if (counter_collab % 2 !== 0) {
       d3.select("#info")
         .transition().duration(500)
         .style("right", 0 + "px")
-      d3.select(".info_button")
-        .style("background-color", "#fed800")
     }
     else {
       d3.select("#info")
         .transition().duration(500)
         .style("right", -405 + "px")
-      d3.select(".info_button")
-        .style("background-color", "#04AA6D")
     }
   })
 
@@ -1334,11 +1337,36 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   collaborations(all_non_states)
 
   //reset everything
-  d3.select(".button1").on("click", function (d) {
+  d3.select("#refresh_button").on("click", function (d) {
+    d3.selectAll("#org-legend, #org-legend-lateral").transition().duration(800)
+      .style("opacity", 0)
+      .style("visibility", "hidden")
+    button_pressed_lateral = "multilateral";
+    button_pressed_state = "state";
+    button_pressed_country = "all";
+    button_pressed_vis = "map";
     counter = 0;
     counter_collab = 0;
-    d3.select(".info_button")
-      .style("background-color", "#04AA6D")
+    draw_map(yrs, all_just_states, data)
+    draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state", data)
+    collaborations(all_non_states)
+    let empty = {
+      nodes: [{}],
+      links: [{}]
+    }
+    //wait a second and remove nodes and links
+    setTimeout(() => {
+      update_net(empty, "update")
+      simulation.stop()
+      d3.selectAll(".node, .link, .network_nodename").remove()
+    }, "1000");
+    // map.flyTo([25, 5], 2.5, { duration: 1 });
+    map.flyTo({
+      center: [10, 9],
+      zoom: zoom_level,
+      essential: true // this animation is considered essential with respect to prefers-reduced-motion
+    });
+
     d3.select("#filters")
       .transition().duration(500)
       .style("left", -200 + "px")
@@ -1359,19 +1387,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .transition().duration(1000)
       .style("font-size", 12 + "px")
       .style("bottom", 5 + "px")
-    button_pressed_lateral = "multilateral";
-    button_pressed_state = "state";
-    button_pressed_country = "all";
-    button_pressed_vis = "map";
-    // map.flyTo([25, 5], 2.5, { duration: 1 });
-    map.flyTo({
-      center: [10, 9],
-      zoom: zoom_level,
-      essential: true // this animation is considered essential with respect to prefers-reduced-motion
-    });
-    draw_map(yrs, all_just_states, data)
-    draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state", data)
-    d3.selectAll("#net_button, #time_button").style("background-color", "#071832")
+    d3.selectAll("#net_button, #time_button").style("background-color", "#04AA6D")
     d3.select("#map_button").style("background-color", "#006297")
     d3.select("#nonstate")
       .transition().duration(1000)
@@ -1379,16 +1395,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     d3.selectAll("#net")
       .transition().duration(1000)
       .style("right", - complete_width + "px")
-    let empty = {
-      nodes: [{}],
-      links: [{}]
-    }
-    //wait a second and remove nodes and links
-    setTimeout(() => {
-      update_net(empty, "update")
-      simulation.stop()
-      d3.selectAll(".node, .link, .network_nodename").remove()
-    }, "1000");
   })
 })
 

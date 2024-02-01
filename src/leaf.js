@@ -135,7 +135,7 @@ function init_map(callback) {
                     'case',
                     ['boolean', ['feature-state', 'hover'], false],
                     2,
-                    0.5
+                    0
                 ],
             }
         });

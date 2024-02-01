@@ -363,7 +363,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
 
         // title and years
         d3.select("#country_title")
-            .html(clicked_country + `</br>` + `Active Between:  ` + first_involvement)
+            .html(clicked_country + `</br>` + `First Active:  ` + first_involvement)
         //top 5 
         d3.select("#med_top_cont").selectAll(".p")
             .data(five)

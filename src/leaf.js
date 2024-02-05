@@ -48,7 +48,7 @@ import { unescapeLeadingUnderscores } from "typescript";
 
 // --------------- mapbox
 
-mapboxgl.accessToken = 'pk.eyJ1Ijoic2FzaGFnYXJpYmFsZHkiLCJhIjoiY2xyajRlczBlMDhqMTJpcXF3dHJhdTVsNyJ9.P_6mX_qbcbxLDS1o_SxpFg';
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2FzaGFnYXJpYmFsZHkiLCJhIjoiY2xzOTQ1aTUxMDNybzJqb2ZhMG4xNmQzOCJ9.P_eiaa-YFd_9dtUixCKlKA';
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v11',

@@ -48,7 +48,7 @@ import { unescapeLeadingUnderscores } from "typescript";
 
 // --------------- mapbox
 
-mapboxgl.accessToken = 'pk.eyJ1Ijoic2FzaGFnYXJpYmFsZHkiLCJhIjoiY2xzOTQ1aTUxMDNybzJqb2ZhMG4xNmQzOCJ9.P_eiaa-YFd_9dtUixCKlKA';
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2FzaGFnYXJpYmFsZHkiLCJhIjoiY2xyajRlczBlMDhqMTJpcXF3dHJhdTVsNyJ9.P_6mX_qbcbxLDS1o_SxpFg';
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v11',
@@ -174,7 +174,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
         const width = 25;
         const height = 25;
         el.className = 'marker';
-        el.style.backgroundImage = `url(public/location-pin-2.png)`;
+        el.style.backgroundImage = `url(pin.png)`;
         el.style.width = `${width}px`;
         el.style.height = `${height}px`;
         el.style.backgroundSize = '100%';

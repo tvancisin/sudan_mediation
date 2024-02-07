@@ -1178,42 +1178,32 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
   const collaborations = function (non_state_data) {
     let five = non_state_data.sort((a, b) => b[1].length - a[1].length).slice(0, 5);
-    let max = five[0][1].length
-
-    let color_scale = d3.scaleLinear()
-      .domain([0, max])
-      .range([5, 40])
-
     five.sort((a, b) => a[1].length - b[1].length)
-    top_five_svg.selectAll(".otherCircles")
+    top_five_svg.selectAll(".rectangles")
       .data(five)
       .join("rect")
       .attr("x", 15)
       .attr("y", function (d, i) {
         return 130 - (i * 25 + 25)
       })
-      .attr("width", function (d) {
-        return color_scale(d[1].length)
-      })
+      .attr("width", 20)
       .attr("height", 20)
       .attr("rx", 3)
       .style("cursor", "pointer")
-      .style("fill", function (d) {
-        return "white"
-      })
-      .style("stroke", "black")
+      .style("fill", "white")
+      .style("fill-opacity", 0)
+      .style("stroke", "white")
       .style("stroke-width", 0.5)
-      .attr("class", "otherCircles")
+      .attr("class", "rectangles")
       .on("click", function (d) {
+        d3.selectAll(".rectangles").style("fill-opacity", 0)
+        d3.select(this).style("fill-opacity", 0.5)
         let non_state = d.target.__data__;
         let current_igo = non_state[0];
         let mediation_array = [];
         non_state[1].forEach(function (d) {
           mediation_array.push(d[0])
         })
-
-        console.log(non_state, current_igo, mediation_array);
-
         let partners = []
         if (button_pressed_vis == "map" && button_pressed_state == "state") {
           data.forEach(function (d) {
@@ -1264,11 +1254,9 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .data(five)
       .join("text")
       .attr("text-anchor", "left")
-      .attr("dx", function (d) {
-        return color_scale(d[1].length) - 10;
-      })
+      .attr("dx", 10)
       .attr("class", "tooltip")
-      .attr("x", 30)
+      .attr("x", 40)
       .attr("y", function (d, i) {
         return 130 - (i * 25 + 10)
       })
@@ -1280,17 +1268,10 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         else {
           country = d[0]
         }
-        return country + " (" + d[1].length + ")"
+        return country
       })
       .style("font-size", 12)
   }
-
-  d3.select("#map_button").style("background-color", "#006297")
-
-  // //draw leaflet map
-  // init_map(function () {
-  //   draw_map(yrs, all_just_states, data)
-  // })
 
   // filters
   let counter = 0;

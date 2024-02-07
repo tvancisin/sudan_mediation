@@ -237,7 +237,7 @@ text {
     position: absolute;
     color: white;
     bottom: 160px;
-    width: 200px;
+    width: 140px;
     height: 170px;
     left: 5px;
     background-color: black;
@@ -273,7 +273,7 @@ text {
     padding: 5px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 14px;
     border-radius: 2px;
     cursor: pointer;
     border: none;
@@ -457,7 +457,7 @@ h4 {
     padding: 5px 20px;
     text-align: center;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 14px;
     border-radius: 2px;
     cursor: pointer;
     border: none;

@@ -27,6 +27,7 @@ d3.select("#org-legend").style("top", net_height / 1.5 + 20 + "px")
 d3.select("#net").style("right", - complete_width + "px")
 d3.selectAll("#country, #info").style("height", net_height - 180 + "px")
 d3.select("#the_content").style("height", net_height - 430 + "px")
+d3.select("#map_button").style("background-color", "#006297")
 
 d3.select("#nonstate")
     .style("left", - complete_width + "px")
@@ -278,7 +279,7 @@ svgLegend.append("text")
     .attr("y", 20)
     .style("text-anchor", "left")
     .style("font-size", "10px")
-    .text("Number of Mediations");
+    .text("Number of Mediation Events");
 // draw the rectangle and fill with gradient
 svgLegend.append("rect")
     .attr("x", 0)

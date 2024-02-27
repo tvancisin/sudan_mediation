@@ -124,8 +124,6 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
         formatted_years.push(indi_year)
     })
 
-    // console.log(formatted_years);
-
     let subgroups = ["unilateral", "multilateral"];
     const groups = formatted_years.map(d => (d.group))
     const color = d3.scaleOrdinal()
@@ -184,8 +182,8 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
         context_line = 8;
         context_text = 9;
         d3.select(".brush").style("display", "block")
-        bar_y.domain([0, 250])
-        y_mirror.domain([250, 0])
+        bar_y.domain([0, 300])
+        y_mirror.domain([300, 0])
     }
     else if (size == "country") {
         d3.selectAll("#bar, .bar_svg")
@@ -209,8 +207,8 @@ function draw_bars(bar_data, context_data, size, map_data, current_state, comp_d
         context_text = 22;
         bar_h = net_height / 1.5 - margin.top - margin.bottom;
         full_bar_h = net_height - margin.top - margin.bottom;
-        bar_y.domain([0, 200])
-        y_mirror.domain([200, 0])
+        bar_y.domain([0, 300])
+        y_mirror.domain([300, 0])
     }
     //update ranges
     bar_y.range([bar_h, 0])

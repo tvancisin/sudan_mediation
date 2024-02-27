@@ -97,14 +97,6 @@ text {
     stroke-width: 2px;
 }
 
-.slidecontainer {
-    padding: 10px;
-    position: absolute;
-    right: 20px;
-    z-index: 900;
-}
-
-#timeline,
 #bar {
     position: absolute;
     bottom: 0px;
@@ -224,8 +216,12 @@ text {
 
 .slidecontainer {
     position: absolute;
-    top: 35px;
-    right: 40px
+    top: 50px;
+    right: 50px;
+    padding: 10px;
+    z-index: 900;
+}
+
 }
 
 .leaflet-layer,
@@ -234,14 +230,14 @@ text {
 }
 
 #collab {
-    position: absolute;
+    /* position: absolute; */
     color: white;
-    bottom: 160px;
+    /* bottom: 160px;
     width: 140px;
     height: 170px;
-    left: 5px;
+    left: 5px; */
     background-color: black;
-    z-index: 910;
+    /* z-index: 910; */
     border-radius: 5px;
 }
 
@@ -254,12 +250,12 @@ text {
     background-color: black;
     z-index: 999;
     border-radius: 5px;
-    box-shadow: 1px 1px 1px 0 rgb(255 255 255 / 10%), 0 0px 5px 0 rgba(255, 255, 255, 0.2);
+    /* box-shadow: 1px 1px 1px 0 rgb(255 255 255 / 10%), 0 0px 5px 0 rgba(255, 255, 255, 0.2); */
 }
 
 #filter_button {
     position: absolute;
-    top: 25px;
+    top: 28px;
     left: 0px;
     z-index: 999;
     border-radius: 5px 5px 0px 0px;
@@ -277,6 +273,8 @@ text {
     border-radius: 2px;
     cursor: pointer;
     border: none;
+    font-family: 'Montserrat';
+    font-weight: bold;
 }
 
 #filter_button:hover { background-color: #006297 }
@@ -444,7 +442,6 @@ h4 {
     -o-transform: rotate(-90deg);
     transform: rotate(-90deg);
     transform-origin: 100% 0;
-
 }
 
 #map_button,
@@ -454,13 +451,15 @@ h4 {
     border-radius: 5px 5px 0px 0px;
     background-color: #04AA6D;
     color: black;
-    padding: 5px 20px;
+    padding: 5px 10px;
     text-align: center;
     text-decoration: none;
     font-size: 14px;
     border-radius: 2px;
     cursor: pointer;
     border: none;
+    font-family: 'Montserrat';
+    font-weight: bold;
 }
 
 #map_button:hover { background-color: #006297 } 
@@ -605,4 +604,69 @@ pre:not(:first-child) {
     font-family: "Montserrat";
     opacity: 0;
     visibility: hidden;
+}
+
+.node {
+    font: 300 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    fill: #bbb;
+}
+
+.node:hover {
+    fill: #000;
+}
+
+.link {
+    stroke: rgb(93, 93, 93);
+    stroke-opacity: 0.3;
+    fill: none;
+    pointer-events: none;
+    stroke-width: 0.4px;
+}
+
+.node:hover,
+.node--source,
+.node--target {
+    font-weight: 700;
+}
+
+.node--source {
+    fill: #fed800;
+}
+
+.node--target {
+    fill: #fed800;
+}
+
+.link--source,
+.link--target {
+    stroke-opacity: 1;
+    stroke-width: 1px;
+}
+
+.link--source {
+    stroke: #fed800;
+}
+
+.link--target {
+    stroke: #fed800;
+}
+
+#time_toggle {
+    position: absolute;
+    bottom: 0px;
+    left: 5px;
+    cursor: pointer;
+    z-index: 999;
+    background-color: #04AA6D;
+    border: none;
+    color: black;
+    padding: 5px 15px;
+    text-align: center;
+    font-size: 14px;
+    font-family: "Montserrat";
+    font-weight: bold;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 2px;
 }

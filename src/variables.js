@@ -3,7 +3,7 @@ import html2canvas from "html2canvas";
 import 'leaflet/dist/leaflet.css';
 import $ from "jquery";
 
-//set margins height and width
+////////set margins height and width
 const margin = { top: 10, right: 20, bottom: 5, left: 20 },
     complete_width = window.innerWidth,
     complete_height = window.innerHeight,
@@ -38,8 +38,7 @@ d3.select("#nonstate")
 $("#map").width(complete_width)
 let slide = document.getElementById('myRange');
 
-//------------------ NONSTATE-----------------------
-
+////////organizations vis
 const nonstate_zoom = d3.zoom()
     .on('zoom', (event) => {
         net_svg.attr('transform', event.transform);
@@ -106,102 +105,101 @@ const top_five_svg = d3.select("#collab")
     .attr("height", 130 + "px")
     .append("g")
 
+//////// force-directed network
+// //zooming and panning for the network
+// const zoom = d3.zoom()
+//     .on('zoom', (event) => {
+//         net_svg.attr('transform', event.transform);
+//     })
+//     .scaleExtent([0.5, 3]);
+// //append svg to dataviz div 
+// const net_svg = d3.select("#net")
+//     .append("svg")
+//     .attr("width", complete_width)
+//     .attr("height", net_height + margin.top + margin.bottom)
+//     .attr("style", "max-width: 100%; height: auto;")
+//     .call(zoom)
+//     .append("g")
+// //position nodes and links
+// function ticked() {
+//     context.node.attr("cx", d => d.x)
+//         .attr("cy", d => d.y);
+//     context.link.attr("x1", d => d.source.x)
+//         .attr("y1", d => d.source.y)
+//         .attr("x2", d => d.target.x)
+//         .attr("y2", d => d.target.y);
+//     context.text.attr("x", d => d.x - 5)
+//         .attr("y", d => d.y + 5);
+// }
+// var rscale = d3.scaleLinear()
+//     .range([1, 20])
+//     .domain([1, 40])
+// //create a simulation for an array of nodes, and compose the desired forces.
+// let simulation = d3.forceSimulation()
+//     .force("link", d3.forceLink().id(d => d.id))
+//     .force("charge", d3.forceManyBody().strength(-150))
+//     .force("center", d3.forceCenter(complete_width / 2, complete_height / 2))
+//     .force('collision', d3.forceCollide().radius(function (d) {
+//         return rscale(d.weight);
+//     }))
+//     .force('x', d3.forceX().x(function (d) {
+//         if (d.locale == "western") {
+//             return 10
+//         }
+//         else if (d.locale == "african") {
+//             return 10
+//         }
+//         else if (d.locale == "international") {
+//             return width
+//         }
+//         else if (d.locale == "nonwestern") {
+//             return width
+//         }
+//     }))
+//     .force('y', d3.forceY().y(function (d) {
+//         if (d.locale == "western") {
+//             return 80
+//         }
+//         else if (d.locale == "african") {
+//             return net_height
+//         }
+//         else if (d.locale == "international") {
+//             return 50
+//         }
+//         else if (d.locale == "nonwestern") {
+//             return net_height
+//         }
+//     }))
+//     .on("tick", ticked);
+// //prepare initial links 
+// let link = net_svg.append("g")
+//     .selectAll("line");
+// //prepare initial nodes 
+// let node = net_svg.append("g")
+//     .selectAll("circle");
+// //prepare initial texts
+// let text = net_svg.append("g")
+//     .selectAll("text")
+// //variable to use with ts
+// const context = {
+//     link: link,
+//     node: node,
+//     text: text
+// }
 
-//---------------------network------------------------------------
-//zooming and panning for the network
-const zoom = d3.zoom()
-    .on('zoom', (event) => {
-        net_svg.attr('transform', event.transform);
-    })
-    .scaleExtent([0.5, 3]);
-//append svg to dataviz div 
-const net_svg = d3.select("#net")
-    .append("svg")
-    .attr("width", complete_width)
-    .attr("height", net_height + margin.top + margin.bottom)
-    .attr("style", "max-width: 100%; height: auto;")
-    .call(zoom)
-    .append("g")
-//position nodes and links
-function ticked() {
-    context.node.attr("cx", d => d.x)
-        .attr("cy", d => d.y);
-    context.link.attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y);
-    context.text.attr("x", d => d.x - 5)
-        .attr("y", d => d.y + 5);
-}
-var rscale = d3.scaleLinear()
-    .range([1, 20])
-    .domain([1, 40])
-//create a simulation for an array of nodes, and compose the desired forces.
-let simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(d => d.id))
-    .force("charge", d3.forceManyBody().strength(-150))
-    .force("center", d3.forceCenter(complete_width / 2, complete_height / 2))
-    .force('collision', d3.forceCollide().radius(function (d) {
-        return rscale(d.weight);
-    }))
-    .force('x', d3.forceX().x(function (d) {
-        if (d.locale == "western") {
-            return 10
-        }
-        else if (d.locale == "african") {
-            return 10
-        }
-        else if (d.locale == "international") {
-            return width
-        }
-        else if (d.locale == "nonwestern") {
-            return width
-        }
-    }))
-    .force('y', d3.forceY().y(function (d) {
-        if (d.locale == "western") {
-            return 80
-        }
-        else if (d.locale == "african") {
-            return net_height
-        }
-        else if (d.locale == "international") {
-            return 50
-        }
-        else if (d.locale == "nonwestern") {
-            return net_height
-        }
-    }))
-    .on("tick", ticked);
-//prepare initial links 
-let link = net_svg.append("g")
-    .selectAll("line");
-//prepare initial nodes 
-let node = net_svg.append("g")
-    .selectAll("circle");
-//prepare initial texts
-let text = net_svg.append("g")
-    .selectAll("text")
-//variable to use with ts
-const context = {
-    link: link,
-    node: node,
-    text: text
-}
 
-
-//----------------timeline----------------
-//append the svg object to the body of the page
-//triangle for timeline selector
+////////timeline
 let triangle = d3.symbol()
     .size(80)
     .type(d3.symbolTriangle)
+
 //snap selection to exact year if line in middle of rect
 let snappedSelection = function (bandScale, domain) {
     const min = d3.min(domain),
         max = d3.max(domain);
     return [bandScale(min), bandScale(max) + bandScale.bandwidth()]
 }
+
 const bar_svg = d3.select("#bar")
     .append("svg")
     .attr("class", "bar_svg")
@@ -209,12 +207,14 @@ const bar_svg = d3.select("#bar")
     .attr("height", full_bar_height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(20,10)`);
+
 //historical events data
 const context_data = [{ year: 2003, text: "Darfur War" }, { year: 2005, text: "The Comprehensive Peace Agreement" },
 { year: 2011, text: "South Sudan Independence" }, { year: 2013, text: "South Sudan Civil War" },
 { year: 2019, text: "Ouster of Omar al-Bashir" }, { year: 2021, text: "Sudanese Coup D'état" }]
 const context_data_south = [{ year: 2011, text: "South Sudan Independence" }, { year: 2013, text: "South Sudan Civil War" },
 { year: 2019, text: "Ouster of Omar al-Bashir" }, { year: 2021, text: "Sudanese Coup D'état" }]
+
 //x scaling
 const bar_x = d3.scaleBand()
     .range([0, width])
@@ -226,13 +226,13 @@ bar_svg.append("g")
     .attr("class", "myXaxis")
 //y scaling
 const bar_y = d3.scaleLinear()
-    .domain([0, 280])
+    .domain([0, 300])
 const bar_y_axis = d3.axisLeft(bar_y).tickSize(-width).ticks(3);
 bar_svg.append("g")
     .attr("class", "myYaxis")
 //y mirror scaling
 const y_mirror = d3.scaleLinear()
-    .domain([280, 0])
+    .domain([300, 0])
 const bar_y_mirror = d3.axisLeft(y_mirror).tickSize(-width).ticks(3);
 bar_svg.append("g")
     .attr("class", "myMaxis")
@@ -240,7 +240,7 @@ bar_svg.append("g")
 let bar_line = bar_svg.append("g")
 
 
-////////////////////gradient legend/////////////////////
+////////gradient legend
 let colorScale = d3.scaleLinear()
     .domain([1, 50])
     .range(['#2F4F4F', 'white']);
@@ -301,11 +301,58 @@ svgLegend
     .style("text-anchor", "end")
     .call(axisLeg);
 
+////////bundling variables
+const colorin = "white";
+const colorout = "white";
+const colornone = "#ccc";
+const bundle_width = complete_height * 0.82;
+const bundle_radius = bundle_width / 2;
+
+const bundle_tree = d3.cluster()
+    .size([2 * Math.PI, bundle_radius - 100]);
+
+const bundle_line = d3.lineRadial()
+    .curve(d3.curveBundle.beta(0.9))
+    .radius(d => d.y)
+    .angle(d => d.x);
+
+const bundle_svg = d3.select("#net")
+    .append("svg")
+    .attr("width", complete_width)
+    .attr("height", complete_height)
+    .append("g")
+    .attr("transform", `translate(${complete_width/2},${bundle_radius + 10})`);
+
+const arcInnerRadius = bundle_radius - 93;
+const arcWidth = 20;
+const arcOuterRadius = arcInnerRadius + arcWidth;
+const arc = d3
+    .arc()
+    .innerRadius(arcInnerRadius)
+    .outerRadius(arcOuterRadius)
+    .startAngle((d) => d.start)
+    .cornerRadius(3)
+    .endAngle((d) => d.end);
+
+const bundle_node = bundle_svg.append("g")
+const bundle_link = bundle_svg.append("g")
+
+
+// export {
+//     margin, complete_width, complete_height, width, net_width, net_height, bar_height,
+//     context, full_bar_height, height, slide, triangle, snappedSelection, zoom,
+//     net_svg, ticked, simulation, nonstate_simulation, nonstate_zoom, bar_svg, context_data,
+//     context_data_south, nonstate_context, bar_x, bar_x_axis, bar_y, bar_y_axis, y_mirror,
+//     bar_y_mirror, bar_line, nonstate_svg, non_ticked, top_five_svg, zoom_level, colorin, colorout,
+//     colornone, bundle_width, bundle_radius, bundle_tree, bundle_line, bundle_svg, arcInnerRadius, 
+//     arcOuterRadius, arcWidth, arc, bundle_link, bundle_node
+// }
 
 export {
     margin, complete_width, complete_height, width, net_width, net_height, bar_height,
-    context, full_bar_height, height, slide, triangle, snappedSelection, zoom,
-    net_svg, ticked, simulation, nonstate_simulation, nonstate_zoom, bar_svg, context_data,
+    full_bar_height, height, slide, triangle, snappedSelection, nonstate_simulation, nonstate_zoom, bar_svg, context_data,
     context_data_south, nonstate_context, bar_x, bar_x_axis, bar_y, bar_y_axis, y_mirror,
-    bar_y_mirror, bar_line, nonstate_svg, non_ticked, top_five_svg, zoom_level
+    bar_y_mirror, bar_line, nonstate_svg, non_ticked, top_five_svg, zoom_level, colorin, colorout,
+    colornone, bundle_width, bundle_radius, bundle_tree, bundle_line, bundle_svg, arcInnerRadius,
+    arcOuterRadius, arcWidth, arc, bundle_link, bundle_node
 }

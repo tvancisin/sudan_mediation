@@ -2,12 +2,12 @@
 <html>
 
 <head>
-  <title>Sudan</title>
+  <title>PeaceRep</title>
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css' rel='stylesheet' />
-  <link rel="icon" type="image/png" href="public/peace.png">
+  <link rel="icon" type="image/png" href="peace.png">
   <script src="/data/map/countries1.js" type="text/javascript"></script>
   <script src="src/main.js" type="module"></script>
 </head>
@@ -65,7 +65,7 @@
   <div id="filters">
     <div id="conflict_drop_div">
       <h4>Conflict Locale</h4>
-        <img id="conflict_logo" src="pin.png" alt="conflict logo" />
+      <img id="conflict_logo" src="pin.png" alt="conflict logo" />
       <select id="dropdown_country">
         <option selected="selected">All</option>
         <option>Sudan</option>
@@ -84,9 +84,14 @@
       <h4>Actors</h4>
       <select id="dropdown_state">
         <!-- <option>Both</option> -->
-        <option selected="selected">State</option>
+        <option selected="selected">States</option>
         <option>Organizations</option>
       </select>
+    </div>
+
+    <div id="collab">
+      <p style="margin-top: 10px; margin-bottom: 5px; margin-left: 15px; font-weight: bold; font-size: 14px;">See
+        partners of:</p>
     </div>
   </div>
 
@@ -96,10 +101,6 @@
     <button id="map_button">Map</button>
   </div>
 
-  <div id="collab">
-    <p style="margin-top: 10px; margin-bottom: 5px; margin-left: 15px; font-weight: bold; font-size: 14px;">See
-      partners of:</p>
-  </div>
 
   <div id="gradient"></div>
   <div id="map"></div>
@@ -114,12 +115,13 @@
     </div>
 
     <div class="slidecontainer">
-      <input type="range" min="1" max="29" value="1" id="myRange">
-      <p style="color: white; font-size: 12px; padding-left: 10px; margin-top: 2px;">No. of Connections: <span
+      <input type="range" min="0.05" max="0.8" step="0.01" value="0.2" id="myRange">
+      <p style="color: white; font-size: 12px; padding-left: 10px; margin-top: 2px;">Opacity: <span
           id="demo"></span></p>
     </div>
   </div>
 
+  <!-- <button id="time_toggle">Timeline</button> -->
   <div id="bar"></div>
 
   <div id="org-legend-lateral">

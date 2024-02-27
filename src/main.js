@@ -1,8 +1,12 @@
 import * as d3 from "d3";
 import 'leaflet/dist/leaflet.css';
 import './css/style.css'
+// import {
+//   complete_width, simulation, context_data, zoom_level,
+//   net_height, top_five_svg, context_data_south
+// } from "./variables"
 import {
-  complete_width, simulation, context_data, zoom_level,
+  complete_width, context_data, zoom_level,
   net_height, top_five_svg, context_data_south
 } from "./variables"
 import { draw_bars } from './bar_chart';
@@ -184,7 +188,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
     if (selected == "Unilateral") {
       button_pressed_lateral = "unilateral";
-
       if (button_pressed_vis == "map" && button_pressed_country == "all" && button_pressed_state == "state") {
         draw_map(yrs, both_unilateral_group, data)
         draw_bars(both_unilateral_state, context_data, "small", both_unilateral_group, "state", data)
@@ -411,7 +414,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   d3.select('#dropdown_state').on("change", function () {
     let selected = d3.select(this).property('value')
 
-    if (selected == "State") {
+    if (selected == "States") {
       button_pressed_state = "state";
       collaborations(all_non_states)
 
@@ -532,6 +535,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
         d3.select("#nonstate")
           .transition().duration(1000)
           .style("left", 0 + "px")
+
         if (button_pressed_country == "all" && button_pressed_lateral == "multilateral") {
           nonstate_draw(both_non_state, yrs, data)
           draw_bars(both_non_state, context_data, "small", both_unilateral_group, "nonstate", data)
@@ -672,8 +676,11 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       }
 
       else if (button_pressed_vis == "net" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
-        data_sort(both_multilateral_indi_state, yrs)
-        draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "net", data)
+        data_sort(all_sn_mu_i, yrs)
+        draw_bars(all_sn_mu_i, context_data, "small", all_just_states, "net", data)
+
+        // data_sort(both_multilateral_indi_state, yrs)
+        // draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "net", data)
       }
       else if (button_pressed_vis == "net" && button_pressed_state == "state" && button_pressed_lateral == "unilateral") {
         console.log("no connections")
@@ -718,9 +725,9 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     else if (selected == "Sudan") {
       button_pressed_country = "sudan"
 
-      if (button_pressed_vis == "map" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
-        console.log("here");
+      console.log(button_pressed_country, button_pressed_lateral, button_pressed_state, button_pressed_vis);
 
+      if (button_pressed_vis == "map" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
         draw_map(yrs, sud_just_states, data)
         draw_bars(sudan_multilateral_indi_state, context_data, "small", sud_just_states, "bar", data)
       }
@@ -746,8 +753,11 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       }
 
       else if (button_pressed_vis == "net" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
-        data_sort(sudan_multilateral_indi_state, yrs)
-        draw_bars(sudan_multilateral_indi_state, context_data, "small", sud_just_states, "net", data)
+        // data_sort(sudan_multilateral_indi_state, yrs)
+        // draw_bars(sudan_multilateral_indi_state, context_data, "small", sud_just_states, "net", data)
+
+        data_sort(sudan_sn_mu_i, yrs)
+        draw_bars(sudan_sn_mu_i, context_data, "small", all_just_states, "net", data)
       }
       else if (button_pressed_vis == "net" && button_pressed_state == "state" && button_pressed_lateral == "unilateral") {
         console.log("no connections")
@@ -818,8 +828,12 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       }
 
       else if (button_pressed_vis == "net" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
-        data_sort(sousudan_multilateral_indi_state, yrs)
-        draw_bars(sousudan_multilateral_indi_state, context_data_south, "small", sou_sud_just_states, "net", data)
+
+        data_sort(south_sn_mu_i, yrs)
+        draw_bars(south_sn_mu_i, context_data, "small", all_just_states, "net", data)
+
+        // data_sort(sousudan_multilateral_indi_state, yrs)
+        // draw_bars(sousudan_multilateral_indi_state, context_data_south, "small", sou_sud_just_states, "net", data)
       }
       else if (button_pressed_vis == "net" && button_pressed_state == "state" && button_pressed_lateral == "unilateral") {
         console.log("no connections")
@@ -864,13 +878,18 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
 
   //Visualization Buttons
   d3.select('#map_button').on("click", function () {
+    button_pressed_vis = "map"
+    d3.select("#bar")
+      .transition().duration(1000)
+      .style("bottom", 0 + "px")
     d3.select("#map_button").style("background-color", "#006297")
     d3.selectAll("#net_button, #time_button").style("background-color", "#04AA6D")
     d3.selectAll("#org-legend, #org-legend-lateral").transition().duration(800)
       .style("opacity", 0)
       .style("visibility", "hidden")
+    d3.select("#filters").style("height", 270 + "px")
+    d3.select("#state_drop_div").style("visibility", "visible")
 
-    button_pressed_vis = "map"
     if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
       draw_map(yrs, all_just_states, data)
       draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state", data)
@@ -970,16 +989,16 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .style("font-size", 12 + "px")
       .style("bottom", 5 + "px")
     //empty object to remove nodes and links
-    let empty = {
-      nodes: [{}],
-      links: [{}]
-    }
-    //wait a second and remove nodes and links
-    setTimeout(() => {
-      update_net(empty, "update")
-      simulation.stop()
-      d3.selectAll(".node, .link, .network_nodename").remove()
-    }, "1000");
+    // let empty = {
+    //   nodes: [{}],
+    //   links: [{}]
+    // }
+    // //wait a second and remove nodes and links
+    // setTimeout(() => {
+    //   update_net(empty, "update")
+    //   simulation.stop()
+    //   d3.selectAll(".node, .link, .network_nodename").remove()
+    // }, "1000");
 
   });
 
@@ -987,91 +1006,97 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     d3.select("#nonstate")
       .transition().duration(1000)
       .style("left", - complete_width + "px")
+    d3.select("#net")
+      .transition().duration(1000)
+      .style("right", - 0 + "px")
     d3.select("#net_button").style("background-color", "#006297")
     d3.selectAll("#map_button, #time_button").style("background-color", "#04AA6D")
     d3.selectAll("#org-legend, #org-legend-lateral").transition().duration(800)
       .style("opacity", 0)
       .style("visibility", "hidden")
     button_pressed_vis = "net"
-
+    d3.select("#state_drop_div").style("visibility", "hidden")
+    d3.select("#filters").style("height", 190 + "px")
+    // data_sort(sousudan_multilateral_indi_state, yrs)
     if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
-      data_sort(both_multilateral_indi_state, yrs)
-      draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "net", data)
-    }
-    else if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "unilateral") {
-      data_sort(both_unilateral_state, yrs)
-      draw_bars(both_unilateral_state, context_data, "small", both_unilateral_group, "net", data)
-    }
-    else if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "all") {
-      data_sort(all_s_mu_i, yrs)
-      draw_bars(all_s_mu_i, context_data, "small", all_s_mu_g, "net", data)
-    }
-    else if (button_pressed_country == "all" && button_pressed_state == "nonstate" && button_pressed_lateral == "multilateral") {
-      data_sort(both_non_state, yrs)
-      draw_bars(both_non_state, context_data, "small", all_non_states, "net", data)
-    }
-    else if (button_pressed_country == "all" && button_pressed_state == "nonstate" && button_pressed_lateral == "unilateral") {
-      data_sort(both_unilateral_nonstate, yrs)
-      draw_bars(both_unilateral_nonstate, context_data, "small", both_unilateral_group_nonstate, "net", data)
-    }
-    else if (button_pressed_country == "all" && button_pressed_state == "nonstate" && button_pressed_lateral == "all") {
-      data_sort(all_n_mu_i, yrs)
-      draw_bars(all_n_mu_i, context_data, "small", all_n_mu_g, "net", data)
+      draw_bars(all_sn_mu_i, context_data, "small", all_just_states, "net", data)
     }
 
-    else if (button_pressed_country == "sudan" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
-      data_sort(sudan_multilateral_indi_state, yrs)
-      draw_bars(sudan_multilateral_indi_state, context_data, "small", sud_just_states, "net", data)
-    }
-    else if (button_pressed_country == "sudan" && button_pressed_state == "state" && button_pressed_lateral == "unilateral") {
-      data_sort(sudan_unilateral_state, yrs)
-      draw_bars(sudan_unilateral_state, context_data, "small", sudan_unilateral_group, "net", data)
-    }
-    else if (button_pressed_country == "sudan" && button_pressed_state == "state" && button_pressed_lateral == "all") {
-      data_sort(sudan_s_mu_i, yrs)
-      draw_bars(sudan_s_mu_i, context_data, "small", sudan_s_mu_g, "net", data)
-    }
-    else if (button_pressed_country == "sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "multilateral") {
-      data_sort(sudan_non_state, yrs)
-      draw_bars(sudan_non_state, context_data, "small", sudan_non_states, "net", data)
-    }
-    else if (button_pressed_country == "sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "unilateral") {
-      data_sort(sudan_unilateral_nonstate, yrs)
-      draw_bars(sudan_unilateral_nonstate, context_data, "small", sudan_unilateral_group_nonstate, "net", data)
-    }
-    else if (button_pressed_country == "sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "all") {
-      data_sort(sudan_n_mu_i, yrs)
-      draw_bars(sudan_n_mu_i, context_data, "small", sudan_n_mu_g, "net", data)
-    }
+    // if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
+    //   data_sort(both_multilateral_indi_state, yrs)
+    //   draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "net", data)
+    // }
+    // else if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "unilateral") {
+    //   data_sort(both_unilateral_state, yrs)
+    //   draw_bars(both_unilateral_state, context_data, "small", both_unilateral_group, "net", data)
+    // }
+    // else if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "all") {
+    //   data_sort(all_s_mu_i, yrs)
+    //   draw_bars(all_s_mu_i, context_data, "small", all_s_mu_g, "net", data)
+    // }
+    // else if (button_pressed_country == "all" && button_pressed_state == "nonstate" && button_pressed_lateral == "multilateral") {
+    //   data_sort(both_non_state, yrs)
+    //   draw_bars(both_non_state, context_data, "small", all_non_states, "net", data)
+    // }
+    // else if (button_pressed_country == "all" && button_pressed_state == "nonstate" && button_pressed_lateral == "unilateral") {
+    //   data_sort(both_unilateral_nonstate, yrs)
+    //   draw_bars(both_unilateral_nonstate, context_data, "small", both_unilateral_group_nonstate, "net", data)
+    // }
+    // else if (button_pressed_country == "all" && button_pressed_state == "nonstate" && button_pressed_lateral == "all") {
+    //   data_sort(all_n_mu_i, yrs)
+    //   draw_bars(all_n_mu_i, context_data, "small", all_n_mu_g, "net", data)
+    // }
 
-    else if (button_pressed_country == "south_sudan" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
-      data_sort(sousudan_multilateral_indi_state, yrs)
-      draw_bars(sousudan_multilateral_indi_state, context_data_south, "small", sou_sud_just_states, "net", data)
-    }
-    else if (button_pressed_country == "south_sudan" && button_pressed_state == "state" && button_pressed_lateral == "unilateral") {
-      data_sort(sousudan_unilateral_state, yrs)
-      draw_bars(sousudan_unilateral_state, context_data_south, "small", south_unilateral_group, "net", data)
-    }
-    else if (button_pressed_country == "south_sudan" && button_pressed_state == "state" && button_pressed_lateral == "all") {
-      data_sort(south_s_mu_i, yrs)
-      draw_bars(south_s_mu_i, context_data_south, "small", south_s_mu_g, "net", data)
-    }
-    else if (button_pressed_country == "south_sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "multilateral") {
-      data_sort(sousudan_non_state, yrs)
-      draw_bars(sousudan_non_state, context_data_south, "small", south_non_states, "net", data)
-    }
-    else if (button_pressed_country == "south_sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "unilateral") {
-      data_sort(south_unilateral_nonstate, yrs)
-      draw_bars(south_unilateral_nonstate, context_data, "small", south_unilateral_group_nonstate, "net", data)
-    }
-    else if (button_pressed_country == "south_sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "all") {
-      data_sort(south_n_mu_i, yrs)
-      draw_bars(south_n_mu_i, context_data, "small", south_n_mu_g, "net", data)
-    }
+    // else if (button_pressed_country == "sudan" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
+    //   data_sort(sudan_multilateral_indi_state, yrs)
+    //   draw_bars(sudan_multilateral_indi_state, context_data, "small", sud_just_states, "net", data)
+    // }
+    // else if (button_pressed_country == "sudan" && button_pressed_state == "state" && button_pressed_lateral == "unilateral") {
+    //   data_sort(sudan_unilateral_state, yrs)
+    //   draw_bars(sudan_unilateral_state, context_data, "small", sudan_unilateral_group, "net", data)
+    // }
+    // else if (button_pressed_country == "sudan" && button_pressed_state == "state" && button_pressed_lateral == "all") {
+    //   data_sort(sudan_s_mu_i, yrs)
+    //   draw_bars(sudan_s_mu_i, context_data, "small", sudan_s_mu_g, "net", data)
+    // }
+    // else if (button_pressed_country == "sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "multilateral") {
+    //   data_sort(sudan_non_state, yrs)
+    //   draw_bars(sudan_non_state, context_data, "small", sudan_non_states, "net", data)
+    // }
+    // else if (button_pressed_country == "sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "unilateral") {
+    //   data_sort(sudan_unilateral_nonstate, yrs)
+    //   draw_bars(sudan_unilateral_nonstate, context_data, "small", sudan_unilateral_group_nonstate, "net", data)
+    // }
+    // else if (button_pressed_country == "sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "all") {
+    //   data_sort(sudan_n_mu_i, yrs)
+    //   draw_bars(sudan_n_mu_i, context_data, "small", sudan_n_mu_g, "net", data)
+    // }
 
-    d3.select("#net")
-      .transition().duration(1000)
-      .style("right", - 0 + "px")
+    // else if (button_pressed_country == "south_sudan" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
+    //   data_sort(sousudan_multilateral_indi_state, yrs)
+    //   draw_bars(sousudan_multilateral_indi_state, context_data_south, "small", sou_sud_just_states, "net", data)
+    // }
+    // else if (button_pressed_country == "south_sudan" && button_pressed_state == "state" && button_pressed_lateral == "unilateral") {
+    //   data_sort(sousudan_unilateral_state, yrs)
+    //   draw_bars(sousudan_unilateral_state, context_data_south, "small", south_unilateral_group, "net", data)
+    // }
+    // else if (button_pressed_country == "south_sudan" && button_pressed_state == "state" && button_pressed_lateral == "all") {
+    //   data_sort(south_s_mu_i, yrs)
+    //   draw_bars(south_s_mu_i, context_data_south, "small", south_s_mu_g, "net", data)
+    // }
+    // else if (button_pressed_country == "south_sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "multilateral") {
+    //   data_sort(sousudan_non_state, yrs)
+    //   draw_bars(sousudan_non_state, context_data_south, "small", south_non_states, "net", data)
+    // }
+    // else if (button_pressed_country == "south_sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "unilateral") {
+    //   data_sort(south_unilateral_nonstate, yrs)
+    //   draw_bars(south_unilateral_nonstate, context_data, "small", south_unilateral_group_nonstate, "net", data)
+    // }
+    // else if (button_pressed_country == "south_sudan" && button_pressed_state == "nonstate" && button_pressed_lateral == "all") {
+    //   data_sort(south_n_mu_i, yrs)
+    //   draw_bars(south_n_mu_i, context_data, "small", south_n_mu_g, "net", data)
+    // }
+
     d3.select("#title1")
       .transition().duration(1000)
       .style("font-size", 12 + "px")
@@ -1091,7 +1116,8 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     d3.select("#time_button").style("background-color", "#006297")
     d3.selectAll("#map_button, #net_button").style("background-color", "#04AA6D")
     button_pressed_vis = "time"
-    console.log(button_pressed_country, button_pressed_state, button_pressed_lateral);
+    d3.select("#filters").style("height", 270 + "px")
+    d3.select("#state_drop_div").style("visibility", "visible")
 
     if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
       draw_bars(both_multilateral_indi_state, context_data, "big", all_just_states, "bar", data)
@@ -1280,11 +1306,12 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     if (counter % 2 !== 0) {
       d3.select("#filter_button")
         .transition().duration(500)
-        .style("left", 200 + "px")
+        .style("left", 205 + "px")
+        .style("background-color", "#006297")
         .text("Hide")
       d3.select("#filters")
         .transition().duration(500)
-        .style("left", 0 + "px")
+        .style("left", 5 + "px")
     }
     else {
       d3.select("#filters")
@@ -1293,6 +1320,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       d3.select("#filter_button")
         .transition().duration(500)
         .style("left", 0 + "px")
+        .style("background-color", "#04AA6D")
         .text("Filter")
     }
   })
@@ -1316,6 +1344,8 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state", data)
   //draw nonstate 
   collaborations(all_non_states)
+  //draw network 
+  data_sort(all_sn_mu_i, yrs)
 
   //reset everything
   d3.select("#refresh_button").on("click", function (d) {
@@ -1331,19 +1361,19 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     draw_map(yrs, all_just_states, data)
     draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state", data)
     collaborations(all_non_states)
-    let empty = {
-      nodes: [{}],
-      links: [{}]
-    }
-    //wait a second and remove nodes and links
-    setTimeout(() => {
-      update_net(empty, "update")
-      simulation.stop()
-      d3.selectAll(".node, .link, .network_nodename").remove()
-    }, "1000");
+    // let empty = {
+    //   nodes: [{}],
+    //   links: [{}]
+    // }
+    // //wait a second and remove nodes and links
+    // setTimeout(() => {
+    //   update_net(empty, "update")
+    //   simulation.stop()
+    //   d3.selectAll(".node, .link, .network_nodename").remove()
+    // }, "1000");
     // map.flyTo([25, 5], 2.5, { duration: 1 });
     map.flyTo({
-      center: [10, 9],
+      center: [4, 10],
       zoom: zoom_level,
       essential: true // this animation is considered essential with respect to prefers-reduced-motion
     });

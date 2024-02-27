@@ -1,13 +1,10 @@
 import * as d3 from "d3";
 // import L from "leaflet";
-import $ from "jquery";
 import 'leaflet/dist/leaflet.css';
 import { draw_bars } from "./bar_chart";
 import { context_data, zoom_level } from "./variables";
 import mapboxgl from 'mapbox-gl';
 import * as turf from '@turf/turf';
-import { data_sort } from "./sort_data";
-import { unescapeLeadingUnderscores } from "typescript";
 
 // //-------------------------leaflet
 // //append leaflet map to div
@@ -52,9 +49,10 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2FzaGFnYXJpYmFsZHkiLCJhIjoiY2xyajRlczBlMDhqM
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v11',
-    center: [10, 9],
+    center: [4, 10],
     zoom: zoom_level,
-    maxZoom: 5.5,
+    maxZoom: 5,
+    minZoom: 1.5,
     attributionControl: false,
     projection: 'naturalEarth'
 });
@@ -157,7 +155,6 @@ let sudans = [{
 }]
 let dt;
 const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
-    console.log(rest, data);
     d3.selectAll(".marker").remove()
     if (data.length == 36){
         dt = [sudans[1]]
@@ -171,8 +168,8 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
 
     for (const marker of dt) {
         const el = document.createElement('div');
-        const width = 25;
-        const height = 25;
+        const width = 28;
+        const height = 28;
         el.className = 'marker';
         el.style.backgroundImage = `url(pin.png)`;
         el.style.width = `${width}px`;

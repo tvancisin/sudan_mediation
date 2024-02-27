@@ -1015,7 +1015,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .style("opacity", 0)
       .style("visibility", "hidden")
     button_pressed_vis = "net"
-    d3.select("#state_drop_div").style("visibility", "hidden")
+    // d3.select("#state_drop_div").style("visibility", "hidden")
     d3.select("#filters").style("height", 190 + "px")
     // data_sort(sousudan_multilateral_indi_state, yrs)
     if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
@@ -1182,10 +1182,10 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .transition().duration(1000)
       .style("right", - complete_width + "px")
     //empty objsect to remove nodes and links
-    let empty = {
-      nodes: [{}],
-      links: [{}]
-    }
+    // let empty = {
+    //   nodes: [{}],
+    //   links: [{}]
+    // }
     d3.select("#title1")
       .transition().duration(1000)
       .style("font-size", 20 + "px")
@@ -1195,11 +1195,11 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .style("font-size", 20 + "px")
       .style("bottom", 20 + "px")
     //wait a second and remove nodes and links
-    setTimeout(() => {
-      update_net(empty, "update")
-      simulation.stop()
-      d3.selectAll(".node, .link, .network_nodename").remove()
-    }, "1000");
+    // setTimeout(() => {
+    //   update_net(empty, "update")
+    //   simulation.stop()
+    //   d3.selectAll(".node, .link, .network_nodename").remove()
+    // }, "1000");
   })
 
   const collaborations = function (non_state_data) {

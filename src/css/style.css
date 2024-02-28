@@ -6,7 +6,8 @@ body {
 
 #header {
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #0F1826;
+    /* background-color: rgba(0, 0, 0, 0.5); */
     height: 45px;
     top: 0px;
     left: 0px;
@@ -123,7 +124,9 @@ text {
     border-radius: 2px;
 }
 
-#refresh_button:hover {background-color: #006297}
+#refresh_button:hover {
+    background-color: #006297
+}
 
 #info_button {
     position: absolute;
@@ -141,9 +144,11 @@ text {
     border-radius: 2px;
 }
 
-#info_button:hover { background-color: #006297 }
+#info_button:hover {
+    background-color: #006297
+}
 
-#info{
+#info {
     position: absolute;
     top: 50px;
     width: 400px;
@@ -236,7 +241,7 @@ text {
     width: 140px;
     height: 170px;
     left: 5px; */
-    background-color: black;
+    background-color: #0F1826;
     /* z-index: 910; */
     border-radius: 5px;
 }
@@ -245,12 +250,12 @@ text {
     position: absolute;
     top: 55px;
     width: 200px;
-    height: 270px;
+    height: 440px;
     left: -202px;
-    background-color: black;
+    background-color: #0F1826;
     z-index: 999;
     border-radius: 5px;
-    /* box-shadow: 1px 1px 1px 0 rgb(255 255 255 / 10%), 0 0px 5px 0 rgba(255, 255, 255, 0.2); */
+    box-shadow: 0px 0px 4px 1px rgb(75, 75, 75);
 }
 
 #filter_button {
@@ -277,7 +282,9 @@ text {
     font-weight: bold;
 }
 
-#filter_button:hover { background-color: #006297 }
+#filter_button:hover {
+    background-color: #006297
+}
 
 #dropdown_lateral {
     position: relative;
@@ -462,7 +469,9 @@ h4 {
     font-weight: bold;
 }
 
-#map_button:hover { background-color: #006297 } 
+#map_button:hover {
+    background-color: #006297
+}
 
 #popup {
     position: absolute;
@@ -572,7 +581,7 @@ pre:not(:first-child) {
     font-weight: bold;
 }
 
-#org-legend-lateral{
+#org-legend-lateral {
     position: absolute;
     border-radius: 5px;
     background-color: black;
@@ -589,7 +598,7 @@ pre:not(:first-child) {
     visibility: hidden;
 }
 
-#org-legend{
+#org-legend {
     position: absolute;
     border-radius: 5px;
     background-color: black;

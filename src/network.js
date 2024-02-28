@@ -123,7 +123,7 @@ function update_net(bundle_data, update) {
 
     function overed(event, d) {
         // link.style("mix-blend-mode", null);
-        d3.select(this).style("fill", "#fed800").attr("font-weight", "bold");
+        d3.select(this).style("fill", "#fed800").attr("font-weight", "bold").style("font-size", "18px");
         d3.selectAll(d.incoming.map(d => d.path)).style("stroke", colorin).style("stroke-opacity", 1).raise()
         d3.selectAll(d.incoming.map(([d]) => d.text)).style("fill", colorin).attr("font-weight", "bold");
         d3.selectAll(d.outgoing.map(d => d.path)).style("stroke", colorout).style("stroke-opacity", 1).raise();
@@ -132,7 +132,7 @@ function update_net(bundle_data, update) {
 
     function outed(event, d) {
         // link.style("mix-blend-mode", "multiply");
-        d3.select(this).style("fill", "gray").attr("font-weight", null);
+        d3.select(this).style("fill", "gray").attr("font-weight", null).style("font-size", "10px");
         d3.selectAll(d.incoming.map(d => d.path)).style("stroke", "rgb(93, 93, 93)").style("stroke-opacity", 0.3);
         d3.selectAll(d.incoming.map(([d]) => d.text)).style("fill", "gray").attr("font-weight", null);
         d3.selectAll(d.outgoing.map(d => d.path)).style("stroke", "rgb(93, 93, 93)").style("stroke-opacity", 0.3);

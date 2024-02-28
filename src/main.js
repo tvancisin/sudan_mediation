@@ -882,7 +882,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     d3.selectAll("#org-legend, #org-legend-lateral").transition().duration(800)
       .style("opacity", 0)
       .style("visibility", "hidden")
-    d3.select("#filters").style("height", 270 + "px")
+    d3.select("#filters").style("height", 440 + "px")
     d3.selectAll("#state_drop_div, #collab").style("visibility", "visible")
 
     if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {

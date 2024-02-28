@@ -1,10 +1,6 @@
 import * as d3 from "d3";
 import 'leaflet/dist/leaflet.css';
 import './css/style.css'
-// import {
-//   complete_width, simulation, context_data, zoom_level,
-//   net_height, top_five_svg, context_data_south
-// } from "./variables"
 import {
   complete_width, context_data, zoom_level,
   net_height, top_five_svg, context_data_south
@@ -12,12 +8,11 @@ import {
 import { draw_bars } from './bar_chart';
 import { nonstate_draw } from "./nonstate";
 import { map, draw_map, init_map } from './leaf';
-import { update_net } from './network';
 import { data_sort } from './sort_data';
-// years for brushing
-let yrs = [1988, 2023];
+//initial years for brushing
+const yrs = [1988, 2023];
 
-//read in the data
+//read in data
 d3.csv("/data/sudan_update.csv").then(function (data) {
   // multi + unilateral mediations
   // state + nonstate individual
@@ -171,7 +166,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   let sudan_unilateral_group_nonstate = d3.groups(sudan_unilateral_nonstate, d => d.third_party, d => d.mediation_ID)
   let south_unilateral_group_nonstate = d3.groups(south_unilateral_nonstate, d => d.third_party, d => d.mediation_ID)
 
-  // //draw leaflet map
+  //draw map
   init_map(function () {
     draw_map(yrs, all_just_states, data)
   })
@@ -888,7 +883,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .style("opacity", 0)
       .style("visibility", "hidden")
     d3.select("#filters").style("height", 270 + "px")
-    d3.select("#state_drop_div").style("visibility", "visible")
+    d3.selectAll("#state_drop_div, #collab").style("visibility", "visible")
 
     if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
       draw_map(yrs, all_just_states, data)
@@ -988,21 +983,10 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .transition().duration(1000)
       .style("font-size", 12 + "px")
       .style("bottom", 5 + "px")
-    //empty object to remove nodes and links
-    // let empty = {
-    //   nodes: [{}],
-    //   links: [{}]
-    // }
-    // //wait a second and remove nodes and links
-    // setTimeout(() => {
-    //   update_net(empty, "update")
-    //   simulation.stop()
-    //   d3.selectAll(".node, .link, .network_nodename").remove()
-    // }, "1000");
-
   });
 
   d3.select('#net_button').on("click", function () {
+    button_pressed_vis = "net";
     d3.select("#nonstate")
       .transition().duration(1000)
       .style("left", - complete_width + "px")
@@ -1014,10 +998,8 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     d3.selectAll("#org-legend, #org-legend-lateral").transition().duration(800)
       .style("opacity", 0)
       .style("visibility", "hidden")
-    button_pressed_vis = "net"
-    // d3.select("#state_drop_div").style("visibility", "hidden")
+    d3.selectAll("#state_drop_div, #collab").style("visibility", "hidden")
     d3.select("#filters").style("height", 190 + "px")
-    // data_sort(sousudan_multilateral_indi_state, yrs)
     if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
       draw_bars(all_sn_mu_i, context_data, "small", all_just_states, "net", data)
     }
@@ -1118,6 +1100,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     button_pressed_vis = "time"
     d3.select("#filters").style("height", 270 + "px")
     d3.select("#state_drop_div").style("visibility", "visible")
+    d3.select("#collab").style("visibility", "hidden")
 
     if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
       draw_bars(both_multilateral_indi_state, context_data, "big", all_just_states, "bar", data)

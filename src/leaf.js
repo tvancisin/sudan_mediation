@@ -326,6 +326,7 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
                 peace_agreements += 1
             }
         })
+        console.log(peace_agreements);
 
         let just_mediation_numbers = []
         country_in_array[1].forEach(function (d) {
@@ -391,7 +392,6 @@ const updateLayerFilter = (new_array, rest, data, year, complete_data) => {
             return obj.country == e.features[0].properties.ADMIN
         })
         d3.select("#med_title").html(`Mediation Events ` + num_of_med[0].number + ` <b style="color:#fed800;">(` + peace_agreements + ` Peace Agreements)</b>: `)
-
         const titleKeys = Object.keys(ungroupped[0])
         const refinedData = []
         refinedData.push(titleKeys)
@@ -448,6 +448,10 @@ const draw_map = function (years, data, complete_data) {
         state_array.push(d.country)
     })
 
+    // let krava = d3.groups(data,  d => d.mediation_ID, d => d.peace_agreement,)
+    // console.log(krava);
+
+    // console.log(state_array, data, years);
     updateLayerFilter(state_array, year_restriction, data, years, complete_data)
 
 

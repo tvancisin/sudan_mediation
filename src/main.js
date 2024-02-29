@@ -28,6 +28,12 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
   let sudan_sn_mu_g = d3.groups(sudan_sn_mu_i, d => d.third_party, d => d.mediation_ID)
   let south_sn_mu_g = d3.groups(south_sn_mu_i, d => d.third_party, d => d.mediation_ID)
 
+  // let hovno = d3.groups(data, d => d.third_party, d => d.peace_agreement)
+  // console.log(hovno);
+  // hovno.forEach(function (d){
+  //   console.log(d[0],d[1][0], d[1][1] );
+  // })
+
   // state individual
   let all_s_mu_i = data.filter(function (d) {
     return d.third_party_type == "state"
@@ -1000,6 +1006,7 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .style("visibility", "hidden")
     d3.selectAll("#state_drop_div, #collab").style("visibility", "hidden")
     d3.select("#filters").style("height", 190 + "px")
+    // d3.select("#dropdown_lateral").html(`<option>UN</option><option>UK</option>`)
     if (button_pressed_country == "all" && button_pressed_state == "state" && button_pressed_lateral == "multilateral") {
       draw_bars(all_sn_mu_i, context_data, "small", all_just_states, "net", data)
     }
@@ -1164,11 +1171,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     d3.selectAll("#net")
       .transition().duration(1000)
       .style("right", - complete_width + "px")
-    //empty objsect to remove nodes and links
-    // let empty = {
-    //   nodes: [{}],
-    //   links: [{}]
-    // }
     d3.select("#title1")
       .transition().duration(1000)
       .style("font-size", 20 + "px")
@@ -1177,6 +1179,11 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
       .transition().duration(1000)
       .style("font-size", 20 + "px")
       .style("bottom", 20 + "px")
+    //empty objsect to remove nodes and links
+    // let empty = {
+    //   nodes: [{}],
+    //   links: [{}]
+    // }
     //wait a second and remove nodes and links
     // setTimeout(() => {
     //   update_net(empty, "update")
@@ -1344,17 +1351,6 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     draw_map(yrs, all_just_states, data)
     draw_bars(both_multilateral_indi_state, context_data, "small", all_just_states, "state", data)
     collaborations(all_non_states)
-    // let empty = {
-    //   nodes: [{}],
-    //   links: [{}]
-    // }
-    // //wait a second and remove nodes and links
-    // setTimeout(() => {
-    //   update_net(empty, "update")
-    //   simulation.stop()
-    //   d3.selectAll(".node, .link, .network_nodename").remove()
-    // }, "1000");
-    // map.flyTo([25, 5], 2.5, { duration: 1 });
     map.flyTo({
       center: [4, 10],
       zoom: zoom_level,
@@ -1389,6 +1385,17 @@ d3.csv("/data/sudan_update.csv").then(function (data) {
     d3.selectAll("#net")
       .transition().duration(1000)
       .style("right", - complete_width + "px")
+    // let empty = {
+    //   nodes: [{}],
+    //   links: [{}]
+    // }
+    // //wait a second and remove nodes and links
+    // setTimeout(() => {
+    //   update_net(empty, "update")
+    //   simulation.stop()
+    //   d3.selectAll(".node, .link, .network_nodename").remove()
+    // }, "1000");
+    // map.flyTo([25, 5], 2.5, { duration: 1 });
   })
 })
 

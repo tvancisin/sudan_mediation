@@ -45,6 +45,7 @@ function update_net(bundle_data, update) {
     }
 
     d3.selectAll(".bundle_node").remove()
+    console.log(bundle_data);
 
     const root = bundle_tree(bilink(d3.hierarchy(hierarchy(bundle_data))
     ));
@@ -89,6 +90,11 @@ function update_net(bundle_data, update) {
     //     .attr("xlink:href", (d, i) => `#arc_${i}`)
     //     .text((d, i) => ((d.end - d.start) < (6 * Math.PI / 180)) ? "" : d.name); // 6 degrees min arc length for label to apply
 
+
+    let gru = d3.scaleLinear()
+        .domain([1, 100])
+        .range([5, 25]);
+
     // add nodes
     bundle_node.selectAll("g")
         .data(root.leaves())
@@ -96,7 +102,10 @@ function update_net(bundle_data, update) {
         .attr("class", "bundle_node")
         .attr("transform", d => `rotate(${d.x * 180 / Math.PI - 90}) translate(${d.y}, 0)`)
         .append("text")
-        .style("font-size", "10px")
+        .style("font-size", function (d, i) {
+            let font = gru(d.data.imports.length)
+            return font + "px"
+        })
         .style("fill", "gray")
         .attr("dy", "0.31em")
         .attr("x", d => d.x < Math.PI ? (arcWidth + 13) : (arcWidth + 13) * -1) // note use of arcWidth
@@ -106,7 +115,7 @@ function update_net(bundle_data, update) {
         .each(function (d) { d.text = this; })
         .on("mouseover", overed)
         .on("mouseout", outed)
-        .call(text => text.append("title").text(d => `${id(d)} ${d.outgoing.length} outgoing ${d.incoming.length} incoming`));
+        // .call(text => text.append("title").text(d => `${id(d)} ${d.outgoing.length} outgoing ${d.incoming.length} incoming`));
 
 
     // add edges
@@ -120,10 +129,10 @@ function update_net(bundle_data, update) {
         .attr("class", "link")
         .attr("fill", "none")
         .attr("d", ([i, o]) => bundle_line(i.path(o)))
-
+    
     function overed(event, d) {
         // link.style("mix-blend-mode", null);
-        d3.select(this).style("fill", "#fed800").attr("font-weight", "bold").style("font-size", "18px");
+        d3.select(this).style("fill", "#fed800").attr("font-weight", "bold").style("font-size", "25px");
         d3.selectAll(d.incoming.map(d => d.path)).style("stroke", colorin).style("stroke-opacity", 1).raise()
         d3.selectAll(d.incoming.map(([d]) => d.text)).style("fill", colorin).attr("font-weight", "bold");
         d3.selectAll(d.outgoing.map(d => d.path)).style("stroke", colorout).style("stroke-opacity", 1).raise();
@@ -132,7 +141,8 @@ function update_net(bundle_data, update) {
 
     function outed(event, d) {
         // link.style("mix-blend-mode", "multiply");
-        d3.select(this).style("fill", "gray").attr("font-weight", null).style("font-size", "10px");
+        let return_font = gru(d.data.imports.length)
+        d3.select(this).style("fill", "gray").attr("font-weight", null).style("font-size", return_font + "px");
         d3.selectAll(d.incoming.map(d => d.path)).style("stroke", "rgb(93, 93, 93)").style("stroke-opacity", 0.3);
         d3.selectAll(d.incoming.map(([d]) => d.text)).style("fill", "gray").attr("font-weight", null);
         d3.selectAll(d.outgoing.map(d => d.path)).style("stroke", "rgb(93, 93, 93)").style("stroke-opacity", 0.3);

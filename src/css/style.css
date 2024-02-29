@@ -7,7 +7,6 @@ body {
 #header {
     position: absolute;
     background-color: #0F1826;
-    /* background-color: rgba(0, 0, 0, 0.5); */
     height: 45px;
     top: 0px;
     left: 0px;
@@ -227,22 +226,14 @@ text {
     z-index: 900;
 }
 
-}
-
 .leaflet-layer,
 .leaflet-control-attribution {
     filter: invert(99%) hue-rotate(170deg) brightness(95%) contrast(100%);
 }
 
 #collab {
-    /* position: absolute; */
     color: white;
-    /* bottom: 160px;
-    width: 140px;
-    height: 170px;
-    left: 5px; */
     background-color: #0F1826;
-    /* z-index: 910; */
     border-radius: 5px;
 }
 
